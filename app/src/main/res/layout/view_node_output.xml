@@ -1,0 +1,21 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginLeft="-25px"
+    >
+
+    <TextView
+        android:id="@+id/output_textview"
+        android:textSize="50px"
+        android:layout_width="410px"
+        android:layout_height="100px"
+        android:text="hello"
+        android:gravity="center"/>
+
+    <ImageView
+        android:id="@+id/output_dragpoint"
+        android:layout_width="50px"
+        android:layout_height="50px"
+
+        android:src="@drawable/ic_baseline_circle_24" />
+
+</merge>

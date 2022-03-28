@@ -1,5 +1,6 @@
 package com.msvastudios.trick_builder.node;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -12,7 +13,7 @@ import android.widget.RelativeLayout;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.LinePoint;
 
-public class NodeOutput extends RelativeLayout implements View.OnTouchListener, NodeItem {
+public class NodeOutput extends NodeItem implements View.OnTouchListener {
     Context context;
     int width, height;
     ImageView imagePoint;
@@ -21,9 +22,10 @@ public class NodeOutput extends RelativeLayout implements View.OnTouchListener, 
     LinePoint point;
     String id;
     int order;
+    RelativeLayout view;
 
     public NodeOutput(Context context, NodeCallbackListener listener, Node parent, int order) {
-        super(context);
+//        super(context);
         this.listener = listener;
         this.context = context;
         this.width = NodeDimensionsCalculator.getInnerNodeWidth() + NodeDimensionsCalculator.innerNodeMargin();
@@ -35,23 +37,23 @@ public class NodeOutput extends RelativeLayout implements View.OnTouchListener, 
 
         init(null, 0);
     }
+//
+//    @Override
+//    protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
+//        super.onLayout(b, i, i1, i2, i3);
+//    }
 
-    @Override
-    protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
-        super.onLayout(b, i, i1, i2, i3);
-    }
 
-
+    @SuppressLint("ClickableViewAccessibility")
     private void init(AttributeSet attrs, int defStyle) {
-//        setOrientation(LinearLayout.HORIZONTAL);
-//        setGravity(1);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(0, 0);
+        view = new RelativeLayout(context);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
         params.topMargin = height * order;
         params.leftMargin = -NodeDimensionsCalculator.innerNodeMargin() / 2;
-        setLayoutParams(params);
+        view.setLayoutParams(params);
 
-        View.inflate(context, R.layout.view_node_output, this);
-        imagePoint = findViewById(R.id.output_dragpoint);
+        View.inflate(context, R.layout.view_node_output, view);
+        imagePoint = view.findViewById(R.id.output_dragpoint);
 
         RelativeLayout.LayoutParams imageViewParams = new RelativeLayout.LayoutParams(height / 2, height / 2);
         imageViewParams.topMargin = height / 4;
@@ -59,13 +61,18 @@ public class NodeOutput extends RelativeLayout implements View.OnTouchListener, 
 
 
         imagePoint.setLayoutParams(imageViewParams);
-        setOnTouchListener(this);
+        view.setOnTouchListener(this);
 
-        setClipChildren(false);
-        disableClipOnParents(this);
+        view.setClipChildren(false);
+        disableClipOnParents(view);
         setNewLinePoint();
 //        setBackgroundColor(Color.rgb(100, 100, 142));
 
+    }
+
+
+    public RelativeLayout getView() {
+        return view;
     }
 
     public void updatePositionVars() {
@@ -85,19 +92,20 @@ public class NodeOutput extends RelativeLayout implements View.OnTouchListener, 
 //        );
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(width, height);
-        super.onMeasure(
-                View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
-        );
-    }
+    //
+//    @Override
+//    protected void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
+//    }
+//
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        setMeasuredDimension(width, height);
+//        super.onMeasure(
+//                View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+//                View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
+//        );
+//    }
 
 
     public void disableClipOnParents(View v) {

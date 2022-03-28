@@ -72,7 +72,13 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         for (Node node: nodeList.values()) {
             if (x > node.getLeftMargin() && x < node.getLeftMargin() + node.getNodeWidth()){
                 if (y > node.getTopMargin() && y < node.getTopMargin() + node.getNodeHeight()){
-                    System.out.println("scream!!!");
+                    NodeInput input = node.hoveringOn(node.getLeftMargin() - x, node.getTopMargin() - y);
+                    if (input != null){
+                        LinePoint point = new LinePoint(0,0,node);
+//                        input.attachLinePoint(point);
+                        System.out.println("scream!!!");
+
+                    }
                 }
             }
         }

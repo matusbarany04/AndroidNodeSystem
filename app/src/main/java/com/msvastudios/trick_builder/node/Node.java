@@ -67,7 +67,14 @@ public class Node implements View.OnTouchListener {
         //linePoint = point;
     }
 
+    public NodeInput hoveringOn(int innerX, int innerY){
+        for (NodeInput input : nodeInput) {
+//            if (innerY < ) // TODO later
+            return input;
+        }
 
+        return null;
+    }
 
 
     void init(Context context) {
@@ -103,7 +110,7 @@ public class Node implements View.OnTouchListener {
         }
 
         for (NodeOutput node: nodeOutput) {
-            innerNode.addView(node);
+            innerNode.addView(node.getView());
         }
 
         setPosition(leftMargin, topMargin);

@@ -5,16 +5,16 @@ import android.widget.RelativeLayout;
 
 import java.util.UUID;
 
-public interface NodeItem {
+public abstract class NodeItem {
 
     static String generateId() {
         return UUID.randomUUID().toString();
     }
 
-    boolean hasInput();
+    boolean hasInput(){return true;}
 
-    boolean hasOutput();
+    boolean hasOutput(){return true;}
 
-    String getID();
+    String getID(){return "hola";}
 
 }

@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Screen metrics", screenHeight + " " + screenWidth);
 
 
-
         NodeDimensionsCalculator.getStatusBarHeight(this);
         NodeManager nodeManager = new NodeManager(this, linesView, dragArea );
     }

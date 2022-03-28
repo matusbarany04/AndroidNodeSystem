@@ -46,7 +46,6 @@ public class NodeInput extends LinearLayout implements NodeItem {
         View.inflate(context, R.layout.view_node_input, this);
         imagePoint = findViewById(R.id.input_dragpoint);
         imagePoint.setLayoutParams(new LinearLayout.LayoutParams(height / 2, height));
-
     }
 
     @Override
@@ -63,6 +62,7 @@ public class NodeInput extends LinearLayout implements NodeItem {
         );
     }
 
+
     @Override
     public boolean hasInput() {
         return true;
@@ -77,5 +77,7 @@ public class NodeInput extends LinearLayout implements NodeItem {
     public String getID() {
         return id;
     }
+
+
 
 }

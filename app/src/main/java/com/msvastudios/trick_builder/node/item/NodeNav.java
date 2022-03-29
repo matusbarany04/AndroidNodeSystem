@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.node;
+package com.msvastudios.trick_builder.node.item;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
 
 
 public class NodeNav extends LinearLayout {

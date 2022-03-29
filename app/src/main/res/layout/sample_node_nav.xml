@@ -5,7 +5,7 @@
 
 
 
-        <com.msvastudios.trick_builder.node.NodeNav
+        <com.msvastudios.trick_builder.node.item.NodeNav
             style="@style/Widget.Theme.JavaTransparent.MyView"
             android:layout_width="300dp"
             android:layout_height="300dp"

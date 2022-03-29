@@ -1,23 +1,22 @@
 package com.msvastudios.trick_builder.node;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewOutlineProvider;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import androidx.annotation.Nullable;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.LinePoint;
 import com.msvastudios.trick_builder.line.LinesView;
+import com.msvastudios.trick_builder.node.item.NodeInput;
+import com.msvastudios.trick_builder.node.item.NodeItem;
+import com.msvastudios.trick_builder.node.item.NodeNav;
+import com.msvastudios.trick_builder.node.item.NodeOutput;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class Node implements View.OnTouchListener {
@@ -28,14 +27,11 @@ public class Node implements View.OnTouchListener {
     ArrayList<NodeInput> nodeInput;
     ArrayList<NodeOutput> nodeOutput;
     NodeCallbackListener listener;
-
+    String id;
     private RelativeLayout node;
     private int xDelta, yDelta;
     private int leftMargin, topMargin;
-
     private int nodeWidth, nodeHeight = 700;
-
-    String id;
 
 
     public Node(Context context, int leftMargin, int topMargin, LinesView linesView, NodeCallbackListener listener) {
@@ -61,18 +57,19 @@ public class Node implements View.OnTouchListener {
     }
 
 
-    public void attachLinePoint(LinePoint point){
 
-        //calculate position of nearest item to finger and attach point
-        //linePoint = point;
-    }
 
-    public NodeInput hoveringOn(int innerX, int innerY){
+    public NodeInput hoveringOn(int innerX, int innerY) {
         for (NodeInput input : nodeInput) {
-//            if (innerY < ) // TODO later
-            return input;
+            System.out.println(innerY + " " + (input.getOrder() + 1) * NodeDimensionsCalculator.nodeItemHeight());
+            if (innerY >  input.getOrder() * NodeDimensionsCalculator.nodeItemHeight() ){
+                System.out.println("yes");
+                if (innerY <  (input.getOrder() + 1) * NodeDimensionsCalculator.nodeItemHeight() ){
+                    System.out.println("absolute yes!!");
+                    return input;
+                }
+            }
         }
-
         return null;
     }
 
@@ -87,29 +84,29 @@ public class Node implements View.OnTouchListener {
 
 
         RelativeLayout innerNode = new RelativeLayout(context);
-        RelativeLayout.LayoutParams innerViewParams = new RelativeLayout.LayoutParams(nodeWidth-50, nodeHeight-50);
+        RelativeLayout.LayoutParams innerViewParams = new RelativeLayout.LayoutParams(nodeWidth - 50, nodeHeight - 50);
         int innerMargin = NodeDimensionsCalculator.innerNodeMargin() / 2;
-        innerViewParams.setMargins(innerMargin,innerMargin,0,0);
+        innerViewParams.setMargins(innerMargin, innerMargin, 0, 0);
         innerNode.setLayoutParams(innerViewParams);
-        innerNode.setClipChildren(true);
+        innerNode.setClipChildren(false);
         innerNode.setBackgroundResource(R.drawable.node);
         node.addView(innerNode);
-
+//        node.setBackgroundColor(Color.CYAN);
         nav = new NodeNav(context);
         nav.setOnTouchListener(this);
 
 
-        nodeInput.add(new NodeInput(context, listener, this,1));
-        nodeOutput.add(new NodeOutput(context, listener, this,2));
+        nodeInput.add(new NodeInput(context, listener, this, 1));
+        nodeOutput.add(new NodeOutput(context, listener, this, 2));
 
 
         innerNode.addView(nav);
 
-        for (NodeInput node: nodeInput) {
-            innerNode.addView(node);
+        for (NodeInput node : nodeInput) {
+            innerNode.addView(node.getView());
         }
 
-        for (NodeOutput node: nodeOutput) {
+        for (NodeOutput node : nodeOutput) {
             innerNode.addView(node.getView());
         }
 
@@ -122,7 +119,10 @@ public class Node implements View.OnTouchListener {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) node.getLayoutParams();
         leftMargin = params.leftMargin;
         topMargin = params.topMargin;
-        for (NodeOutput node: nodeOutput) {
+        for (NodeOutput node : nodeOutput) {
+            node.updatePositionVars();
+        }
+        for (NodeInput node : nodeInput) {
             node.updatePositionVars();
         }
 
@@ -155,7 +155,7 @@ public class Node implements View.OnTouchListener {
         return node;
     }
 
-    private void callCallback(){
+    private void callCallback() {
         if (listener != null)
             listener.onMoved(this);
     }
@@ -208,7 +208,7 @@ public class Node implements View.OnTouchListener {
     }
 
     public String getId() {
-        return  id;
+        return id;
     }
 }
 

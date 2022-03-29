@@ -86,35 +86,16 @@ public class LinesView extends View {
 
         // on below line we are setting style to out paint.
         otherPaint.setStyle(Paint.Style.FILL);
-
         otherPaint.setStrokeWidth(25);
 
-
-        for (Line line :lines) {
-//            Log.d("s", "x" + line.startPoint.x);
-//            Log.d("s", "x" + line.endPoint.x);
+        for (Line line : lines) {
             line.drawSelf(canvas, otherPaint);
-//            canvas.drawLine(,500,50,500,otherPaint);
         }
 
-        // below 4 lines of code is use to
-        // create white rectangle of screen
-//        canvas.drawRect(
-//                getLeft() + (getRight() - getLeft()) / 3,
-//                getTop() + (getBottom() - getTop()) / 3,
-//                getRight() - (getRight() - getLeft()) / 3,
-//                getBottom() - (getBottom() - getTop()) / 3, otherPaint);
-
-        // on below line we are changing the color for our paint.
         otherPaint.setColor(getResources().getColor(R.color.purple_200));
 
-        // on below line we are drawing a circle and passing
-        // width, height, left arc and paint to add color.
-//        canvas.drawCircle(getWidth() / 2, getHeight() / 2, arcLeft, otherPaint);
-
-
         canvas.drawText("Geeks for Geeks" + iterator, (float) (getWidth() * 0.3), (float) (getHeight() * 0.8), textPaint);
-        iterator ++;
+        iterator++;
     }
 
     public void setLines(ArrayList<Line> lines) {
@@ -123,19 +104,29 @@ public class LinesView extends View {
     }
 
 
-    public void addLine(Line line){
+    public void addLine(Line line) {
+        checkForMatch(line);
         lines.add(line);
         invalidate();
     }
 
-    public void removeLine(int index){
+    private void checkForMatch(Line line) {
+        for (int i = 0 ; i < lines.size();i++) {
+            if (line.endPoint == lines.get(i).endPoint) { // cant connect multiple outputs to single input
+                removeLine(i);
+            }
+        }
+    }
+
+    public void removeLine(int index) {
         lines.remove(index);
         invalidate();
     }
-    public void removeLine(String id){ // too slow refractor later!
+
+    public void removeLine(String id) { // TODO too slow refractor later!
         ArrayList<Line> outputLines = new ArrayList<>();
         for (Line line : lines) {
-            if(!line.getId().equals(id)) outputLines.add(line);
+            if (!line.getId().equals(id)) outputLines.add(line);
         }
 
         lines = outputLines;

@@ -21,7 +21,7 @@ public class NodeNav extends LinearLayout {
         this.context = context;
 
         width = NodeDimensionsCalculator.getInnerNodeWidth();
-        height =  NodeDimensionsCalculator.nodeItemHeight();
+        height = NodeDimensionsCalculator.nodeItemHeight();
 
         init(null, 0);
     }
@@ -39,12 +39,10 @@ public class NodeNav extends LinearLayout {
         setBackgroundColor(Color.parseColor("#212321"));
 
         View.inflate(context, R.layout.view_nodenav, this);
-
+        setElevation(6 * context.getResources().getDisplayMetrics().density);
         setBackgroundResource(R.drawable.nav);
 
     }
-
-
 
 
     @Override

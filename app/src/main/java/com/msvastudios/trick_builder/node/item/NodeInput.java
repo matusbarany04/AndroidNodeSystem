@@ -11,7 +11,7 @@ import com.msvastudios.trick_builder.node.Node;
 import com.msvastudios.trick_builder.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
 
-public class NodeInput extends NodeConnector {
+public class NodeInput extends NodeConnectorItem {
     LinearLayout view;
     Context context;
     int width, height;
@@ -19,11 +19,13 @@ public class NodeInput extends NodeConnector {
     NodeCallbackListener listener;
     Node parent;
     int order;
+    Type type;
 
-    public NodeInput(Context context, NodeCallbackListener listener, Node parent, int order) {
-        super(context, parent, order);
+    public NodeInput(Context context, NodeCallbackListener listener, Node parent, int order, Type type) {
+        super(context, parent, order,type);
         this.listener = listener;
         this.context = context;
+        this.type = type;
         this.width = NodeDimensionsCalculator.getInnerNodeWidth();
         this.height = NodeDimensionsCalculator.nodeItemHeight();
         this.parent = parent;
@@ -55,6 +57,7 @@ public class NodeInput extends NodeConnector {
         View.inflate(context, R.layout.view_node_input, getView());
         imagePoint = getView().findViewById(R.id.input_dragpoint);
         imagePoint.setLayoutParams(new LinearLayout.LayoutParams(height / 2, height));
+        changeColorTint(imagePoint, context, type.getColor());
     }
 
 

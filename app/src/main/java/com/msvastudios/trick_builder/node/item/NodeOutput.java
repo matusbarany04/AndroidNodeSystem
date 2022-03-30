@@ -1,32 +1,35 @@
 package com.msvastudios.trick_builder.node.item;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.media.Image;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node.Node;
 import com.msvastudios.trick_builder.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
 
-public class NodeOutput extends NodeConnector implements View.OnTouchListener {
+public class NodeOutput extends NodeConnectorItem implements View.OnTouchListener {
     Context context;
 
     ImageView imagePoint;
     NodeCallbackListener listener;
-
-    public NodeOutput(Context context, NodeCallbackListener listener, Node parent, int order) {
-        super(context, parent, order);
+    Type type;
+    public NodeOutput(Context context, NodeCallbackListener listener, Node parent, int order, Type type) {
+        super(context, parent, order,type);
         this.listener = listener;
         this.context = context;
-
+        this.type = type;
         this.parent = parent;
         init(null, 0);
     }
@@ -46,23 +49,22 @@ public class NodeOutput extends NodeConnector implements View.OnTouchListener {
 //        getView().setBackgroundColor(Color.BLUE);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width + 100, height);
         params.topMargin = height * order;
-        params.rightMargin = -NodeDimensionsCalculator.innerNodeMargin();// /2 ;
+        params.rightMargin = -NodeDimensionsCalculator.innerNodeMargin(); // /2 ;
         getView().setLayoutParams(params);
 
         View.inflate(context, R.layout.view_node_output, getView());
         imagePoint = getView().findViewById(R.id.output_dragpoint);
         imagePoint.setLayoutParams(new LinearLayout.LayoutParams(height / 2, height));
-//        imagePoint.setTranslationX(20);
-//        imagePoint.setLayoutParams(imageViewParams);
+
+
+        changeColorTint(imagePoint, context, type.getColor());
+
         getView().setOnTouchListener(this);
 
         getView().setClipChildren(false);
 
-
         disableClipOnParents(getView());
-//        setBackgroundColor(Color.rgb(100, 100, 142));
     }
-
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {

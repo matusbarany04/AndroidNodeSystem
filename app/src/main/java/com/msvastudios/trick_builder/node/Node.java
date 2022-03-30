@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.LinePoint;
 import com.msvastudios.trick_builder.line.LinesView;
+import com.msvastudios.trick_builder.node.item.NodeConnectorItem;
 import com.msvastudios.trick_builder.node.item.NodeInput;
 import com.msvastudios.trick_builder.node.item.NodeItem;
 import com.msvastudios.trick_builder.node.item.NodeNav;
@@ -57,22 +58,19 @@ public class Node implements View.OnTouchListener {
     }
 
 
-
-
     public NodeInput hoveringOn(int innerX, int innerY) {
         for (NodeInput input : nodeInput) {
-            System.out.println(innerY + " " + (input.getOrder() + 1) * NodeDimensionsCalculator.nodeItemHeight());
-            if (innerY >  input.getOrder() * NodeDimensionsCalculator.nodeItemHeight() ){
-                System.out.println("yes");
-                if (innerY <  (input.getOrder() + 1) * NodeDimensionsCalculator.nodeItemHeight() ){
-                    System.out.println("absolute yes!!");
+//            System.out.println(innerY + " " + (input.getOrder() + 1) * NodeDimensionsCalculator.nodeItemHeight());
+            if (innerY > input.getOrder() * NodeDimensionsCalculator.nodeItemHeight()) {
+//                System.out.println("yes");
+                if (innerY < (input.getOrder() + 1) * NodeDimensionsCalculator.nodeItemHeight()) {
+//                    System.out.println("absolute yes!!");
                     return input;
                 }
             }
         }
         return null;
     }
-
 
     void init(Context context) {
         node = new RelativeLayout(context);
@@ -82,7 +80,6 @@ public class Node implements View.OnTouchListener {
 //        node.setElevation(20f);
         node.setOutlineProvider(ViewOutlineProvider.PADDED_BOUNDS);
 
-
         RelativeLayout innerNode = new RelativeLayout(context);
         RelativeLayout.LayoutParams innerViewParams = new RelativeLayout.LayoutParams(nodeWidth - 50, nodeHeight - 50);
         int innerMargin = NodeDimensionsCalculator.innerNodeMargin() / 2;
@@ -91,14 +88,12 @@ public class Node implements View.OnTouchListener {
         innerNode.setClipChildren(false);
         innerNode.setBackgroundResource(R.drawable.node);
         node.addView(innerNode);
-//        node.setBackgroundColor(Color.CYAN);
+
         nav = new NodeNav(context);
         nav.setOnTouchListener(this);
 
-
-        nodeInput.add(new NodeInput(context, listener, this, 1));
-        nodeOutput.add(new NodeOutput(context, listener, this, 2));
-
+        nodeInput.add(new NodeInput(context, listener, this, 1, NodeConnectorItem.Type.NUMBER));
+        nodeOutput.add(new NodeOutput(context, listener, this, 2, NodeConnectorItem.Type.ARRAY_LIST));
 
         innerNode.addView(nav);
 

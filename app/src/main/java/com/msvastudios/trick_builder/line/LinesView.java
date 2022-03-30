@@ -94,7 +94,7 @@ public class LinesView extends View {
 
         otherPaint.setColor(getResources().getColor(R.color.purple_200));
 
-        canvas.drawText("Geeks for Geeks" + iterator, (float) (getWidth() * 0.3), (float) (getHeight() * 0.8), textPaint);
+        canvas.drawText("Updates: " + iterator, (float) (getWidth() * 0.3), (float) (getHeight() * 0.8), textPaint);
         iterator++;
     }
 

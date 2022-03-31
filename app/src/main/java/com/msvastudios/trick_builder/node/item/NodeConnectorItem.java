@@ -26,17 +26,9 @@ public abstract class NodeConnectorItem extends NodeItem {
 //        setNewLinePoint();
     }
 
-    // to be overridden
-    public void updatePositionVars() {
-        point.setPosition(parent.getLeftMargin(), parent.getTopMargin());
-    }
+    public abstract void updatePositionVars();
 
-//    private void setNewLinePoint() {
-//
-////        updatePositionVars();
-//    }
-
-    public NodeConnectorItem.Type getType() {
+    public Type getType() {
         return type;
     }
 
@@ -53,20 +45,6 @@ public abstract class NodeConnectorItem extends NodeItem {
     }
 
 
-    public enum Type {
-        ARRAY_LIST(R.color.purple_200),
-        NUMBER(R.color.light_blue_400),
-        ANY(R.color.gray_400);
-
-        private final int color;
-        Type(@ColorRes int color) {
-            this.color = color;
-        }
-
-        public int getColor() {
-            return color;
-        }
-    }
 
 
 }

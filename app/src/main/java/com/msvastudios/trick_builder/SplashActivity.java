@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 
 public class SplashActivity extends AppCompatActivity {
 
-
     private static int SPLASH_SCREEN_TIME_OUT = 2000;
 
     static {

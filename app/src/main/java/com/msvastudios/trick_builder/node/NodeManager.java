@@ -11,6 +11,7 @@ import com.msvastudios.trick_builder.line.LinePoint;
 import com.msvastudios.trick_builder.line.LinesView;
 import com.msvastudios.trick_builder.node.item.NodeInput;
 import com.msvastudios.trick_builder.node.item.NodeOutput;
+import com.msvastudios.trick_builder.node.item.Type;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -43,6 +44,8 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
     public void addNode(int leftMargin, int rightMargin) {
         Node node = new Node(context, leftMargin, rightMargin, linesView, this);
+        node.addNodeOutput(Type.ARRAY_LIST);
+        node.build();
         nodeList.put(node.getId(), node);
         dragArea.addView(node.getNode());
 

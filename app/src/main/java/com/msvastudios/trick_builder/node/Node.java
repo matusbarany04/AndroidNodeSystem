@@ -16,6 +16,7 @@ import com.msvastudios.trick_builder.node.item.NodeInput;
 import com.msvastudios.trick_builder.node.item.NodeItem;
 import com.msvastudios.trick_builder.node.item.NodeNav;
 import com.msvastudios.trick_builder.node.item.NodeOutput;
+import com.msvastudios.trick_builder.node.item.Type;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -29,13 +30,15 @@ public class Node implements View.OnTouchListener {
     ArrayList<NodeOutput> nodeOutput;
     NodeCallbackListener listener;
     String id;
+
     private RelativeLayout node;
     private int xDelta, yDelta;
     private int leftMargin, topMargin;
     private int nodeWidth, nodeHeight = 700;
+    private int nodeItemOrder = 1;
+    RelativeLayout innerNode;
 
-
-    public Node(Context context, int leftMargin, int topMargin, LinesView linesView, NodeCallbackListener listener) {
+    public Node(Context context, int leftMargin, int topMargin, LinesView linesView, NodeCallbackListener listener){
         this.leftMargin = leftMargin;
         this.topMargin = topMargin;
         nodeWidth = NodeDimensionsCalculator.nodeWidth();
@@ -52,6 +55,21 @@ public class Node implements View.OnTouchListener {
         init(context);
     }
 
+    public void addNodeOutput(Type type){
+        nodeOutput.add(new NodeOutput(context, listener, this, 2, type));
+        nodeItemOrder++;
+    }
+
+
+    public void addNodeParam(Type type){
+        //nodeOutput.add(new NodeOutput(context, listener, this, 2, type));
+        nodeItemOrder++;
+    }
+
+    public void addNodeInput(Type type){
+        nodeInput.add(new NodeInput(context, listener, this, 2, type));
+        nodeItemOrder++;
+    }
 
     public void setOnChangedStateListener(NodeCallbackListener listener) {
         this.listener = listener;
@@ -80,7 +98,7 @@ public class Node implements View.OnTouchListener {
 //        node.setElevation(20f);
         node.setOutlineProvider(ViewOutlineProvider.PADDED_BOUNDS);
 
-        RelativeLayout innerNode = new RelativeLayout(context);
+        innerNode = new RelativeLayout(context);
         RelativeLayout.LayoutParams innerViewParams = new RelativeLayout.LayoutParams(nodeWidth - 50, nodeHeight - 50);
         int innerMargin = NodeDimensionsCalculator.innerNodeMargin() / 2;
         innerViewParams.setMargins(innerMargin, innerMargin, 0, 0);
@@ -92,10 +110,13 @@ public class Node implements View.OnTouchListener {
         nav = new NodeNav(context);
         nav.setOnTouchListener(this);
 
-        nodeInput.add(new NodeInput(context, listener, this, 1, NodeConnectorItem.Type.NUMBER));
-        nodeOutput.add(new NodeOutput(context, listener, this, 2, NodeConnectorItem.Type.ARRAY_LIST));
-
         innerNode.addView(nav);
+
+        setPosition(leftMargin, topMargin);
+
+        //updatePositionVars();
+    }
+    public void build(){
 
         for (NodeInput node : nodeInput) {
             innerNode.addView(node.getView());
@@ -105,9 +126,12 @@ public class Node implements View.OnTouchListener {
             innerNode.addView(node.getView());
         }
 
-        setPosition(leftMargin, topMargin);
+        nodeHeight = NodeDimensionsCalculator.nodeItemHeight() * nodeItemOrder;
 
-        //updatePositionVars();
+        node.setLayoutParams(new RelativeLayout.LayoutParams(nodeWidth, nodeHeight));
+
+        RelativeLayout.LayoutParams innerViewParams = new RelativeLayout.LayoutParams(nodeWidth - 50, nodeHeight - 50);
+        innerNode.setLayoutParams(innerViewParams);
     }
 
     private void updatePositionVars() {

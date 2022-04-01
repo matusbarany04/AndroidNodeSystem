@@ -12,18 +12,23 @@ import androidx.core.widget.ImageViewCompat;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.LinePoint;
 import com.msvastudios.trick_builder.node.Node;
+import com.msvastudios.trick_builder.node.NodeCallbackListener;
 
 public abstract class NodeConnectorItem extends NodeItem {
 
     LinePoint point;
     Type type;
 
-    NodeConnectorItem(Context context, Node parent, int order,Type type) {
+    NodeConnectorItem(Context context, Node parent, int order, Type type) {
         super(context, parent, order);
         point = new LinePoint(0, 0, parent);
         this.type = type;
 
 //        setNewLinePoint();
+    }
+
+    public static void changeColorTint(ImageView imagePoint, Context context, @ColorRes int resource) {
+        ImageViewCompat.setImageTintList(imagePoint, ColorStateList.valueOf(ContextCompat.getColor(context, resource)));
     }
 
     public abstract void updatePositionVars();
@@ -40,11 +45,13 @@ public abstract class NodeConnectorItem extends NodeItem {
         return point;
     }
 
-    public static void changeColorTint(ImageView imagePoint, Context context, @ColorRes int resource){
-        ImageViewCompat.setImageTintList(imagePoint,  ColorStateList.valueOf(ContextCompat.getColor(context, resource)));
+    public void connectedItem(){
+        listener.onItemConnect(this);
     }
 
-
-
+    ConnectorCallback listener;
+    public void setCallback(ConnectorCallback listener){
+        this.listener =  listener;
+    }
 
 }

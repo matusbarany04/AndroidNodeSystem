@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.LinePoint;
 import com.msvastudios.trick_builder.line.LinesView;
+import com.msvastudios.trick_builder.node.item.ConnectorCallback;
 import com.msvastudios.trick_builder.node.item.NodeConnectorItem;
 import com.msvastudios.trick_builder.node.item.NodeInput;
 import com.msvastudios.trick_builder.node.item.NodeItem;
@@ -21,7 +22,7 @@ import com.msvastudios.trick_builder.node.item.Type;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Node implements View.OnTouchListener {
+public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
     Context context;
     LinesView linesView;
@@ -36,6 +37,8 @@ public class Node implements View.OnTouchListener {
     private int leftMargin, topMargin;
     private int nodeWidth, nodeHeight = 700;
     private int nodeItemOrder = 1;
+
+
     RelativeLayout innerNode;
 
     public Node(Context context, int leftMargin, int topMargin, LinesView linesView, NodeCallbackListener listener){
@@ -55,20 +58,36 @@ public class Node implements View.OnTouchListener {
         init(context);
     }
 
-    public void addNodeOutput(Type type){
-        nodeOutput.add(new NodeOutput(context, listener, this, 2, type));
-        nodeItemOrder++;
+    public ArrayList<NodeOutput> getNodeOutput() {
+        return nodeOutput;
     }
 
+    public ArrayList<NodeInput> getNodeInput() {
+        return nodeInput;
+    }
 
-    public void addNodeParam(Type type){
+    public NodeOutput addNodeOutput(Type type){
+        NodeOutput output = new NodeOutput(context, listener, this, nodeItemOrder, type);
+        nodeOutput.add(output);
+        nodeItemOrder++;
+        return  output;
+    }
+
+    public LinesView getLinesView() {
+        return linesView;
+    }
+
+    public Node addNodeParam(Type type){
         //nodeOutput.add(new NodeOutput(context, listener, this, 2, type));
         nodeItemOrder++;
+        return this;
     }
 
-    public void addNodeInput(Type type){
-        nodeInput.add(new NodeInput(context, listener, this, 2, type));
-        nodeItemOrder++;
+    public NodeInput addNodeInput(Type type){
+        NodeInput input = new NodeInput(context, listener, this, nodeItemOrder, type);
+        nodeInput.add(input);
+        nodeItemOrder++ ;
+        return input;
     }
 
     public void setOnChangedStateListener(NodeCallbackListener listener) {
@@ -90,19 +109,26 @@ public class Node implements View.OnTouchListener {
         return null;
     }
 
+    public boolean isStartingNode(){
+        return nodeInput.size() == 0;
+    }
+
+    public NodeNav getNav() {
+        return nav;
+    }
+
     void init(Context context) {
         node = new RelativeLayout(context);
         node.setClipChildren(false);
-        node.setLayoutParams(new RelativeLayout.LayoutParams(nodeWidth, nodeHeight));
+        RelativeLayout.LayoutParams nodeParams = new RelativeLayout.LayoutParams(nodeWidth, nodeHeight);
+
+        node.setLayoutParams(nodeParams);
         node.setBackgroundResource(R.drawable.back_node);
 //        node.setElevation(20f);
         node.setOutlineProvider(ViewOutlineProvider.PADDED_BOUNDS);
 
         innerNode = new RelativeLayout(context);
-        RelativeLayout.LayoutParams innerViewParams = new RelativeLayout.LayoutParams(nodeWidth - 50, nodeHeight - 50);
-        int innerMargin = NodeDimensionsCalculator.innerNodeMargin() / 2;
-        innerViewParams.setMargins(innerMargin, innerMargin, 0, 0);
-        innerNode.setLayoutParams(innerViewParams);
+
         innerNode.setClipChildren(false);
         innerNode.setBackgroundResource(R.drawable.node);
         node.addView(innerNode);
@@ -114,7 +140,7 @@ public class Node implements View.OnTouchListener {
 
         setPosition(leftMargin, topMargin);
 
-        //updatePositionVars();
+
     }
     public void build(){
 
@@ -126,12 +152,16 @@ public class Node implements View.OnTouchListener {
             innerNode.addView(node.getView());
         }
 
-        nodeHeight = NodeDimensionsCalculator.nodeItemHeight() * nodeItemOrder;
+        nodeHeight = NodeDimensionsCalculator.nodeItemHeight() * (nodeItemOrder+1) + 50;
 
         node.setLayoutParams(new RelativeLayout.LayoutParams(nodeWidth, nodeHeight));
 
         RelativeLayout.LayoutParams innerViewParams = new RelativeLayout.LayoutParams(nodeWidth - 50, nodeHeight - 50);
+        int innerMargin = NodeDimensionsCalculator.innerNodeMargin() / 2;
+        innerViewParams.setMargins(innerMargin,innerMargin, 0, 0);
         innerNode.setLayoutParams(innerViewParams);
+
+        setPosition(leftMargin,topMargin);
     }
 
     private void updatePositionVars() {
@@ -187,6 +217,15 @@ public class Node implements View.OnTouchListener {
         return nodeHeight;
     }
 
+    public NodeInput getNodeInputBy(LinePoint point){
+        for (NodeInput input: getNodeInput()) {
+            if (input.getPoint().equals(point)){
+                return input;
+            }
+        }
+        return null;
+    }
+
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         int rawX = (int) motionEvent.getRawX();
@@ -225,9 +264,30 @@ public class Node implements View.OnTouchListener {
 
         return true;
     }
+    @Override
+    public void onItemConnect(NodeConnectorItem item){
+
+    }
+
+    private int inputDataReceived= 0;
+    @Override
+    public void dataInInputSent(String data, NodeInput input){
+        inputDataReceived++;
+        if (inputDataReceived  >= getNodeInput().size()){
+            process();
+            sendData();
+            inputDataReceived = 0;
+        }
+
+    }
+
 
     public String getId() {
         return id;
     }
+
+    public abstract void process();
+
+    public abstract void sendData();
 }
 

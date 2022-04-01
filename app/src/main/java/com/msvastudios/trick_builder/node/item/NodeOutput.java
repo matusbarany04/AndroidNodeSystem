@@ -15,9 +15,12 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.line.Line;
 import com.msvastudios.trick_builder.node.Node;
 import com.msvastudios.trick_builder.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
+
+import java.util.ArrayList;
 
 public class NodeOutput extends NodeConnectorItem implements View.OnTouchListener {
     Context context;
@@ -64,6 +67,16 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         getView().setClipChildren(false);
 
         disableClipOnParents(getView());
+    }
+
+    public void sendData(String data){
+        if (this.getPoint() != null) { // ak nodeOutput má point (point by mal mať stále )
+            System.out.println("node dummy!");
+            ArrayList<Line> connectedLines = parent.getLinesView().getLinesContaining(this.getPoint()); // zistime si všetky spoje
+            for (Line line : connectedLines) {
+                line.getEndPoint().getParent().getNodeInputBy(line.getEndPoint()).push(data);
+            }
+        }
     }
 
     @Override

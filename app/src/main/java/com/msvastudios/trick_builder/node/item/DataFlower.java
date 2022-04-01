@@ -9,4 +9,8 @@ public class DataFlower<T> {
         this.color = color;
     }
 
+    public T getType(){
+        return (T) new Object();
+    }
+
 }

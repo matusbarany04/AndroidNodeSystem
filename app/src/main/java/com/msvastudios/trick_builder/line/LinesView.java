@@ -118,6 +118,17 @@ public class LinesView extends View {
         }
     }
 
+    public ArrayList<Line> getLinesContaining(LinePoint point){
+        ArrayList<Line> output = new ArrayList<>();
+        for (Line line : lines) {
+            if (line.endPoint.equals(point) || line.startPoint.equals(point)){
+                output.add(line);
+            }
+        }
+
+        return output;
+    }
+
     public void removeLine(int index) {
         lines.remove(index);
         invalidate();

@@ -1,5 +1,6 @@
 package com.msvastudios.trick_builder.node;
 
+import com.msvastudios.trick_builder.node.item.NodeInput;
 import com.msvastudios.trick_builder.node.item.NodeOutput;
 
 public interface NodeCallbackListener {
@@ -9,5 +10,4 @@ public interface NodeCallbackListener {
     int onInputDropped(Node node);
 
     int onOutputDragged(Node node, NodeOutput nodeOutput);
-
 }

@@ -42,4 +42,12 @@ public class Line {
     public String getId() {
         return id;
     }
+
+    public LinePoint getEndPoint() {
+        return endPoint;
+    }
+
+    public LinePoint getStartPoint() {
+        return startPoint;
+    }
 }

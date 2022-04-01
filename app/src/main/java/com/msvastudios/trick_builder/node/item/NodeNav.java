@@ -1,11 +1,18 @@
 package com.msvastudios.trick_builder.node.item;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.NavigationRes;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
@@ -42,6 +49,11 @@ public class NodeNav extends LinearLayout {
         setElevation(6 * context.getResources().getDisplayMetrics().density);
         setBackgroundResource(R.drawable.nav);
 
+    }
+
+    public NodeNav setColor(@ColorRes int color){
+        setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, color)));
+        return this;
     }
 
 

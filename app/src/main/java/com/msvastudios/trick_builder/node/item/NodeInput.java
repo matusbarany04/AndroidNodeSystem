@@ -20,9 +20,10 @@ public class NodeInput extends NodeConnectorItem {
     Node parent;
     int order;
     Type type;
+    String data;
 
     public NodeInput(Context context, NodeCallbackListener listener, Node parent, int order, Type type) {
-        super(context, parent, order,type);
+        super(context, parent, order, type);
         this.listener = listener;
         this.context = context;
         this.type = type;
@@ -41,6 +42,15 @@ public class NodeInput extends NodeConnectorItem {
                 parent.getLeftMargin() + NodeDimensionsCalculator.innerNodeMargin() / 2,
                 parent.getTopMargin() + NodeDimensionsCalculator.nodeItemHeight() * order + NodeDimensionsCalculator.nodeItemHeight() / 2 + NodeDimensionsCalculator.innerNodeMargin() / 2
         );
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void push(String data){
+        this.data = data;
+        parent.dataInInputSent(data, this);
     }
 
 

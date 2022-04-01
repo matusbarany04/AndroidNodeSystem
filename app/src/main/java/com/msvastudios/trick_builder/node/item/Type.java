@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public enum Type {
     ARRAY_LIST(new DataFlower<ArrayList>(R.color.purple_200)),
     NUMBER(new DataFlower<Integer>(R.color.light_blue_400)),
+    STRING(new DataFlower<String>(R.color.design_default_color_on_primary)),
     ANY(new DataFlower<Object>(R.color.gray_400));
 
     DataFlower dataFlower;

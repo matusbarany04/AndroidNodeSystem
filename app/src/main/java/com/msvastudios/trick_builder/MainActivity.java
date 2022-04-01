@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.line.LinesView;
 import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
 import com.msvastudios.trick_builder.node.NodeManager;
@@ -42,8 +44,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Screen metrics", screenHeight + " " + screenWidth);
 
 
+
         NodeDimensionsCalculator.getStatusBarHeight(this);
         NodeManager nodeManager = new NodeManager(this, linesView, dragArea );
+
+        FloatingActionButton floatingActionButton = findViewById(R.id.ping);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Button clicked!");
+                nodeManager.play();
+            }
+        });
+
     }
 
 }

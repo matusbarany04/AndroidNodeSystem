@@ -12,8 +12,9 @@ import com.msvastudios.trick_builder.line.LinesView;
 import com.msvastudios.trick_builder.node.custom_nodes.DummyNode;
 import com.msvastudios.trick_builder.node.custom_nodes.EndNode;
 import com.msvastudios.trick_builder.node.custom_nodes.RepeaterNode;
-import com.msvastudios.trick_builder.node.item.NodeInput;
-import com.msvastudios.trick_builder.node.item.NodeOutput;
+import com.msvastudios.trick_builder.node.custom_nodes.TrickArrayNode;
+import com.msvastudios.trick_builder.node.item.connectors.NodeInput;
+import com.msvastudios.trick_builder.node.item.connectors.NodeOutput;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -46,6 +47,8 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         addNode(RepeaterNode.class,100,300);
 
         addNode(RepeaterNode.class,200,200);
+
+        addNode(TrickArrayNode.class,200,600);
 
         this.linesView.setOnTouchListener(this);
         // dragArea.addView(node2.getNode());
@@ -128,7 +131,8 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     public void play() {
         for (Node node : nodeList.values()) {
             if (node.isStartingNode()) {
-                System.out.println("Node found ! " + node.getId());
+//                System.out.println("Node found ! " + node.getId());
+                node.process();
                 node.sendData();
             }
         }

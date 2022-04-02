@@ -6,8 +6,8 @@ import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.LinesView;
 import com.msvastudios.trick_builder.node.Node;
 import com.msvastudios.trick_builder.node.NodeCallbackListener;
-import com.msvastudios.trick_builder.node.item.NodeInput;
-import com.msvastudios.trick_builder.node.item.NodeOutput;
+import com.msvastudios.trick_builder.node.item.connectors.NodeInput;
+import com.msvastudios.trick_builder.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.node.item.Type;
 
 public class RepeaterNode extends Node {
@@ -15,10 +15,10 @@ public class RepeaterNode extends Node {
     NodeInput  input;
     public RepeaterNode(Context context, int leftMargin, int topMargin, LinesView linesView, NodeCallbackListener listener) {
         super(context, leftMargin, topMargin, linesView, listener);
-        output = addNodeOutput(Type.STRING);
-        input = addNodeInput(Type.STRING);
+        output = (NodeOutput) addNodeOutput(Type.STRING).setText("output");
+        input = (NodeInput) addNodeInput(Type.STRING).setText("input");
 
-        getNav().setColor(R.color.purple_200);
+        getNav().setColor(R.color.purple_200).setTitle("Repeater");
 
         build();
     }

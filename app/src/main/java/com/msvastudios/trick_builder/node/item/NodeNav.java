@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NavigationRes;
@@ -53,6 +54,11 @@ public class NodeNav extends LinearLayout {
 
     public NodeNav setColor(@ColorRes int color){
         setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, color)));
+        return this;
+    }
+
+    public NodeNav setTitle(String title) {
+        ((TextView) findViewById(R.id.nav_textview)).setText(title);
         return this;
     }
 

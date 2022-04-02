@@ -1,7 +1,6 @@
 package com.msvastudios.trick_builder.node;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,13 +11,16 @@ import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.LinePoint;
 import com.msvastudios.trick_builder.line.LinesView;
 import com.msvastudios.trick_builder.node.item.ConnectorCallback;
-import com.msvastudios.trick_builder.node.item.NodeConnectorItem;
-import com.msvastudios.trick_builder.node.item.NodeInput;
+import com.msvastudios.trick_builder.node.item.connectors.NodeConnectorItem;
+import com.msvastudios.trick_builder.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node.item.NodeItem;
 import com.msvastudios.trick_builder.node.item.NodeNav;
-import com.msvastudios.trick_builder.node.item.NodeOutput;
+import com.msvastudios.trick_builder.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.node.item.Type;
+import com.msvastudios.trick_builder.node.item.params_item.ParameterItem;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -29,6 +31,8 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     NodeNav nav;
     ArrayList<NodeInput> nodeInput;
     ArrayList<NodeOutput> nodeOutput;
+    ArrayList<ParameterItem> nodeParams;
+
     NodeCallbackListener listener;
     String id;
 
@@ -52,6 +56,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
         nodeOutput = new ArrayList<>();
         nodeInput = new ArrayList<>();
+        nodeParams = new ArrayList<>();
 
         id = NodeItem.generateId();
 
@@ -77,10 +82,28 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         return linesView;
     }
 
-    public Node addNodeParam(Type type){
+    public <T extends ParameterItem> ParameterItem addNodeParam(Class<T> sup){
         //nodeOutput.add(new NodeOutput(context, listener, this, 2, type));
-        nodeItemOrder++;
-        return this;
+
+
+            try {
+                String myClassName = sup.getName();
+
+                Class<?> myClass  = Class.forName(myClassName);
+
+                Constructor<T> ctr = (Constructor<T>) myClass.getConstructors()[0];
+
+                T object = ctr.newInstance(context, this, nodeItemOrder);
+
+                nodeParams.add(object);
+
+                nodeItemOrder++;
+                return object;
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+        return null;
     }
 
     public NodeInput addNodeInput(Type type){
@@ -149,6 +172,10 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         }
 
         for (NodeOutput node : nodeOutput) {
+            innerNode.addView(node.getView());
+        }
+
+        for (ParameterItem node : nodeParams) {
             innerNode.addView(node.getView());
         }
 

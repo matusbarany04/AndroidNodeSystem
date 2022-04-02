@@ -1,15 +1,17 @@
-package com.msvastudios.trick_builder.node.item;
+package com.msvastudios.trick_builder.node.item.connectors;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node.Node;
 import com.msvastudios.trick_builder.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
+import com.msvastudios.trick_builder.node.item.Type;
 
 public class NodeInput extends NodeConnectorItem {
     LinearLayout view;
@@ -40,8 +42,16 @@ public class NodeInput extends NodeConnectorItem {
     public void updatePositionVars() {
         point.setPosition(
                 parent.getLeftMargin() + NodeDimensionsCalculator.innerNodeMargin() / 2,
-                parent.getTopMargin() + NodeDimensionsCalculator.nodeItemHeight() * order + NodeDimensionsCalculator.nodeItemHeight() / 2 + NodeDimensionsCalculator.innerNodeMargin() / 2
+                parent.getTopMargin() + NodeDimensionsCalculator.nodeItemHeight() * order + NodeDimensionsCalculator.nodeItemHeight() / 2
+                        + NodeDimensionsCalculator.innerNodeMargin() / 2
         );
+    }
+
+    @Override
+    public NodeConnectorItem setText(String text) {
+        TextView textView = getView().findViewById(R.id.input_textview);
+        textView.setText(text);
+        return this;
     }
 
     public String getData() {
@@ -68,6 +78,8 @@ public class NodeInput extends NodeConnectorItem {
         imagePoint = getView().findViewById(R.id.input_dragpoint);
         imagePoint.setLayoutParams(new LinearLayout.LayoutParams(height / 2, height));
         changeColorTint(imagePoint, context, type.getColor());
+
+        updatePositionVars();
     }
 
 

@@ -1,7 +1,6 @@
 package com.msvastudios.trick_builder.node;
 
-import com.msvastudios.trick_builder.node.item.NodeInput;
-import com.msvastudios.trick_builder.node.item.NodeOutput;
+import com.msvastudios.trick_builder.node.item.connectors.NodeOutput;
 
 public interface NodeCallbackListener {
 

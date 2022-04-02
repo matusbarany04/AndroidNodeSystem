@@ -1,24 +1,19 @@
-package com.msvastudios.trick_builder.node.item;
+package com.msvastudios.trick_builder.node.item.connectors;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
-import android.media.Image;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.ImageViewCompat;
+import android.widget.TextView;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.Line;
 import com.msvastudios.trick_builder.node.Node;
 import com.msvastudios.trick_builder.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
+import com.msvastudios.trick_builder.node.item.Type;
 
 import java.util.ArrayList;
 
@@ -33,7 +28,7 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         this.listener = listener;
         this.context = context;
         this.type = type;
-        this.parent = parent;
+//        this.parent = parent;
         init(null, 0);
     }
 
@@ -56,6 +51,7 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         getView().setLayoutParams(params);
 
         View.inflate(context, R.layout.view_node_output, getView());
+
         imagePoint = getView().findViewById(R.id.output_dragpoint);
         imagePoint.setLayoutParams(new LinearLayout.LayoutParams(height / 2, height));
 
@@ -67,10 +63,20 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         getView().setClipChildren(false);
 
         disableClipOnParents(getView());
+
+        updatePositionVars();
+    }
+
+
+    @Override
+    public NodeConnectorItem setText(String text) {
+        TextView textView = getView().findViewById(R.id.output_textview);
+        textView.setText(text);
+        return this;
     }
 
     public void sendData(String data){
-        if (this.getPoint() != null) { // ak nodeOutput má point (point by mal mať stále )
+        if (this.getPoint() != null) { // ak nodeOutput má point (point by mal mať ale stále)
             System.out.println("node dummy!");
             ArrayList<Line> connectedLines = parent.getLinesView().getLinesContaining(this.getPoint()); // zistime si všetky spoje
             for (Line line : connectedLines) {

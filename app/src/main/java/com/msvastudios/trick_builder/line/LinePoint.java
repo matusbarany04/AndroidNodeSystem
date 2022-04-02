@@ -1,8 +1,7 @@
 package com.msvastudios.trick_builder.line;
 
 import com.msvastudios.trick_builder.node.Node;
-import com.msvastudios.trick_builder.node.item.ConnectorCallback;
-import com.msvastudios.trick_builder.node.item.NodeConnectorItem;
+import com.msvastudios.trick_builder.node.item.connectors.NodeConnectorItem;
 
 public class LinePoint {
     int x,y;

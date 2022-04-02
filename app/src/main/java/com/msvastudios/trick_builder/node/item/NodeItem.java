@@ -13,25 +13,30 @@ import com.msvastudios.trick_builder.node.NodeDimensionsCalculator;
 import java.util.UUID;
 
 public abstract class NodeItem {
-    String id;
-    int width, height;
-    int order;
-    Node parent;
+    public String id;
+    public  int width, height;
+    public int order;
+    public Node parent;
     private LinearLayout view;
-
+    Context context;
     protected NodeItem(Context context, Node parent, int order) {
         this.parent = parent;
         this.width = NodeDimensionsCalculator.getInnerNodeWidth() + NodeDimensionsCalculator.innerNodeMargin();
         this.height = NodeDimensionsCalculator.nodeItemHeight();
         this.order = order;
-        init(context);
+        this.context = context;
+        init();
+    }
+
+    public Node getParent() {
+        return parent;
     }
 
     public static String generateId() {
         return UUID.randomUUID().toString();
     }
 
-    private void init(Context context) {
+    public void init() {
         id = generateId();
         view = new LinearLayout(context);
         disableClipOnParents(view);

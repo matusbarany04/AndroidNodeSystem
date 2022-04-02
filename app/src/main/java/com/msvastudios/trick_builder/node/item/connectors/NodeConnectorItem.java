@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.node.item;
+package com.msvastudios.trick_builder.node.item.connectors;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -13,6 +13,9 @@ import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.line.LinePoint;
 import com.msvastudios.trick_builder.node.Node;
 import com.msvastudios.trick_builder.node.NodeCallbackListener;
+import com.msvastudios.trick_builder.node.item.ConnectorCallback;
+import com.msvastudios.trick_builder.node.item.NodeItem;
+import com.msvastudios.trick_builder.node.item.Type;
 
 public abstract class NodeConnectorItem extends NodeItem {
 
@@ -32,6 +35,8 @@ public abstract class NodeConnectorItem extends NodeItem {
     }
 
     public abstract void updatePositionVars();
+
+    public abstract NodeConnectorItem setText(String text);
 
     public Type getType() {
         return type;

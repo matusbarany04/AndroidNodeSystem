@@ -10,11 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaTransparent">
         <activity
-            android:name="com.msvastudios.trick_builder.MainActivity"
+            android:name=".node_editor.NodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.JavaTransparent" />
         <activity
-            android:name="com.msvastudios.trick_builder.SplashActivity"
+            android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

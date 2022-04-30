@@ -1,12 +1,12 @@
 package com.msvastudios.trick_builder.node_editor;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -14,7 +14,7 @@ import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;
 import com.msvastudios.trick_builder.node_editor.node.NodeManager;
-import com.msvastudios.trick_builder.node_editor.node_editor_settings.SettingsContainer;
+import com.msvastudios.trick_builder.node_editor.activity_components.SettingsContainer;
 
 public class NodeActivity extends AppCompatActivity {
     DisplayMetrics displayMetrics;
@@ -58,8 +58,9 @@ public class NodeActivity extends AppCompatActivity {
         });
 
         SettingsContainer container = new SettingsContainer(getApplicationContext());
-//        ConstraintLayout nodeRoot = findViewById(R.id.node_root);
-    //   nodeRoot.addView(container.getSettingsView());
+
+         LinearLayout nodeRoot = findViewById(R.id.node_root);
+         nodeRoot.addView(container.getSettingsView());
 
 
     }

@@ -1,0 +1,30 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="25dp"
+            android:height="25dp"
+            android:viewportWidth="25"
+            android:viewportHeight="25">
+            <group android:name="wrapper_1">
+                <clip-path
+                    android:name="clip0_73_5"
+                    android:pathData="M 0 0 L 25 0 L 25 25 L 0 25 Z"/>
+                <group android:name="group_1">
+                    <path
+                        android:name="path_2"
+                        android:pathData="M 12.5 23.438 C 9.599 23.438 6.817 22.285 4.766 20.234 C 2.715 18.183 1.563 15.401 1.563 12.5 C 1.563 9.599 2.715 6.817 4.766 4.766 C 6.817 2.715 9.599 1.563 12.5 1.563 C 15.401 1.563 18.183 2.715 20.234 4.766 C 22.285 6.817 23.438 9.599 23.438 12.5 C 23.438 15.401 22.285 18.183 20.234 20.234 C 18.183 22.285 15.401 23.438 12.5 23.438 Z M 12.5 25 C 15.815 25 18.995 23.683 21.339 21.339 C 23.683 18.995 25 15.815 25 12.5 C 25 9.185 23.683 6.005 21.339 3.661 C 18.995 1.317 15.815 0 12.5 0 C 9.185 0 6.005 1.317 3.661 3.661 C 1.317 6.005 0 9.185 0 12.5 C 0 15.815 1.317 18.995 3.661 21.339 C 6.005 23.683 9.185 25 12.5 25 Z"
+                        android:fillColor="#000"
+                        android:strokeWidth="1"/>
+                    <path
+                        android:name="path_3"
+                        android:pathData="M 9.798 7.898 C 9.926 7.833 10.07 7.803 10.213 7.814 C 10.356 7.824 10.494 7.874 10.611 7.958 L 16.08 11.864 C 16.181 11.936 16.264 12.032 16.32 12.142 C 16.377 12.253 16.407 12.376 16.407 12.5 C 16.407 12.624 16.377 12.747 16.32 12.858 C 16.264 12.968 16.181 13.064 16.08 13.136 L 10.611 17.042 C 10.494 17.126 10.357 17.176 10.213 17.186 C 10.07 17.197 9.927 17.167 9.799 17.102 C 9.671 17.036 9.564 16.936 9.489 16.814 C 9.414 16.691 9.375 16.55 9.375 16.406 L 9.375 8.594 C 9.375 8.45 9.414 8.309 9.489 8.187 C 9.564 8.064 9.671 7.964 9.798 7.898 Z"
+                        android:fillColor="#000"
+                        android:strokeWidth="1"/>
+                </group>
+            </group>
+        </vector>
+    </aapt:attr>
+</animated-vector>

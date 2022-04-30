@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:clipChildren="false"
     android:background="@color/white"
+    android:clipChildren="false"
+    tools:context=".MainActivity"
 
     >
     <!--        android:background="#232323"-->
@@ -42,7 +42,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-
         </RelativeLayout>
 
 
@@ -52,10 +51,23 @@
         android:id="@+id/ping"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <LinearLayout
+        android:id="@+id/node_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50px"
+        android:layout_marginRight="50px"
+        android:minHeight="400px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

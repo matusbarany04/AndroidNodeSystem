@@ -7,17 +7,30 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaTransparent">
         <activity
-            android:name=".node_editor.NodeActivity"
+            android:name=".trick_listing.groups.GroupListActivity"
             android:exported="false" />
+        <activity
+            android:name=".generator_editor.GeneratorEditorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".trick_generator.GeneratorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".node_editor.NodeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.JavaTransparent" />
         <activity
             android:name=".SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

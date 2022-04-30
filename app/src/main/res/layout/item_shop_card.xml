@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="#0003A9F4"
+    app:elevation="0dp"
+    android:layout_gravity="center">
+
+    <Button
+        android:id="@+id/item_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/circle"
+        android:text="PUSH"
+        app:elevation="0dp"
+        >
+
+
+    </Button>
+
+</RelativeLayout>

@@ -1,10 +1,10 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-android:shape="rectangle">
+android:shape="oval">
 
     <solid android:color="#61855B" />
-    <corners
-        android:topLeftRadius="@dimen/node_radius"
-        android:topRightRadius="@dimen/node_radius"
-    />
+<!--    <corners-->
+<!--        android:topLeftRadius="@dimen/node_radius"-->
+<!--        android:topRightRadius="@dimen/node_radius"-->
+<!--    />-->
 
 </shape>

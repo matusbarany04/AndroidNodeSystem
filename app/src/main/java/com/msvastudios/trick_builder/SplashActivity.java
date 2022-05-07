@@ -37,9 +37,9 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
 
             Intent intent = new Intent(SplashActivity.this, GeneratorActivity.class);
-            overridePendingTransition(0, 0);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
+            overridePendingTransition(0, 0);
             finish();
 
         }, SPLASH_SCREEN_TIME_OUT);

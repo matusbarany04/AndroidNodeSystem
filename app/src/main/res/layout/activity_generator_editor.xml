@@ -8,6 +8,7 @@
     tools:context=".trick_generator.GeneratorActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/generator_editor_backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/floating_button_margin"
@@ -18,6 +19,7 @@
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/generator_editor_groupsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/floating_button_margin"

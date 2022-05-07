@@ -28,7 +28,7 @@ public class NodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_node);
 
 
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         dragArea = findViewById(R.id.dragArea);
 

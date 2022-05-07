@@ -17,46 +17,51 @@ import java.util.List;
 
 public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> {
 
-        private List<SliderItem> data;
+    OnItemClickListener listener;
+    private List<SliderItem> data;
 
-        public AlgosAdapter(List<SliderItem> data) {
-            this.data = data;
-        }
+    public AlgosAdapter(List<SliderItem> data, OnItemClickListener listener) {
+        this.data = data;
+        this.listener = listener;
+    }
 
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View v = inflater.inflate(R.layout.item_shop_card, parent, false);
-            return new ViewHolder(v);
-        }
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.item_shop_card, parent, false);
+        return new ViewHolder(v);
+    }
 
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 //            Glide.with(holder.itemView.getContext())
 //                    .load(data.get(position).getImage())
 //                    .into(holder.image);
-            if (position == 1){
-                holder.button.setTransitionName("element");
-
-            }
-
+        if (position == 1) {
+            holder.button.setTransitionName("element");
         }
 
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
+        holder.button.setText(data.get(position).getName());
+        holder.button.setOnClickListener(view -> listener.onItemClicked(data.get(holder.getAdapterPosition())));
+    }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemCount() {
+        return data.size();
+    }
 
-            private ImageView image;
-            Button button;
-            public ViewHolder(View itemView) {
-                super(itemView);
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        Button button;
+        private ImageView image;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
 //                image = itemView.findViewById(R.id.image);
-                button = itemView.findViewById(R.id.item_button);
-            }
+            button = itemView.findViewById(R.id.item_button);
+
         }
     }
+}
 

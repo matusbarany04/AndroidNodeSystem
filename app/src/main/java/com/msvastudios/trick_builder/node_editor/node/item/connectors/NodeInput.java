@@ -18,15 +18,15 @@ public class NodeInput extends NodeConnectorItem {
     Context context;
     int width, height;
     ImageView imagePoint;
-    NodeCallbackListener listener;
+
     Node parent;
     int order;
     Type type;
     String data;
 
     public NodeInput(Context context, NodeCallbackListener listener, Node parent, int order, Type type) {
-        super(context, parent, order, type);
-        this.listener = listener;
+        super(context, parent, order, type, listener);
+
         this.context = context;
         this.type = type;
         this.width = NodeDimensionsCalculator.getInnerNodeWidth();

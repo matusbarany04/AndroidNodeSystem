@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
@@ -19,6 +20,11 @@ public class EndNode extends Node {
         getNav().setColor(R.color.design_default_color_on_primary).setTitle("End");
     }
 
+
+    @Override
+    public CustomNodes getType() {
+        return CustomNodes.END_NODE;
+    }
 
     @Override
     public void process() {

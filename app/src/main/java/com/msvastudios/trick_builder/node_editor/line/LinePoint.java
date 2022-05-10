@@ -3,13 +3,19 @@ package com.msvastudios.trick_builder.node_editor.line;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeConnectorItem;
 
+import java.util.UUID;
+
 public class LinePoint {
     int x,y;
     Node parent;
+    String id;
+
     public LinePoint(int x, int y, Node node){
         this.x = x;
         this.y = y;
         parent = node;
+        id = UUID.randomUUID().toString();
+
     }
 
     public LinePoint(LinePoint point, Node node){
@@ -23,6 +29,21 @@ public class LinePoint {
         this.y = y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     NodeConnectorItem connectorItem;
     public void setItem(NodeConnectorItem connectorItem){

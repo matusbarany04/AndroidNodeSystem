@@ -54,8 +54,6 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 //        getWindow().getSharedElementReturnTransition().setDuration(1000)
 //                .setInterpolator(new DecelerateInterpolator());
 
-
-
         DiscreteScrollView scrollView = findViewById(R.id.picker);
         scrollView.setAdapter(new AlgosAdapter(Arrays.asList(
                         new SliderItem(1, "Everyday Candle", "$12.00 USD", R.drawable.delete),

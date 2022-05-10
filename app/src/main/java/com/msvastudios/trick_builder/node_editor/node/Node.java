@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewOutlineProvider;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
+
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
@@ -23,6 +25,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
@@ -35,23 +38,22 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
     NodeCallbackListener listener;
     String id;
-
+    RelativeLayout innerNode;
     private RelativeLayout node;
     private int xDelta, yDelta;
     private int leftMargin, topMargin;
     private int nodeWidth, nodeHeight = 700;
     private int nodeItemOrder = 1;
+    private int inputDataReceived = 0;
 
 
-    RelativeLayout innerNode;
-
-    public Node(Context context, int leftMargin, int topMargin, LinesView linesView, NodeCallbackListener listener){
+    public Node(Context context, Integer leftMargin, Integer topMargin, @Nullable LinesView linesView, @Nullable NodeCallbackListener listener) {
         this.leftMargin = leftMargin;
         this.topMargin = topMargin;
         nodeWidth = NodeDimensionsCalculator.nodeWidth();
 
-        this.listener = Objects.requireNonNull(listener);
-        this.linesView = Objects.requireNonNull(linesView);
+        this.listener = listener;
+        this.linesView = linesView;
         this.context = Objects.requireNonNull(context);
 
         nodeOutput = new ArrayList<>();
@@ -63,53 +65,80 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         init(context);
     }
 
+    public void setLinesView(LinesView linesView) {
+        this.linesView = linesView;
+    }
+
+    public void setListener(NodeCallbackListener listener) {
+        this.listener = listener;
+        addListener(nodeInput);
+        addListener(nodeOutput);
+    }
+    private <T extends NodeConnectorItem> void addListener(ArrayList<T> list){
+        for (T item : list) {
+            item.setListener(listener);
+        }
+    }
+
+
+
+
     public ArrayList<NodeOutput> getNodeOutput() {
         return nodeOutput;
     }
 
+    /**
+     * @return all inputs of node
+     */
     public ArrayList<NodeInput> getNodeInput() {
         return nodeInput;
     }
 
-    public NodeOutput addNodeOutput(Type type){
+    public NodeOutput addNodeOutput(Type type) {
         NodeOutput output = new NodeOutput(context, listener, this, nodeItemOrder, type);
         nodeOutput.add(output);
         nodeItemOrder++;
-        return  output;
+        return output;
     }
 
     public LinesView getLinesView() {
         return linesView;
     }
 
-    public <T extends ParameterItem> ParameterItem addNodeParam(Class<T> sup){
+    public void setNodeOutput(ArrayList<NodeOutput> nodeOutput) {
+        this.nodeOutput = nodeOutput;
+    }
+
+    public void setNodeInput(ArrayList<NodeInput> nodeInput) {
+        this.nodeInput = nodeInput;
+    }
+
+    public <T extends ParameterItem> ParameterItem addNodeParam(Class<T> sup) {
         //nodeOutput.add(new NodeOutput(context, listener, this, 2, type));
+        try {
+            String myClassName = sup.getName();
 
+            Class<?> myClass = Class.forName(myClassName);
 
-            try {
-                String myClassName = sup.getName();
+            Constructor<T> ctr = (Constructor<T>) myClass.getConstructors()[0];
 
-                Class<?> myClass  = Class.forName(myClassName);
+            T object = ctr.newInstance(context, this, nodeItemOrder);
 
-                Constructor<T> ctr = (Constructor<T>) myClass.getConstructors()[0];
+            nodeParams.add(object);
 
-                T object = ctr.newInstance(context, this, nodeItemOrder);
-
-                nodeParams.add(object);
-
-                nodeItemOrder++;
-                return object;
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            nodeItemOrder++;
+            return object;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
 
-    public NodeInput addNodeInput(Type type){
+    public NodeInput addNodeInput(Type type) {
         NodeInput input = new NodeInput(context, listener, this, nodeItemOrder, type);
         nodeInput.add(input);
-        nodeItemOrder++ ;
+        nodeItemOrder++;
         return input;
     }
 
@@ -117,14 +146,16 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         this.listener = listener;
     }
 
+    public abstract CustomNodes getType();
 
     public NodeInput hoveringOn(int innerX, int innerY) {
+
         for (NodeInput input : nodeInput) {
-//            System.out.println(innerY + " " + (input.getOrder() + 1) * NodeDimensionsCalculator.nodeItemHeight());
+
             if (innerY > input.getOrder() * NodeDimensionsCalculator.nodeItemHeight()) {
-//                System.out.println("yes");
+
                 if (innerY < (input.getOrder() + 1) * NodeDimensionsCalculator.nodeItemHeight()) {
-//                    System.out.println("absolute yes!!");
+
                     return input;
                 }
             }
@@ -132,7 +163,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         return null;
     }
 
-    public boolean isStartingNode(){
+    public boolean isStartingNode() {
         return nodeInput.size() == 0;
     }
 
@@ -165,13 +196,12 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
 
     }
-    public void build(){
+
+
+
+    public void build() {
 
         for (NodeInput node : nodeInput) {
-            innerNode.addView(node.getView());
-        }
-
-        for (NodeOutput node : nodeOutput) {
             innerNode.addView(node.getView());
         }
 
@@ -179,16 +209,20 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
             innerNode.addView(node.getView());
         }
 
-        nodeHeight = NodeDimensionsCalculator.nodeItemHeight() * (nodeItemOrder+1) + 50;
+        for (NodeOutput node : nodeOutput) {
+            innerNode.addView(node.getView());
+        }
+
+        nodeHeight = NodeDimensionsCalculator.nodeItemHeight() * (nodeItemOrder + 1) + 50;
 
         node.setLayoutParams(new RelativeLayout.LayoutParams(nodeWidth, nodeHeight));
 
         RelativeLayout.LayoutParams innerViewParams = new RelativeLayout.LayoutParams(nodeWidth - 50, nodeHeight - 50);
         int innerMargin = NodeDimensionsCalculator.innerNodeMargin() / 2;
-        innerViewParams.setMargins(innerMargin,innerMargin, 0, 0);
+        innerViewParams.setMargins(innerMargin, innerMargin, 0, 0);
         innerNode.setLayoutParams(innerViewParams);
 
-        setPosition(leftMargin,topMargin);
+        setPosition(leftMargin, topMargin);
     }
 
     private void updatePositionVars() {
@@ -244,9 +278,9 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         return nodeHeight;
     }
 
-    public NodeInput getNodeInputBy(LinePoint point){
-        for (NodeInput input: getNodeInput()) {
-            if (input.getPoint().equals(point)){
+    public NodeInput getNodeInputBy(LinePoint point) {
+        for (NodeInput input : getNodeInput()) {
+            if (input.getPoint().equals(point)) {
                 return input;
             }
         }
@@ -291,16 +325,16 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
         return true;
     }
+
     @Override
-    public void onItemConnect(NodeConnectorItem item){
+    public void onItemConnect(NodeConnectorItem item) {
 
     }
 
-    private int inputDataReceived= 0;
     @Override
-    public void dataInInputSent(String data, NodeInput input){
+    public void dataInInputSent(String data, NodeInput input) {
         inputDataReceived++;
-        if (inputDataReceived  >= getNodeInput().size()){
+        if (inputDataReceived >= getNodeInput().size()) {
             process();
             sendData();
             inputDataReceived = 0;

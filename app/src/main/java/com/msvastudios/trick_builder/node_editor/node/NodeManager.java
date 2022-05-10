@@ -2,6 +2,7 @@ package com.msvastudios.trick_builder.node_editor.node;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -9,15 +10,13 @@ import android.widget.RelativeLayout;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
-import com.msvastudios.trick_builder.node_editor.node.custom_nodes.DummyNode;
-import com.msvastudios.trick_builder.node_editor.node.custom_nodes.EndNode;
-import com.msvastudios.trick_builder.node_editor.node.custom_nodes.RepeaterNode;
-import com.msvastudios.trick_builder.node_editor.node.custom_nodes.TrickArrayNode;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -30,6 +29,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     RelativeLayout dragArea;
     int nodeWidth = 500;
     NodeOutput draggingOutput;
+    NodesSaver nodesSaver;
 
     public NodeManager(Context context, LinesView linesView, RelativeLayout dragArea) {
         NodeDimensionsCalculator.init(context);
@@ -37,24 +37,54 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         nodeList = new HashMap<>();
         this.linesView = Objects.requireNonNull(linesView);
         this.dragArea = dragArea;
-
+        nodesSaver = new NodesSaver(context);
 
         // TODO presunut to potom do main activity a pridávať dynamicky
-        addNode(EndNode.class,10,0);
-
-        addNode(DummyNode.class,0,500);
-
-        addNode(RepeaterNode.class,100,300);
-
-        addNode(RepeaterNode.class,200,200);
-
-        addNode(TrickArrayNode.class,200,600);
+//        addNode(EndNode.class,10,0);
+//
+//        addNode(DummyNode.class,0,500);
+//
+//        addNode(RepeaterNode.class,100,300);
+//
+//        addNode(RepeaterNode.class,200,200);
+//
+//        addNode(TrickArrayNode.class,200,600);
 
         this.linesView.setOnTouchListener(this);
         // dragArea.addView(node2.getNode());
 
         this.linesView = linesView;
+
     }
+
+    public void loadSavedNodeNetwork(String id){ // TODO make faster
+        Pair<ArrayList<Node>, HashMap<String, String>> out = nodesSaver.readNodes(id);;
+        ArrayList<Node> nodes = out.first;
+        HashMap<String, String> lines = out.second;
+
+        for (Node node : nodes) {
+            node.setLinesView(linesView);
+            node.setListener(this);
+            nodeList.put(node.getId(), node);
+            dragArea.addView(node.getNode());
+
+            for (Node other : nodes) {
+
+             lines.get(other.getNodeOutput().get(0).getID()); // prepísať na array list String ArrayList a odisť rýchlo z tohto pekla <*__*>
+                        if (output.getID().equals(input.getID())){ // každý má vlastné id a musím do serialize objektu hodiť aj druhé id i guess
+                            linesView.addLine(new Line(output.getPoint(), input.getPoint()));
+                        }
+
+          }
+        }
+    }
+
+    public void saveCurrentNodes(String id){
+        nodesSaver.internalStorageSaver.clear();
+        nodesSaver.saveNodes(new ArrayList<Node>(nodeList.values()), id, linesView.getLines());
+    }
+
+
 
     public <T extends Node> void addNode(Class<T> sup, int leftMargin, int topMargin) {
         try {

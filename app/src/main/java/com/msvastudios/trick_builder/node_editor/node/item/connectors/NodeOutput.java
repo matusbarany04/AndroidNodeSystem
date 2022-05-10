@@ -21,16 +21,17 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
     Context context;
 
     ImageView imagePoint;
-    NodeCallbackListener listener;
+
     Type type;
     public NodeOutput(Context context, NodeCallbackListener listener, Node parent, int order, Type type) {
-        super(context, parent, order,type);
-        this.listener = listener;
+        super(context, parent, order,type, listener);
+
         this.context = context;
         this.type = type;
 //        this.parent = parent;
         init(null, 0);
     }
+
 
     @Override
     public void updatePositionVars(){
@@ -75,6 +76,10 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         return this;
     }
 
+    /**
+     *
+     * @param data any type of data that is expecting the other side
+     */
     public void sendData(String data){
         if (this.getPoint() != null) { // ak nodeOutput má point (point by mal mať ale stále)
             System.out.println("node dummy!");
@@ -88,7 +93,7 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-            listener.onOutputDragged(parent,this);
+            nodeCallbackListener.onOutputDragged(parent,this);
         }
         return false;
     }

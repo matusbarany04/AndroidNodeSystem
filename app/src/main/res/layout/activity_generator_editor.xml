@@ -101,6 +101,7 @@
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@id/generator_editor_backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -115,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="0dp"
-                android:src="@drawable/settings"
+                android:src="@drawable/options"
                 app:elevation="0dp">
 
             </com.google.android.material.floatingactionbutton.FloatingActionButton>

@@ -72,6 +72,10 @@ public class LinesView extends View {
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
+    public ArrayList<Line> getLines() {
+        return lines;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

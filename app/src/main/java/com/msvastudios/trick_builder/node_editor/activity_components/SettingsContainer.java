@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.DrawableRes;
 
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ public class SettingsContainer {
     ArrayList<ImageButton> buttonList;
     ImageView background;
     boolean closed = false;
+    int buttonSize = 160;
+    int buttonMargin = 10;
 
     public SettingsContainer(Context context) {
         this.context = context;
@@ -31,9 +34,9 @@ public class SettingsContainer {
         container = new RelativeLayout(context);
         LinearLayout.LayoutParams contParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-//        container.setOrientation(LinearLayout.VERTICAL);
+
         background = new ImageView(context);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(buttonSize, buttonSize * 4 + buttonMargin * 3 );
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(buttonSize, buttonSize * 4 + buttonMargin * 3);
         background.setLayoutParams(params);
         background.setBackgroundResource(R.drawable.settings_background);
         container.addView(background);
@@ -49,19 +52,9 @@ public class SettingsContainer {
                 animate();
             }
         });
-        //        Inflater inflater;
-//
-//        inflater.inflate(R.layout.custom_button, mLinearLayout, true);
-
-
-//        FloatingActionButton mainButton = new FloatingActionButton(context);
-//        LinearLayout.LayoutParams mainButtonParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        mainButton.setLayoutParams(mainButtonParams);
-//        container.addView(mainButton);
 
     }
-    int buttonSize = 160;
-    int buttonMargin = 10;
+
     public void animate() {
         int lastDuration = 500;
         int firstDuration = lastDuration / buttonList.size();
@@ -69,9 +62,9 @@ public class SettingsContainer {
 
         int i = 1;
         int state = closed ? 0 : -1;
-        if (!closed){
+        if (!closed) {
             background.animate()
-                    .translationY(- (buttonList.size() * (buttonSize + buttonMargin))/2)
+                    .translationY(-(buttonList.size() * (buttonSize + buttonMargin)) / 2)
                     .scaleX(0.5f)
                     .scaleY(buttonSize * 1.0f / ((buttonSize + buttonMargin) * 4))
                     .setDuration(lastDuration).start();
@@ -79,7 +72,7 @@ public class SettingsContainer {
 //                    .setDuration(200)
 //                    .setStartDelay(lastDuration - firstDuration)
 //                    .start();
-        }else {
+        } else {
             background.animate()
                     .translationY(0)
                     .scaleX(1f)
@@ -90,8 +83,8 @@ public class SettingsContainer {
 
         for (ImageButton button : buttonList) {
             button.animate()
-                    .translationY(state * i * (buttonSize  + buttonMargin))
-                    .setDuration(( firstDuration * i))
+                    .translationY(state * i * (buttonSize + buttonMargin))
+                    .setDuration((firstDuration * i))
                     .setStartDelay(-1 * state * (lastDuration - (firstDuration * i))).start();
             i++;
         }
@@ -111,12 +104,15 @@ public class SettingsContainer {
         button.setBackgroundResource(R.drawable.settings_button);
         button.setImageResource(image);
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(buttonSize , buttonSize );
-        params.topMargin = order * (buttonSize  + buttonMargin);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(buttonSize, buttonSize);
+        params.topMargin = order * (buttonSize + buttonMargin);
         button.setLayoutParams(params);
 
         container.addView(button);
 
         return button;
+    }
+    public void setClickListenerOnButton(int pos , View.OnClickListener listener){
+        buttonList.get(pos).setOnClickListener(listener);
     }
 }

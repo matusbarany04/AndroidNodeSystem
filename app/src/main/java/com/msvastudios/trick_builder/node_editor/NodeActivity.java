@@ -15,11 +15,16 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;
 import com.msvastudios.trick_builder.node_editor.node.NodeManager;
 import com.msvastudios.trick_builder.node_editor.activity_components.SettingsContainer;
+import com.msvastudios.trick_builder.node_editor.node.NodesSaver;
+import com.msvastudios.trick_builder.node_editor.node.custom_nodes.DummyNode;
+import com.msvastudios.trick_builder.node_editor.node.custom_nodes.RepeaterNode;
 
 public class NodeActivity extends AppCompatActivity {
     DisplayMetrics displayMetrics;
 
     RelativeLayout dragArea;
+
+    String sessionId = "myFirstProgram";
 
 
     @Override
@@ -57,10 +62,38 @@ public class NodeActivity extends AppCompatActivity {
             }
         });
 
+
+        FloatingActionButton nodeBackButton = findViewById(R.id.nodeBackButton);
+        nodeBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+
+                overridePendingTransition(0,0);
+            }
+        });
         SettingsContainer container = new SettingsContainer(getApplicationContext());
 
          LinearLayout nodeRoot = findViewById(R.id.node_root);
          nodeRoot.addView(container.getSettingsView());
+
+
+        // retrackable menu buttons
+        container.setClickListenerOnButton(0, view -> {
+            //call add activity
+            //with some callback
+            nodeManager.addNode(RepeaterNode.class, 200,200);
+
+        });
+        container.setClickListenerOnButton(1, view -> {
+            // TODO start deletion mode of nodes add deletion of nodes
+            nodeManager.loadSavedNodeNetwork("example2");
+        });
+
+        container.setClickListenerOnButton(2, view -> {
+//                nodeManager.play();
+            nodeManager.saveCurrentNodes("example2");
+        });
 
 
     }

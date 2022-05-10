@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
@@ -22,6 +23,11 @@ public class TrickArrayNode extends Node {
         getNav().setColor(R.color.teal_200).setTitle("List picker");
 
         build();
+    }
+
+    @Override
+    public CustomNodes getType() {
+        return null;
     }
 
     @Override

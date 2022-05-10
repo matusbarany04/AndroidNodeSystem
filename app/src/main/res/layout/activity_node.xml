@@ -9,6 +9,16 @@
     tools:context=".MainActivity"
 
     >
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nodeBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back" />
+
     <!--        android:background="#232323"-->
 
     <FrameLayout
@@ -65,8 +75,7 @@
         android:layout_marginRight="50px"
         android:minHeight="400px"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
     </LinearLayout>
 

@@ -4,15 +4,18 @@ import android.content.Context;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
+import java.util.function.Supplier;
+
 public class DummyNode extends Node {
 
 
-    public DummyNode(Context context, int leftMargin, int topMargin, LinesView linesView, NodeCallbackListener listener) {
+    public DummyNode(Context context, Integer leftMargin, Integer topMargin, LinesView linesView, NodeCallbackListener listener) {
         super(context, leftMargin, topMargin, linesView, listener);
 
         NodeOutput reference = addNodeOutput(Type.STRING);
@@ -22,6 +25,13 @@ public class DummyNode extends Node {
         build();
     }
 
+
+
+    @Override
+    public CustomNodes getType() {
+        return CustomNodes.DUMMY_NODE;
+    }
+
     @Override
     public void process() {
 
@@ -29,7 +39,7 @@ public class DummyNode extends Node {
 
     @Override
     public void sendData() {
-        for (NodeOutput nodeOutput : getNodeOutput()) { // prellopujeme všetko svoje outputy // potom to tu bude pre každý jedinečné
+        for (NodeOutput nodeOutput : getNodeOutput()) { // preloopujeme všetko svoje outputy // potom to tu bude pre každý jedinečné
                 nodeOutput.sendData("smh");
         }
     }

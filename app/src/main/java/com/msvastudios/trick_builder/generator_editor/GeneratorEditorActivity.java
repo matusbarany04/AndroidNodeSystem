@@ -150,6 +150,7 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
     @Override
     public void onItemClicked(SliderItem item) {
         Intent intent = new Intent(GeneratorEditorActivity.this, NodeActivity.class);
+        intent.putExtra(getString(R.string.NodeActivityExtraId), item.getName());
         startActivity(intent);
 
         overridePendingTransition(0,0);

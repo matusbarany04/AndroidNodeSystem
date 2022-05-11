@@ -37,6 +37,10 @@ public class NodeInput extends NodeConnectorItem {
         init(null, 0);
     }
 
+    @Override
+    public String getID() {
+        return "NodeInput" + super.getID();
+    }
 
     @Override
     public void updatePositionVars() {

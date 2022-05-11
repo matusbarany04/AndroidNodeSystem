@@ -32,6 +32,10 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         init(null, 0);
     }
 
+    @Override
+    public String getID() {
+        return "NodeOutput" + super.getID();
+    }
 
     @Override
     public void updatePositionVars(){

@@ -344,7 +344,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
 
     public String getId() {
-        return id;
+        return "Node" + id;
     }
 
     public abstract void process();

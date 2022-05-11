@@ -25,14 +25,15 @@ public class NodeActivity extends AppCompatActivity {
     RelativeLayout dragArea;
 
     String sessionId = "myFirstProgram";
-
+    String algoName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_node);
 
-
+        this.algoName = getIntent().getStringExtra(getString(R.string.NodeActivityExtraId));
+        if (algoName == null) algoName = "smh";
 //        getSupportActionBar().hide();
 
         dragArea = findViewById(R.id.dragArea);
@@ -51,7 +52,8 @@ public class NodeActivity extends AppCompatActivity {
 
 
         NodeDimensionsCalculator.getStatusBarHeight(this);
-        NodeManager nodeManager = new NodeManager(this, linesView, dragArea );
+        NodeManager nodeManager = new NodeManager(this, linesView, dragArea);
+        nodeManager.loadSavedNodeNetwork(algoName);
 
         FloatingActionButton floatingActionButton = findViewById(R.id.ping);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -83,16 +85,15 @@ public class NodeActivity extends AppCompatActivity {
             //call add activity
             //with some callback
             nodeManager.addNode(RepeaterNode.class, 200,200);
-
         });
+
         container.setClickListenerOnButton(1, view -> {
             // TODO start deletion mode of nodes add deletion of nodes
-            nodeManager.loadSavedNodeNetwork("example2");
         });
 
         container.setClickListenerOnButton(2, view -> {
 //                nodeManager.play();
-            nodeManager.saveCurrentNodes("example2");
+            nodeManager.saveCurrentNodes(algoName);
         });
 
 

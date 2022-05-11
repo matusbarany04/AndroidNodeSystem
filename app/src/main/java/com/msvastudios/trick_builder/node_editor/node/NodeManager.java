@@ -6,6 +6,7 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
@@ -57,10 +58,10 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
     }
 
-    public void loadSavedNodeNetwork(String id){ // TODO make faster
-        Pair<ArrayList<Node>, HashMap<String, String>> out = nodesSaver.readNodes(id);;
+    public void loadSavedNodeNetwork(String id) { // TODO make a lot faster
+        Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> out = nodesSaver.readNodes(id);
         ArrayList<Node> nodes = out.first;
-        HashMap<String, String> lines = out.second;
+        HashMap<String, ArrayList<String>> lines = out.second;
 
         for (Node node : nodes) {
             node.setLinesView(linesView);
@@ -68,29 +69,35 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
             nodeList.put(node.getId(), node);
             dragArea.addView(node.getNode());
 
-            for (Node other : nodes) {
-
-             lines.get(other.getNodeOutput().get(0).getID()); // prepísať na array list String ArrayList a odisť rýchlo z tohto pekla <*__*>
-                        if (output.getID().equals(input.getID())){ // každý má vlastné id a musím do serialize objektu hodiť aj druhé id i guess
-                            linesView.addLine(new Line(output.getPoint(), input.getPoint()));
+            ArrayList<String> endsPoints = lines.get(node.getNodeOutput().get(0).getPoint().getId());
+            if (endsPoints != null) {
+                for (String endPointId : endsPoints) {
+                    for (Node other : nodes) {
+                        for (NodeOutput nodeOutput : node.getNodeOutput()) {
+                            for (NodeInput otherInput : other.getNodeInput()) {
+                                if (endPointId.equals(otherInput.getPoint().getId())) {
+                                    linesView.addLine(new Line(nodeOutput.getPoint(), other.getNodeInput().get(0).getPoint()));
+                                }
+                            }
                         }
+                    }
+                }
+            }
 
-          }
         }
     }
 
-    public void saveCurrentNodes(String id){
+    public void saveCurrentNodes(String id) {
         nodesSaver.internalStorageSaver.clear();
         nodesSaver.saveNodes(new ArrayList<Node>(nodeList.values()), id, linesView.getLines());
     }
-
 
 
     public <T extends Node> void addNode(Class<T> sup, int leftMargin, int topMargin) {
         try {
             String myClassName = sup.getName();
 
-            Class<?> myClass  = Class.forName(myClassName);
+            Class<?> myClass = Class.forName(myClassName);
 
             Constructor<T> ctr = (Constructor<T>) myClass.getConstructors()[0];
 
@@ -118,7 +125,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     public int onOutputDragged(Node node, NodeOutput nodeOutput) {
         draggingOutput = nodeOutput;
 //        NodeOutput nodeOutput = node.nodeOutput.get(node.getId());
-        Log.d("output dragged", "dragging!!!");
+//        Log.d("output dragged", "dragging!!!");
         helpLine = new Line(nodeOutput.getPoint(), new LinePoint(nodeOutput.getPoint(), node));
         linesView.addLine(helpLine);
         return 0;

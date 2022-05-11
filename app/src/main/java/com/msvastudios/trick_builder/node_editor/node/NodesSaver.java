@@ -91,8 +91,7 @@ public class NodesSaver {
         return true;
     }
 
-
-    public Pair<ArrayList<Node>, HashMap<String, String>> readNodes(String networkId) {
+    public Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> readNodes(String networkId) {
         //reading full file and dividing it to individual algorithms
         ArrayList<String> nodeNetworks = new ArrayList<>(Arrays.asList(internalStorageSaver.read().split(SerializedDividers.NODE_NETWORK.getDivider())));
         HashMap<String, String> serializedNodeNetwork = new HashMap<>();
@@ -100,44 +99,62 @@ public class NodesSaver {
         //looping trough network to find desired network
         for (String nodeNetwork : nodeNetworks) {
             System.out.println(nodeNetwork);
-            ArrayList<String> data = new ArrayList<>(Arrays.asList(
-                    nodeNetwork.split(SerializedDividers.NODE.getDivider() + SerializedDividers.NODE.getDivider())));
+            try{
 
-            String id = data.get(0);
-            String nodeNetworkData = data.get(1);
+                ArrayList<String> data = new ArrayList<>(Arrays.asList(
+                        nodeNetwork.split(SerializedDividers.NODE.getDivider() + SerializedDividers.NODE.getDivider())));
+
+                String id = data.get(0);
+                String nodeNetworkData = data.get(1);
 
 
-            serializedNodeNetwork.put(id, nodeNetworkData);
+                serializedNodeNetwork.put(id, nodeNetworkData);
+
+            }catch (IndexOutOfBoundsException | NullPointerException ignored){}
         }
 
         //data of certain network
         String networkData = serializedNodeNetwork.get(networkId);
-        String nodes = networkData.split(SerializedDividers.NODE_LINES.getDivider())[0];
-        String lines = networkData.split(SerializedDividers.NODE_LINES.getDivider())[1];
+        HashMap<String, ArrayList<String>> outputHashMap = new HashMap<>();
+        if (networkData != null){
+            String[] dividedData = networkData.split(Pattern.quote(SerializedDividers.NODE_LINES.getDivider()));
+            String nodes = dividedData[0];
+            if(dividedData.length>1){
+                String lines = dividedData[1];
+                outputHashMap = deserializeLines(lines);
+            }
 
-        ArrayList<String> serializedNodes = new ArrayList<>(Arrays.asList(nodes.split(SerializedDividers.NODE.getDivider())));
+            ArrayList<String> serializedNodes = new ArrayList<>(Arrays.asList(nodes.split(SerializedDividers.NODE.getDivider())));
 
-        ArrayList<Node> deserializedNodes = new ArrayList<>();
-        for (String serNode : serializedNodes) {
-            deserializedNodes.add(deserializeNode(serNode, context));
+            ArrayList<Node> deserializedNodes = new ArrayList<>();
+            for (String serNode : serializedNodes) {
+                deserializedNodes.add(deserializeNode(serNode, context));
+            }
+
+
+            return new Pair<>(deserializedNodes, outputHashMap );
         }
-
-
-        return new Pair<ArrayList<Node>, HashMap<String, String>>(deserializedNodes, deserializeLines(lines));
+       return new Pair<>(new ArrayList<>(), new HashMap<>());
     }
 
-    private HashMap<String, String> deserializeLines(String lineData) {
+    private HashMap<String, ArrayList<String>> deserializeLines(String lineData) {
         ArrayList<String> linesString = new ArrayList<>(Arrays.asList(lineData.split(Pattern.quote(SerializedDividers.ARRAY.getDivider()))));
 
-        HashMap<String, String> lines = new HashMap<>();
+        HashMap<String, ArrayList<String>> lines = new HashMap<>();
         for (String lineString : linesString) {
             String startId = lineString.split(Pattern.quote(SerializedDividers.ARRAY_ITEM.getDivider()))[0];
             String endId = lineString.split(Pattern.quote(SerializedDividers.ARRAY_ITEM.getDivider()))[1];
-            lines.put(startId, endId);
+            ArrayList<String> ends =  lines.get(startId);
+            if (ends == null){
+                ends = new ArrayList<>();
+            }
+            ends.add(endId);
+            lines.put(startId, ends);
         }
 
         return lines;
     }
+
 
     private Node deserializeNode(String serNode, Context context) {
         String[] data = serNode.split(Pattern.quote(SerializedDividers.PARAM.getDivider()));
@@ -198,7 +215,7 @@ public class NodesSaver {
         StringBuilder outputs = new StringBuilder();
         for (int i = 0; i < node.nodeOutput.size(); i++) {
             NodeOutput output = node.nodeOutput.get(i);
-            outputs.append(output.id).append(SerializedDividers.ARRAY_ITEM.getDivider()).append(i);
+            outputs.append(output.getPoint().getId()).append(SerializedDividers.ARRAY_ITEM.getDivider()).append(i);
 
             if (i < node.nodeOutput.size() - 1) {
                 outputs.append(SerializedDividers.ARRAY.getDivider());
@@ -208,7 +225,7 @@ public class NodesSaver {
         StringBuilder inputs = new StringBuilder();
         for (int i = 0; i < node.nodeInput.size(); i++) {
             NodeInput input = node.nodeInput.get(i);
-            inputs.append(input.id).append(SerializedDividers.ARRAY_ITEM.getDivider()).append(i);
+            inputs.append(input.getPoint().getId()).append(SerializedDividers.ARRAY_ITEM.getDivider()).append(i);
 
             if (i < node.nodeInput.size() - 1) {
                 inputs.append(SerializedDividers.ARRAY.getDivider());

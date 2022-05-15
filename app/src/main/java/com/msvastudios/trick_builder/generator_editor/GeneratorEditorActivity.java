@@ -37,7 +37,6 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 
         initBottomMenu();
 
-
 //        onItemChanged(data.get(0));
 //        findViewById(R.id.item_btn_rate).setOnClickListener(this);
 //        findViewById(R.id.item_btn_buy).setOnClickListener(this);

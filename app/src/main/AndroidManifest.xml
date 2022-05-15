@@ -11,9 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaTransparent">
         <activity
+            android:name=".algorithm_popup.AlgorithmEditorActivity"
+            android:exported="false" />
+        <activity
             android:name=".trick_listing.popup.TrickInfoPopupActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" />
         <activity
             android:name=".trick_listing.tricks.TrickListActivity"
             android:exported="false" />

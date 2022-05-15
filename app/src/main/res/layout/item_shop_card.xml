@@ -8,14 +8,14 @@
     app:elevation="0dp"
     android:layout_gravity="center">
 
-    <Button
+    <ImageView
         android:id="@+id/item_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/circle"
+        android:src="@drawable/melon_trans"
         android:text="PUSH"
         app:elevation="0dp"
         >
-    </Button>
+    </ImageView>
 
 </RelativeLayout>

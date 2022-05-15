@@ -15,8 +15,6 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;
 import com.msvastudios.trick_builder.node_editor.node.NodeManager;
 import com.msvastudios.trick_builder.node_editor.activity_components.SettingsContainer;
-import com.msvastudios.trick_builder.node_editor.node.NodesSaver;
-import com.msvastudios.trick_builder.node_editor.node.custom_nodes.DummyNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.RepeaterNode;
 
 public class NodeActivity extends AppCompatActivity {

@@ -5,35 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DFDFDF"
-    tools:context=".trick_generator.GeneratorActivity">
+    tools:context=".algorithm_popup.AlgorithmEditorActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/generator_editor_chooseAlgorithmAndGoBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/floating_button_margin"
-        android:src="@drawable/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/generator_editor_groupsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/floating_button_margin"
-        android:src="@drawable/settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-    <TextView
+    <EditText
         android:id="@+id/editor_text"
         android:layout_width="300dp"
-        android:layout_height="200dp"
-
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="Hello this will be the trick"
@@ -41,23 +18,21 @@
         android:textColor="@color/secondary"
         android:textSize="24sp"
         android:transitionName="text"
-
         app:layout_constraintBottom_toTopOf="@+id/picker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.734"></EditText>
 
-        app:layout_constraintVertical_bias="1.0">
-
-    </TextView>
 
     <com.yarolegovich.discretescrollview.DiscreteScrollView
         android:id="@+id/picker"
         android:layout_width="match_parent"
         android:layout_height="270dp"
-
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/editorOptionLinear"
+
+        app:layout_constraintBottom_toTopOf="@id/editorOptionLinear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8">
@@ -69,10 +44,13 @@
         android:id="@+id/editorOptionLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingVertical="20dp"
         android:layout_marginBottom="30dp"
         android:orientation="horizontal"
         android:weightSum="4"
-        android:paddingVertical="20dp"
+
+        android:clipToPadding="false"
+        android:clipToOutline="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -80,7 +58,6 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-
             android:layout_weight="1">
 
         </LinearLayout>
@@ -89,39 +66,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:elevation="10dp"
+
+            android:clipToPadding="false"
+            android:clipToOutline="false"
             android:background="@drawable/generator_editor_setting_background">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/generator_editor_addNewAlgorithm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="0dp"
-                android:src="@drawable/plus"
-                app:elevation="0dp">
-
-            </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-
                 android:id="@id/generator_editor_chooseAlgorithmAndGoBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:alpha="0.5"
+                android:backgroundTint="#00FFFFFF"
                 android:src="@drawable/save"
-                app:elevation="0dp">
-
-            </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/generator_editor_customizeAlgorithm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="0dp"
-                android:src="@drawable/options"
+                app:borderWidth="0dp"
                 app:elevation="0dp">
 
             </com.google.android.material.floatingactionbutton.FloatingActionButton>
@@ -137,6 +96,5 @@
 
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

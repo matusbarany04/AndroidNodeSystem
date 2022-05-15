@@ -3,31 +3,25 @@ package com.msvastudios.trick_builder.generator_editor;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.algorithm_popup.AlgorithmEditorActivity;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
 import com.msvastudios.trick_builder.generator_editor.items.SliderItem;
 import com.msvastudios.trick_builder.node_editor.NodeActivity;
 import com.msvastudios.trick_builder.trick_listing.groups.GroupListActivity;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
-import com.yarolegovich.discretescrollview.InfiniteScrollAdapter;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class GeneratorEditorActivity extends AppCompatActivity implements DiscreteScrollView.OnItemChangedListener<AlgosAdapter.ViewHolder>,View.OnClickListener, OnItemClickListener {
 
@@ -37,23 +31,47 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator_editor);
 
-        FloatingActionButton backButton = findViewById(R.id.generator_editor_backButton);
-        backButton.setOnClickListener(view -> {
-            finish();
-            overridePendingTransition(0,0);
-        });
+        initTopButtonListeners();
 
-        FloatingActionButton groupButton = findViewById(R.id.generator_editor_groupsButton);
-        groupButton.setOnClickListener(view -> {
-            Intent intent = new Intent(GeneratorEditorActivity.this, GroupListActivity.class);
+        initAlgorithmsAdapter();
+
+        initBottomMenu();
+
+
+//        onItemChanged(data.get(0));
+//        findViewById(R.id.item_btn_rate).setOnClickListener(this);
+//        findViewById(R.id.item_btn_buy).setOnClickListener(this);
+//        findViewById(R.id.item_btn_comment).setOnClickListener(this);
+//
+//        findViewById(R.id.home).setOnClickListener(this);
+//        findViewById(R.id.btn_smooth_scroll).setOnClickListener(this);
+//        findViewById(R.id.btn_transition_time).setOnClickListener(this);
+    }
+
+    private void initBottomMenu() {
+        FloatingActionButton addButton = findViewById(R.id.generator_editor_addNewAlgorithm);
+        addButton.setOnClickListener(view -> {
+            Intent intent = new Intent(GeneratorEditorActivity.this, AlgorithmEditorActivity.class);
+            intent.putExtra("buttonName", "hey");
             startActivity(intent);
             overridePendingTransition(0,0);
         });
 
-//        getWindow().getSharedElementEnterTransition().setDuration(1000);
-//        getWindow().getSharedElementReturnTransition().setDuration(1000)
-//                .setInterpolator(new DecelerateInterpolator());
+        FloatingActionButton chooseAndGoBackButton = findViewById(R.id.generator_editor_chooseAlgorithmAndGoBack);
+        chooseAndGoBackButton .setOnClickListener(view -> {
+            Intent intent = new Intent(GeneratorEditorActivity.this, GroupListActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        });
+        FloatingActionButton customizeButton = findViewById(R.id.generator_editor_customizeAlgorithm);
+        customizeButton.setOnClickListener(view -> {
+            Intent intent = new Intent(GeneratorEditorActivity.this, GroupListActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        });
+    }
 
+    private void initAlgorithmsAdapter() {
         DiscreteScrollView scrollView = findViewById(R.id.picker);
         scrollView.setAdapter(new AlgosAdapter(Arrays.asList(
                         new SliderItem(1, "Everyday Candle", "$12.00 USD", R.drawable.delete),
@@ -62,8 +80,6 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 
             )
         );
-
-
         scrollView.addOnItemChangedListener(this);
         scrollView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
@@ -85,15 +101,21 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
         scrollView.setItemTransformer(new ScaleTransformer.Builder()
                 .setMinScale(0.7f)
                 .build());
+    }
 
-//        onItemChanged(data.get(0));
-//        findViewById(R.id.item_btn_rate).setOnClickListener(this);
-//        findViewById(R.id.item_btn_buy).setOnClickListener(this);
-//        findViewById(R.id.item_btn_comment).setOnClickListener(this);
-//
-//        findViewById(R.id.home).setOnClickListener(this);
-//        findViewById(R.id.btn_smooth_scroll).setOnClickListener(this);
-//        findViewById(R.id.btn_transition_time).setOnClickListener(this);
+    private void initTopButtonListeners() {
+        FloatingActionButton backButton = findViewById(R.id.generator_editor_chooseAlgorithmAndGoBack);
+        backButton.setOnClickListener(view -> {
+            finish();
+            overridePendingTransition(0,0);
+        });
+
+        FloatingActionButton groupButton = findViewById(R.id.generator_editor_groupsButton);
+        groupButton.setOnClickListener(view -> {
+            Intent intent = new Intent(GeneratorEditorActivity.this, GroupListActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0,0);
+        });
     }
 
     @Override
@@ -142,9 +164,6 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 //        onItemChanged(data.get(positionInDataSet));
     }
 
-    private void showUnsupportedSnackBar() {
-//        Snackbar.make(itemPicker, R.string.dsv_ex_msg_dont_set_lm, Snackbar.LENGTH_SHORT).show();
-    }
 
 
     @Override

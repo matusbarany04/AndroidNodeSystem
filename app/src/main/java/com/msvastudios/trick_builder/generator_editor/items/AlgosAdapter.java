@@ -1,5 +1,6 @@
 package com.msvastudios.trick_builder.generator_editor.items;
 
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> 
             holder.button.setTransitionName("element");
         }
 
-        holder.button.setText(data.get(position).getName());
+//        holder.button.setText(data.get(position).getName());
         holder.button.setOnClickListener(view -> listener.onItemClicked(data.get(holder.getAdapterPosition())));
     }
 
@@ -53,7 +54,7 @@ public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        Button button;
+        ImageView button;
         private ImageView image;
 
         public ViewHolder(View itemView) {

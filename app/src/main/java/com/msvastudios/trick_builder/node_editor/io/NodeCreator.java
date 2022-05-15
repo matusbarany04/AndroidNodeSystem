@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.node_editor.node;
+package com.msvastudios.trick_builder.node_editor.io;
 
 import java.util.Objects;
 import java.util.function.Function;

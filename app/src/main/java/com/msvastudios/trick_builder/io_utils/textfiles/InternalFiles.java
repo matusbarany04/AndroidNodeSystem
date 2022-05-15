@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.io_utils;
+package com.msvastudios.trick_builder.io_utils.textfiles;
 
 public enum InternalFiles {
     NODE("node");

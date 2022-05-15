@@ -1,20 +1,18 @@
 package com.msvastudios.trick_builder.node_editor.node;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.msvastudios.trick_builder.node_editor.io.NodesSaver;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -88,7 +86,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     }
 
     public void saveCurrentNodes(String id) {
-        nodesSaver.internalStorageSaver.clear();
+//        nodesSaver.getInternalStorageSaver().clear();
         nodesSaver.saveNodes(new ArrayList<Node>(nodeList.values()), id, linesView.getLines());
     }
 

@@ -80,9 +80,6 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         }
     }
 
-
-
-
     public ArrayList<NodeOutput> getNodeOutput() {
         return nodeOutput;
     }

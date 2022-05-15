@@ -1,25 +1,26 @@
-package com.msvastudios.trick_builder.node_editor.node;
+package com.msvastudios.trick_builder.node_editor.io;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
-import com.msvastudios.trick_builder.io_utils.InternalFiles;
-import com.msvastudios.trick_builder.io_utils.InternalStorageSaver;
+import com.msvastudios.trick_builder.io_utils.textfiles.InternalFiles;
+import com.msvastudios.trick_builder.io_utils.textfiles.InternalStorageSaver;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
+import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
+import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Parameter;
-import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+//deprecated
 enum SerializedDividers {
     PARAM("|"),
     ARRAY("/"),
@@ -42,8 +43,6 @@ enum SerializedDividers {
     public String getDivider() {
         return divider;
     }
-
-
 }
 
 public class NodesSaver {
@@ -56,44 +55,66 @@ public class NodesSaver {
         this.context = context;
     }
 
+    public InternalStorageSaver getInternalStorageSaver() {
+        return internalStorageSaver;
+    }
 
     public boolean saveNodes(@NonNull ArrayList<Node> nodeList, String networkId, ArrayList<Line> lines) {
 
-        internalStorageSaver.append(networkId + SerializedDividers.NODE.getDivider());
-
+        //internalStorageSaver.append(networkId + SerializedDividers.NODE.getDivider());
+        HashMap<String, String> networks = getAlgorithmsAsHashMap();
+        System.out.println("networks in me " + networks.values().size());
+        StringBuilder serializedData = new StringBuilder();
         for (int i = 0; i < nodeList.size(); i++) {
-            internalStorageSaver.append(SerializedDividers.NODE.getDivider());
+            serializedData.append(SerializedDividers.NODE.getDivider());
 
             Node node = nodeList.get(i);
-            internalStorageSaver.append(serializeNode(node));
+            serializedData.append(serializeNode(node));
         }
 
-        internalStorageSaver.append(SerializedDividers.NODE_LINES.getDivider());
+        serializedData.append(SerializedDividers.NODE_LINES.getDivider());
 
         for (int i = 0; i < lines.size(); i++) {
             Line line = lines.get(i);
             LinePoint start = line.getStartPoint();
             LinePoint end = line.getEndPoint();
 
-            internalStorageSaver.append(
+            serializedData.append(
                     start.getId() + SerializedDividers.ARRAY_ITEM.getDivider()
                             + end.getId() + SerializedDividers.ARRAY_ITEM.getDivider()
-
-
             );
 
             if (i < lines.size() - 1) {
-                internalStorageSaver.append(SerializedDividers.ARRAY.getDivider());
+                serializedData.append(SerializedDividers.ARRAY.getDivider());
             }
         }
-        internalStorageSaver.append(SerializedDividers.NODE_NETWORK.getDivider());
+        serializedData.append(SerializedDividers.NODE_NETWORK.getDivider());
 
+        internalStorageSaver.clear();
+
+        for (String key : networks.keySet()) {
+            String data = networks.get(key);
+            System.out.println(" loopin " + key + " =?= " + networkId);
+            if (key.equals(networkId)){
+                continue;
+            }
+            internalStorageSaver.append(networkId +
+                    SerializedDividers.NODE.getDivider()+ SerializedDividers.NODE.getDivider() + data + SerializedDividers.NODE_NETWORK.getDivider());
+        }
+        internalStorageSaver.append(networkId +  SerializedDividers.NODE.getDivider() + serializedData + SerializedDividers.NODE_NETWORK.getDivider());
+
+
+        System.out.println("networks in me after" + getAlgorithmsAsHashMap().size() );
         return true;
     }
 
-    public Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> readNodes(String networkId) {
+    /**
+     *
+     * @return is a hashMap where key is id of algorithm and value holds the data
+     */
+    private HashMap<String, String> getAlgorithmsAsHashMap(){
         //reading full file and dividing it to individual algorithms
-        ArrayList<String> nodeNetworks = new ArrayList<>(Arrays.asList(internalStorageSaver.read().split(SerializedDividers.NODE_NETWORK.getDivider())));
+        ArrayList<String> nodeNetworks = new ArrayList<>(Arrays.asList(internalStorageSaver.read().split(Pattern.quote(SerializedDividers.NODE_NETWORK.getDivider()))));
         HashMap<String, String> serializedNodeNetwork = new HashMap<>();
 
         //looping trough network to find desired network
@@ -110,8 +131,17 @@ public class NodesSaver {
 
                 serializedNodeNetwork.put(id, nodeNetworkData);
 
-            }catch (IndexOutOfBoundsException | NullPointerException ignored){}
+            }catch (IndexOutOfBoundsException | NullPointerException ignored){
+                Log.e("getAlgo ", " error bzz bzz chrr");
+            }
         }
+
+        return serializedNodeNetwork;
+    }
+
+
+    public Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> readNodes(String networkId) {
+        HashMap<String, String> serializedNodeNetwork = getAlgorithmsAsHashMap();
 
         //data of certain network
         String networkData = serializedNodeNetwork.get(networkId);
@@ -213,21 +243,21 @@ public class NodesSaver {
                 + node.getTopMargin();
 
         StringBuilder outputs = new StringBuilder();
-        for (int i = 0; i < node.nodeOutput.size(); i++) {
-            NodeOutput output = node.nodeOutput.get(i);
+        for (int i = 0; i < node.getNodeOutput().size(); i++) {
+            NodeOutput output = node.getNodeOutput().get(i);
             outputs.append(output.getPoint().getId()).append(SerializedDividers.ARRAY_ITEM.getDivider()).append(i);
 
-            if (i < node.nodeOutput.size() - 1) {
+            if (i < node.getNodeOutput().size() - 1) {
                 outputs.append(SerializedDividers.ARRAY.getDivider());
             }
         }
 
         StringBuilder inputs = new StringBuilder();
-        for (int i = 0; i < node.nodeInput.size(); i++) {
-            NodeInput input = node.nodeInput.get(i);
+        for (int i = 0; i < node.getNodeInput().size(); i++) {
+            NodeInput input = node.getNodeInput().get(i);
             inputs.append(input.getPoint().getId()).append(SerializedDividers.ARRAY_ITEM.getDivider()).append(i);
 
-            if (i < node.nodeInput.size() - 1) {
+            if (i < node.getNodeInput().size() - 1) {
                 inputs.append(SerializedDividers.ARRAY.getDivider());
             }
         }

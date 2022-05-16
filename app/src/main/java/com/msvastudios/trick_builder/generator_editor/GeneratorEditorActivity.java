@@ -36,36 +36,27 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
         initAlgorithmsAdapter();
 
         initBottomMenu();
-
-//        onItemChanged(data.get(0));
-//        findViewById(R.id.item_btn_rate).setOnClickListener(this);
-//        findViewById(R.id.item_btn_buy).setOnClickListener(this);
-//        findViewById(R.id.item_btn_comment).setOnClickListener(this);
-//
-//        findViewById(R.id.home).setOnClickListener(this);
-//        findViewById(R.id.btn_smooth_scroll).setOnClickListener(this);
-//        findViewById(R.id.btn_transition_time).setOnClickListener(this);
     }
 
     private void initBottomMenu() {
         FloatingActionButton addButton = findViewById(R.id.generator_editor_addNewAlgorithm);
         addButton.setOnClickListener(view -> {
             Intent intent = new Intent(GeneratorEditorActivity.this, AlgorithmEditorActivity.class);
-            intent.putExtra("buttonName", "hey");
+            intent.putExtra("buttonName", "add");
             startActivity(intent);
             overridePendingTransition(0,0);
         });
 
         FloatingActionButton chooseAndGoBackButton = findViewById(R.id.generator_editor_chooseAlgorithmAndGoBack);
         chooseAndGoBackButton .setOnClickListener(view -> {
-            Intent intent = new Intent(GeneratorEditorActivity.this, GroupListActivity.class);
-            startActivity(intent);
+            finish();
             overridePendingTransition(0,0);
         });
         FloatingActionButton customizeButton = findViewById(R.id.generator_editor_customizeAlgorithm);
         customizeButton.setOnClickListener(view -> {
-            Intent intent = new Intent(GeneratorEditorActivity.this, GroupListActivity.class);
+            Intent intent = new Intent(GeneratorEditorActivity.this, AlgorithmEditorActivity.class);
             startActivity(intent);
+            intent.putExtra("buttonName", "save");
             overridePendingTransition(0,0);
         });
     }
@@ -103,7 +94,7 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
     }
 
     private void initTopButtonListeners() {
-        FloatingActionButton backButton = findViewById(R.id.generator_editor_chooseAlgorithmAndGoBack);
+        FloatingActionButton backButton = findViewById(R.id.generator_editor_goBack);
         backButton.setOnClickListener(view -> {
             finish();
             overridePendingTransition(0,0);

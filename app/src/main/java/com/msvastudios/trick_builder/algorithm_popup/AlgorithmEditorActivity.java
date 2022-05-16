@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
@@ -25,12 +27,22 @@ public class AlgorithmEditorActivity extends AppCompatActivity implements OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_algorithm_popup);
 
-        Bundle extras = getIntent().getExtras();
-        String name = extras.getString("buttonName");
+        String name = getIntent().getStringExtra("buttonName");
         EditText text = findViewById(R.id.editor_text);
         text.setText(name);
 
         initAlgorithmsAdapter();
+
+        FloatingActionButton backButton = findViewById(R.id.algo_backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(0,0);
+            }
+        });
+
+
     }
 
     private void initAlgorithmsAdapter() {

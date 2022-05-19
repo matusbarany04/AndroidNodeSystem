@@ -19,7 +19,7 @@ public interface AlgorithmDao {
     @Query("SELECT * FROM algorithm WHERE algorithm_name LIKE :name LIMIT 1")
     Algorithm findByName(String name);
 
-    @
+    @Insert
     void addAlgorithm(Algorithm algorithm);
 
     @Insert

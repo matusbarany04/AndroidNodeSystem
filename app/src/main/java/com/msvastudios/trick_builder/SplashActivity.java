@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.trick_generator.GeneratorActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -33,6 +34,9 @@ public class SplashActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.gif_player);
 
         Glide.with(this).load(R.drawable.loading).into(imageView);
+
+        //building the sqlite database
+        DatabaseHandler.build(getApplicationContext());
 
         new Handler().postDelayed(() -> {
 

@@ -7,12 +7,15 @@ import androidx.core.view.ViewCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.generator_editor.GeneratorEditorActivity;
+import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.Algorithm;
 
 public class GeneratorActivity extends AppCompatActivity {
 
@@ -20,6 +23,16 @@ public class GeneratorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator);
+
+        Algorithm algo = new Algorithm();
+        algo.uid = 21345;
+        algo.name = "hey";
+        algo.nodeCount = 5;
+        algo.nodeNetworkId = "asdafgasg";
+
+        DatabaseHandler.getInstance().saveAlgorithm(algo);
+        Log.d("hey", "sjdsaasd");
+        DatabaseHandler.getInstance().printAlgorithms();
 
 
         Button circleButton = findViewById(R.id.generator_button);

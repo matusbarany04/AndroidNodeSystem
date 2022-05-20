@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.io_utils.sqlite;
+package com.msvastudios.trick_builder.io_utils.sqlite.algorithms;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

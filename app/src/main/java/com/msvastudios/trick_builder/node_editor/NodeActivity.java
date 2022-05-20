@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.Algorithm;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;
 import com.msvastudios.trick_builder.node_editor.node.NodeManager;
@@ -29,6 +31,8 @@ public class NodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_node);
+
+
 
         this.algoName = getIntent().getStringExtra(getString(R.string.NodeActivityExtraId));
         if (algoName == null) algoName = "smh";

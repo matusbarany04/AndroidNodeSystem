@@ -7,7 +7,7 @@ import androidx.room.InvalidationTracker;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {Algorithm.class}, version = 1)
+@Database(entities = {AlgorithmEntity.class}, version = 1)
 public abstract class AlgorithmDatabase extends RoomDatabase {
     public static String DATABASE_NAME = "algos";
     public abstract AlgorithmDao algorithmDao();

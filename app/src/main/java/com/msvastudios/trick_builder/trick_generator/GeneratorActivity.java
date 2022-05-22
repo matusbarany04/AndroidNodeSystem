@@ -3,7 +3,6 @@ package com.msvastudios.trick_builder.trick_generator;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.generator_editor.GeneratorEditorActivity;
 import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.Algorithm;
+import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
 
 public class GeneratorActivity extends AppCompatActivity {
 
@@ -24,11 +23,10 @@ public class GeneratorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator);
 
-        Algorithm algo = new Algorithm();
-        algo.uid = 21345;
+        AlgorithmEntity algo = new AlgorithmEntity();
         algo.name = "hey";
         algo.nodeCount = 5;
-        algo.nodeNetworkId = "asdafgasg";
+        algo.nodeNetworkUUID = "asdafgasg";
 
         DatabaseHandler.getInstance().saveAlgorithm(algo);
         Log.d("hey", "sjdsaasd");
@@ -49,7 +47,6 @@ public class GeneratorActivity extends AppCompatActivity {
                 );
 
                 startActivity(intent, optionsCompat.toBundle());
-
 //                overridePendingTransition(0, 0);
             }
         });

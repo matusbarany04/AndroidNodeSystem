@@ -11,25 +11,25 @@ import java.util.List;
 
 @Dao
 public interface AlgorithmDao {
-    @Query("SELECT * FROM algorithm")
-    List<Algorithm> getAll();
+    @Query("SELECT * FROM AlgorithmEntity")
+    List<AlgorithmEntity> getAll();
 
-    @Query("SELECT * FROM algorithm WHERE uid IN (:userIds)")
-    List<Algorithm> loadAllByIds(int[] userIds);
+    @Query("SELECT * FROM AlgorithmEntity WHERE uid IN (:userIds)")
+    List<AlgorithmEntity> loadAllByIds(int[] userIds);
 
-    @Query("SELECT * FROM algorithm")
-    public Algorithm[] loadAllAlgorithms();
+    @Query("SELECT * FROM AlgorithmEntity")
+    public AlgorithmEntity[] loadAllAlgorithms();
 
-    @Query("SELECT * FROM algorithm WHERE algorithm_name LIKE :name LIMIT 1")
-    Algorithm findByName(String name);
+    @Query("SELECT * FROM AlgorithmEntity WHERE algorithm_name LIKE :name LIMIT 1")
+    AlgorithmEntity findByName(String name);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addAlgorithm(Algorithm algorithm);
+    void addAlgorithm(AlgorithmEntity algorithm);
 
     @Insert
-    void insertAll(Algorithm... algorithms);
+    void insertAll(AlgorithmEntity... algorithms);
 
     @Delete
-    void delete(Algorithm algorithm);
+    void delete(AlgorithmEntity algorithm);
 
 }

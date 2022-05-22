@@ -14,7 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
-import com.msvastudios.trick_builder.generator_editor.items.SliderItem;
+import com.msvastudios.trick_builder.generator_editor.items.AlgorithmItem;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
@@ -49,8 +49,8 @@ public class AlgorithmEditorActivity extends AppCompatActivity implements OnItem
         // TODO set images to choose from
         DiscreteScrollView scrollView = findViewById(R.id.picker);
         scrollView.setAdapter(new AlgosAdapter(Arrays.asList(
-                new SliderItem(1, "Everyday Candle", "$12.00 USD", R.drawable.delete),
-                new SliderItem(2, "Small Porcelain Bowl", "$50.00 USD", R.drawable.ic_launcher_foreground)
+                new AlgorithmItem(1, "Everyday Candle", "$12.00 USD", R.drawable.delete),
+                new AlgorithmItem(2, "Small Porcelain Bowl", "$50.00 USD", R.drawable.ic_launcher_foreground)
                 ), this)
         );
         scrollView.addOnItemChangedListener(this);
@@ -77,7 +77,7 @@ public class AlgorithmEditorActivity extends AppCompatActivity implements OnItem
     }
 
     @Override
-    public void onItemClicked(SliderItem item) {
+    public void onItemClicked(AlgorithmItem item) {
 
     }
 

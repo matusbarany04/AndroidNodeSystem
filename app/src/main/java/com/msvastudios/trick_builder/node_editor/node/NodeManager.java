@@ -166,7 +166,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     public void play() {
         for (Node node : nodeList.values()) {
             if (node.isStartingNode()) {
-//                System.out.println("Node found ! " + node.getId());
+//                System.out.println("NodeEntity found ! " + node.getId());
                 node.process();
                 node.sendData();
             }

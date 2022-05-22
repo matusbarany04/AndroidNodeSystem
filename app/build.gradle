@@ -63,6 +63,8 @@ dependencies {
     //aspect ratio
 //    compile 'com.android.support:percent:23.1.1'
 
+    //json to object - object json
+    implementation 'com.google.code.gson:gson:2.9.0'
 
     //sqlite room
     def room_version = "2.4.2"

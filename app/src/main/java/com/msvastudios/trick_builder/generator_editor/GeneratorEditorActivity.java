@@ -15,7 +15,7 @@ import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.algorithm_popup.AlgorithmEditorActivity;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
-import com.msvastudios.trick_builder.generator_editor.items.SliderItem;
+import com.msvastudios.trick_builder.generator_editor.items.AlgorithmItem;
 import com.msvastudios.trick_builder.node_editor.NodeActivity;
 import com.msvastudios.trick_builder.trick_listing.groups.GroupListActivity;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
@@ -64,8 +64,8 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
     private void initAlgorithmsAdapter() {
         DiscreteScrollView scrollView = findViewById(R.id.picker);
         scrollView.setAdapter(new AlgosAdapter(Arrays.asList(
-                        new SliderItem(1, "Everyday Candle", "$12.00 USD", R.drawable.delete),
-                        new SliderItem(2, "Small Porcelain Bowl", "$50.00 USD", R.drawable.ic_launcher_foreground)
+                        new AlgorithmItem(1, "Everyday Candle", "$12.00 USD", R.drawable.delete),
+                        new AlgorithmItem(2, "Small Porcelain Bowl", "$50.00 USD", R.drawable.ic_launcher_foreground)
                 ),this
 
             )
@@ -132,13 +132,13 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 //        }
     }
 
-    private void onItemChanged(SliderItem  item) {
+    private void onItemChanged(AlgorithmItem item) {
 //        currentItemName.setText(item.getName());
 //        currentItemPrice.setText(item.getPrice());
         changeRateButtonState(item);
     }
 
-    private void changeRateButtonState(SliderItem item) {
+    private void changeRateButtonState(AlgorithmItem item) {
 //        if (shop.isRated(item.getId())) {
 //            rateItemButton.setImageResource(R.drawable.ic_star_black_24dp);
 //            rateItemButton.setColorFilter(ContextCompat.getColor(this, R.color.shopRatedStar));
@@ -157,9 +157,9 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 
 
     @Override
-    public void onItemClicked(SliderItem item) {
+    public void onItemClicked(AlgorithmItem item) {
         Intent intent = new Intent(GeneratorEditorActivity.this, NodeActivity.class);
-        intent.putExtra(getString(R.string.NodeActivityExtraId), item.getName());
+        intent.putExtra(getString(R.string.NodeActivityExtraId), item.getId());
         startActivity(intent);
 
         overridePendingTransition(0,0);

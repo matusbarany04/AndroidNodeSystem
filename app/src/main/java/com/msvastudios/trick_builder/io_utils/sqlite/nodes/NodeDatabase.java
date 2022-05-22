@@ -6,8 +6,12 @@ import androidx.room.InvalidationTracker;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-public class NodeDatabase extends RoomDatabase {
+import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmDao;
+
+public abstract class NodeDatabase extends RoomDatabase {
     public final static String DATABASE_NAME = "nodes";
+
+    public abstract NodeDao nodeDao();
 
     @NonNull
     @Override

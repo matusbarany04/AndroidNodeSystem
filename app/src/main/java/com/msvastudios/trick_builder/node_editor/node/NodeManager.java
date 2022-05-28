@@ -81,7 +81,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                     }
                 }
             }
-
         }
     }
 

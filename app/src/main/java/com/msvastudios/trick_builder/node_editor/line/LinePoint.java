@@ -57,4 +57,8 @@ public class LinePoint {
     public Node getParent() {
         return parent;
     }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
 }

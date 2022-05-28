@@ -17,6 +17,7 @@ public abstract class NodeItem {
     public Node parent;
     private LinearLayout view;
     Context context;
+
     protected NodeItem(Context context, Node parent, int order) {
         this.parent = parent;
         this.width = NodeDimensionsCalculator.getInnerNodeWidth() + NodeDimensionsCalculator.innerNodeMargin();
@@ -28,6 +29,10 @@ public abstract class NodeItem {
 
     public Node getParent() {
         return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
     }
 
     public static String generateId() {

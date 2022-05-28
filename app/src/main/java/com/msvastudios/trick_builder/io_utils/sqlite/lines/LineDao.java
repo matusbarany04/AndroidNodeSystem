@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -21,7 +22,10 @@ public interface LineDao {
     public LineEntity[] loadAllLine();
 
     @Query("SELECT * FROM LineEntity WHERE line_uuid LIKE :uuid LIMIT 1")
-    LineEntity findByUUID(String uuid);
+    public LineEntity findByUUID(String uuid);
+
+    @Query("SELECT * FROM LineEntity WHERE algorithm_uuid LIKE :uuid LIMIT 1")
+    public ArrayList<LineEntity> findByAlgorithmUUID(String uuid);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addLine(LineEntity line);

@@ -30,7 +30,7 @@ public class GeneratorActivity extends AppCompatActivity {
 
         DatabaseHandler.getInstance().saveAlgorithm(algo);
         Log.d("hey", "sjdsaasd");
-        DatabaseHandler.getInstance().printAlgorithms();
+        DatabaseHandler.getInstance().printAlgoData();
 
 
         Button circleButton = findViewById(R.id.generator_button);

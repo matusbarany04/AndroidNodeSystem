@@ -206,7 +206,6 @@ public class NodesSaver {
         } catch (ArrayIndexOutOfBoundsException ignored) {
         }
 
-
         Node node = CustomNodes.fromString(type).createNode(context, leftMargin, topMargin, null, null);
 
 

@@ -32,6 +32,8 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         init(null, 0);
     }
 
+
+
     @Override
     public String getID() {
         return "NodeOutput" + super.getID();
@@ -93,6 +95,13 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
             }
         }
     }
+
+
+//    public Node getNodeById(String id){ // TODO parent in point is redundant refractor code and remove
+//        for (Node node: parent.getId()) {
+//
+//        }
+//    }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {

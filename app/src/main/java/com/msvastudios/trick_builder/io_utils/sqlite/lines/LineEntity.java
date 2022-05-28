@@ -11,25 +11,34 @@ public class LineEntity {
 
     public LineEntity(){}
 
-    public LineEntity(String lineUUID,String algorithmUUID,String startPointId,String endPointId){
+    public LineEntity(String lineUUID,String algorithmUUID,String startPointId,String endPointId, String startPointNodeId , String endPointNodeId){
         this.lineUUID = lineUUID;
         this.algorithmUUID = algorithmUUID;
         this.startPointId= startPointId;
         this.endPointId = endPointId;
+        this.startPointNodeId = startPointNodeId;
+        this.endPointNodeId = endPointNodeId;
     }
 
     @PrimaryKey(autoGenerate = true)
     public int uid;
 
     @ColumnInfo(name = "line_uuid")
-    String lineUUID;
+    public String lineUUID;
 
     @ColumnInfo(name = "algorithm_uuid")
-    String algorithmUUID;
+    public String algorithmUUID;
 
-    @ColumnInfo(name = "node_start_point_id")
-    String startPointId;
+    @ColumnInfo(name ="node_start_point_id")
+    public String startPointId;
+
+    @ColumnInfo(name ="node_start_point_node_id")
+    public String startPointNodeId;
 
     @ColumnInfo(name = "node_end_point_id")
-    String endPointId;
+    public String endPointId;
+
+    @ColumnInfo(name ="node_end_point_node_id")
+    public String endPointNodeId;
+
 }

@@ -347,5 +347,11 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     public abstract void process();
 
     public abstract void sendData();
+
+
+    //TODO xxx
+    public void updateNodeCordinates(){
+
+    };
 }
 

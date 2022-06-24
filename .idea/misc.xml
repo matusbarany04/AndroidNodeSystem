@@ -18,6 +18,7 @@
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/drawable/settings.xml" value="0.277" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/drawable/settings_background.xml" value="0.2285" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/drawable/settings_button.xml" value="0.333" />
+        <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/activity_database_renderer.xml" value="0.26927083333333335" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/activity_generator.xml" value="0.3482789855072464" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/activity_generator_editor.xml" value="0.25" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/activity_group_list.xml" value="0.33" />
@@ -27,6 +28,7 @@
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/activity_splash.xml" value="0.2898550724637681" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/activity_trick_info_popup.xml" value="0.3269927536231884" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/activity_trick_list.xml" value="0.26875" />
+        <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/array.xml" value="0.2" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/floating_settings.xml" value="0.33" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/grid_item.xml" value="0.33" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/item_shop_card.xml" value="0.5" />

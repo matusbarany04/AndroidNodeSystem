@@ -36,7 +36,7 @@ public abstract class NodeItem {
     }
 
     public static String generateId() {
-        return UUID.randomUUID().toString();
+        return "Node" + UUID.randomUUID().toString();
     }
 
     public void init() {

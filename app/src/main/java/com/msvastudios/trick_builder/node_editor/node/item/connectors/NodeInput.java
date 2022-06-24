@@ -39,7 +39,7 @@ public class NodeInput extends NodeConnectorItem {
 
     @Override
     public String getID() {
-        return "NodeInput" + super.getID();
+        return super.getID();
     }
 
     @Override

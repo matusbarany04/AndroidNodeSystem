@@ -13,17 +13,22 @@ import android.view.View;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.algorithm_popup.AlgorithmEditorActivity;
+import com.msvastudios.trick_builder.debug.DatabaseRendererActivity;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
 import com.msvastudios.trick_builder.generator_editor.items.AlgorithmItem;
+import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.node_editor.NodeActivity;
 import com.msvastudios.trick_builder.trick_listing.groups.GroupListActivity;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-public class GeneratorEditorActivity extends AppCompatActivity implements DiscreteScrollView.OnItemChangedListener<AlgosAdapter.ViewHolder>,View.OnClickListener, OnItemClickListener {
+public class GeneratorEditorActivity extends AppCompatActivity implements DiscreteScrollView.OnItemChangedListener<AlgosAdapter.ViewHolder>,View.OnClickListener {
 
 
     @Override
@@ -54,22 +59,43 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
         });
         FloatingActionButton customizeButton = findViewById(R.id.generator_editor_customizeAlgorithm);
         customizeButton.setOnClickListener(view -> {
-            Intent intent = new Intent(GeneratorEditorActivity.this, AlgorithmEditorActivity.class);
+            //TODO uncomment
+//            Intent intent = new Intent(GeneratorEditorActivity.this, AlgorithmEditorActivity.class);
+//            startActivity(intent);
+//            intent.putExtra("buttonName", "save");
+//            overridePendingTransition(0,0);
+
+            Intent intent = new Intent(GeneratorEditorActivity.this, DatabaseRendererActivity.class);
             startActivity(intent);
-            intent.putExtra("buttonName", "save");
-            overridePendingTransition(0,0);
         });
     }
 
     private void initAlgorithmsAdapter() {
         DiscreteScrollView scrollView = findViewById(R.id.picker);
-        scrollView.setAdapter(new AlgosAdapter(Arrays.asList(
-                        new AlgorithmItem(1, "Everyday Candle", "$12.00 USD", R.drawable.delete),
-                        new AlgorithmItem(2, "Small Porcelain Bowl", "$50.00 USD", R.drawable.ic_launcher_foreground)
-                ),this
 
-            )
-        );
+        OnItemClickListener listener = new OnItemClickListener() {
+            @Override
+            public void onItemClicked(AlgorithmEntity item) {
+                Intent intent = new Intent(GeneratorEditorActivity.this, NodeActivity.class);
+                intent.putExtra(getString(R.string.NodeActivityExtraId), item.nodeNetworkUUID);
+                startActivity(intent);
+
+                overridePendingTransition(0,0);
+            }
+        };
+
+        scrollView.setAdapter(new AlgosAdapter(new ArrayList<AlgorithmEntity>(),listener));
+
+        assert  DatabaseHandler.getInstance(getApplicationContext()) != null;
+
+        DatabaseHandler.getInstance(getApplicationContext()).getAllAgorithms(new DatabaseHandler.AlgoFinish() {
+            @Override
+            public void onFetched(ArrayList<AlgorithmEntity> entities) {
+
+                scrollView.setAdapter(new AlgosAdapter(entities, listener));
+            }
+        });
+
         scrollView.addOnItemChangedListener(this);
         scrollView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
@@ -156,12 +182,5 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 
 
 
-    @Override
-    public void onItemClicked(AlgorithmItem item) {
-        Intent intent = new Intent(GeneratorEditorActivity.this, NodeActivity.class);
-        intent.putExtra(getString(R.string.NodeActivityExtraId), item.getId());
-        startActivity(intent);
 
-        overridePendingTransition(0,0);
-    }
 }

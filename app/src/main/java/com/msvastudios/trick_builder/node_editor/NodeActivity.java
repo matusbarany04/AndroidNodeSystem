@@ -35,6 +35,7 @@ public class NodeActivity extends AppCompatActivity {
         this.algoName = getIntent().getStringExtra(getString(R.string.NodeActivityExtraId));
         if (algoName == null) algoName = "smh";
 //        getSupportActionBar().hide();
+        Log.d("NODEACTIVITY" ,  algoName);
 
         dragArea = findViewById(R.id.dragArea);
 

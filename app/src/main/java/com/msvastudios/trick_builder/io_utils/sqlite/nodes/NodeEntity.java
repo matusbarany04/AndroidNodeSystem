@@ -4,6 +4,7 @@ import androidx.annotation.ColorRes;
 import androidx.room.ColumnInfo;
 import androidx.room.Database;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -14,18 +15,22 @@ import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
 import java.util.ArrayList;
 
-@Entity
+
+@Entity(indices = {@Index(value = {"node_uuid"}, unique = true)})
 public class NodeEntity {
 
     public NodeEntity() {
     }
 
-    public NodeEntity(String algorithmUUID, int cordinateX, int cordinateY, String nodeUUID,CustomNodes type) {
+    public NodeEntity(String algorithmUUID, int cordinateX, int cordinateY,
+                      String nodeUUID,CustomNodes type,  ArrayList<String> outputIds,  ArrayList<String> inputIds ) {
         this.algorithmUUID = algorithmUUID;
         this.cordinateX = cordinateX;
         this.cordinateY = cordinateY;
         this.nodeUUID = nodeUUID;
         this.type = type;
+        this.outputIds = outputIds;
+        this.inputIds = inputIds;
     }
 
     @PrimaryKey(autoGenerate = true)
@@ -47,10 +52,10 @@ public class NodeEntity {
     public CustomNodes type;
 
     @ColumnInfo(name = "output_ids")
-    ArrayList<String> outputIds;
+    public ArrayList<String> outputIds;
 
     @ColumnInfo(name = "input_ids")
-    ArrayList<String> inputIds;
+    public ArrayList<String> inputIds;
 
 
 }

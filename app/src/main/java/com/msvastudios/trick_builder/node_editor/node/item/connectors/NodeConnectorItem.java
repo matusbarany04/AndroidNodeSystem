@@ -56,6 +56,7 @@ public abstract class NodeConnectorItem extends NodeItem {
         return point;
     }
 
+
     public void connectedItem(){
         listener.onItemConnect(this);
     }

@@ -65,6 +65,14 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         init(context);
     }
 
+    /**
+     * Set's new id for node, only use if initializing new node
+     * @param id
+     */
+    public void setId(String id){
+        this.id = id;
+    }
+
     public void setLinesView(LinesView linesView) {
         this.linesView = linesView;
     }
@@ -80,8 +88,17 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         }
     }
 
+
+    //TODO xxx !!! get node output/inout by point id
+
     public ArrayList<NodeOutput> getNodeOutput() {
         return nodeOutput;
+    }
+    public ArrayList<String>  getNodeOutputIds() {
+        ArrayList<String> ids = new ArrayList<>();
+        for (NodeOutput out: nodeOutput)
+            ids.add(out.getID());
+        return ids;
     }
 
     /**
@@ -91,6 +108,12 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         return nodeInput;
     }
 
+    public ArrayList<String> getNodeInputIds() {
+        ArrayList<String> ids = new ArrayList<>();
+        for (NodeInput out: nodeInput)
+            ids.add(out.getID());
+        return ids;
+    }
     public NodeOutput addNodeOutput(Type type) {
         NodeOutput output = new NodeOutput(context, listener, this, nodeItemOrder, type);
         nodeOutput.add(output);
@@ -222,7 +245,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         setPosition(leftMargin, topMargin);
     }
 
-    private void updatePositionVars() {
+    public void updatePositionVars() {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) node.getLayoutParams();
         leftMargin = params.leftMargin;
         topMargin = params.topMargin;
@@ -310,6 +333,9 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
                 break;
         }
 
+        //DEBUG
+        nav.setTitle(getId());
+
         updatePositionVars();
 
         callCallback();
@@ -341,7 +367,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
 
     public String getId() {
-        return "NodeEntity" + id;
+        return id;
     }
 
     public abstract void process();
@@ -353,5 +379,39 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     public void updateNodeCordinates(){
 
     };
+
+    public NodeOutput getNodeOutputByPointId(String id){
+        for (NodeOutput output: nodeOutput) {
+            if(output.getPoint().getId().equals(id)){
+                return output;
+            }
+        }
+        return null;
+    }
+
+    public NodeInput getNodeInputByPointId(String id){
+        for (NodeInput input: nodeInput) {
+            if(input.getPoint().getId().equals(id)){
+                return input;
+            }
+        }
+        return null;
+    }
+
+    public void setNodeOutputIds(ArrayList<String> outputIds){
+        int i = 0;
+        for (NodeOutput nodeout: nodeOutput) {
+            nodeout.id = outputIds.get(i);
+            i++;
+        }
+    }
+
+    public void setNodeInputIds(ArrayList<String> inputIds){
+        int i = 0;
+        for (NodeInput nodein: nodeInput) {
+            nodein.id = inputIds.get(i);
+            i++;
+        }
+    }
 }
 

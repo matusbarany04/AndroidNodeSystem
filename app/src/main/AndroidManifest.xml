@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaTransparent">
         <activity
+            android:name=".debug.DatabaseRendererActivity"
+            android:exported="false" />
+        <activity
             android:name=".algorithm_popup.AlgorithmEditorActivity"
             android:exported="false" />
         <activity

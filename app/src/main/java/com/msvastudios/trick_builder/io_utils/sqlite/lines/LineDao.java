@@ -21,11 +21,11 @@ public interface LineDao {
     @Query("SELECT * FROM LineEntity")
     public LineEntity[] loadAllLine();
 
-    @Query("SELECT * FROM LineEntity WHERE line_uuid LIKE :uuid LIMIT 1")
+    @Query("SELECT * FROM LineEntity WHERE line_uuid LIKE :uuid")
     public LineEntity findByUUID(String uuid);
 
-    @Query("SELECT * FROM LineEntity WHERE algorithm_uuid LIKE :uuid LIMIT 1")
-    public ArrayList<LineEntity> findByAlgorithmUUID(String uuid);
+    @Query("SELECT * FROM LineEntity WHERE algorithm_uuid LIKE :uuid")
+    public LineEntity[] findByAlgorithmUUID(String uuid);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addLine(LineEntity line);
@@ -33,9 +33,15 @@ public interface LineDao {
     @Insert
     void insertAll(LineEntity... line);
 
+    @Query("SELECT * FROM LineEntity WHERE line_uuid LIKE :lineUUID")
+    LineEntity[] getByLineId(String lineUUID);
+
     @Delete
     void delete(LineEntity line);
 
-    @Query("DELETE FROM LineEntity WHERE algorithm_uuid LIKE :algortihmId LIMIT 1")
+    @Query("DELETE FROM LineEntity WHERE algorithm_uuid = :algortihmId")
     void deleteByAlgorithmId(String algortihmId);
+
+    @Query("DELETE FROM LineEntity WHERE line_uuid = :lineUUID")
+    void deleteByLineId(String lineUUID);
 }

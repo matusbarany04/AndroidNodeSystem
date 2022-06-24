@@ -23,14 +23,11 @@ public class GeneratorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator);
 
-        AlgorithmEntity algo = new AlgorithmEntity();
-        algo.name = "hey";
-        algo.nodeCount = 5;
-        algo.nodeNetworkUUID = "asdafgasg";
 
-        DatabaseHandler.getInstance().saveAlgorithm(algo);
+
+//        DatabaseHandler.getInstance(); //.saveAlgorithm(algo);
         Log.d("hey", "sjdsaasd");
-        DatabaseHandler.getInstance().printAlgoData();
+//        DatabaseHandler.getInstance(). printAlgoData();
 
 
         Button circleButton = findViewById(R.id.generator_button);

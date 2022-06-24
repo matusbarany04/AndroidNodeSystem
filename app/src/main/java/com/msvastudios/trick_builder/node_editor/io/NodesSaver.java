@@ -59,17 +59,18 @@ public class NodesSaver {
         return internalStorageSaver;
     }
 
-    public boolean saveNodes(@NonNull ArrayList<Node> nodeList, String networkId, ArrayList<Line> lines) {
+
+    public boolean saveNodesDep(@NonNull ArrayList<Node> nodeList, String networkId, ArrayList<Line> lines) {
 
         //internalStorageSaver.append(networkId + SerializedDividers.NODE.getDivider());
-        HashMap<String, String> networks = getAlgorithmsAsHashMap();
+        HashMap<String, String> networks = getAlgorithmsAsHashMapDep();
         System.out.println("networks in me " + networks.values().size());
         StringBuilder serializedData = new StringBuilder();
         for (int i = 0; i < nodeList.size(); i++) {
             serializedData.append(SerializedDividers.NODE.getDivider());
 
             Node node = nodeList.get(i);
-            serializedData.append(serializeNode(node));
+            serializedData.append(serializeNodeDep(node));
         }
 
         serializedData.append(SerializedDividers.NODE_LINES.getDivider());
@@ -104,7 +105,7 @@ public class NodesSaver {
         internalStorageSaver.append(networkId +  SerializedDividers.NODE.getDivider() + serializedData + SerializedDividers.NODE_NETWORK.getDivider());
 
 
-        System.out.println("networks in me after" + getAlgorithmsAsHashMap().size() );
+        System.out.println("networks in me after" + getAlgorithmsAsHashMapDep().size() );
         return true;
     }
 
@@ -112,7 +113,7 @@ public class NodesSaver {
      *
      * @return is a hashMap where key is id of algorithm and value holds the data
      */
-    private HashMap<String, String> getAlgorithmsAsHashMap(){
+    private HashMap<String, String> getAlgorithmsAsHashMapDep(){
         //reading full file and dividing it to individual algorithms
         ArrayList<String> nodeNetworks = new ArrayList<>(Arrays.asList(internalStorageSaver.read().split(Pattern.quote(SerializedDividers.NODE_NETWORK.getDivider()))));
         HashMap<String, String> serializedNodeNetwork = new HashMap<>();
@@ -140,8 +141,8 @@ public class NodesSaver {
     }
 
 
-    public Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> readNodes(String networkId) {
-        HashMap<String, String> serializedNodeNetwork = getAlgorithmsAsHashMap();
+    public Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> readNodesDep(String networkId) {
+        HashMap<String, String> serializedNodeNetwork = getAlgorithmsAsHashMapDep();
 
         //data of certain network
         String networkData = serializedNodeNetwork.get(networkId);
@@ -151,14 +152,14 @@ public class NodesSaver {
             String nodes = dividedData[0];
             if(dividedData.length>1){
                 String lines = dividedData[1];
-                outputHashMap = deserializeLines(lines);
+                outputHashMap = deserializeLinesDep(lines);
             }
 
             ArrayList<String> serializedNodes = new ArrayList<>(Arrays.asList(nodes.split(SerializedDividers.NODE.getDivider())));
 
             ArrayList<Node> deserializedNodes = new ArrayList<>();
             for (String serNode : serializedNodes) {
-                deserializedNodes.add(deserializeNode(serNode, context));
+                deserializedNodes.add(deserializeNodeDep(serNode, context));
             }
 
 
@@ -167,7 +168,7 @@ public class NodesSaver {
        return new Pair<>(new ArrayList<>(), new HashMap<>());
     }
 
-    private HashMap<String, ArrayList<String>> deserializeLines(String lineData) {
+    private HashMap<String, ArrayList<String>> deserializeLinesDep(String lineData) {
         ArrayList<String> linesString = new ArrayList<>(Arrays.asList(lineData.split(Pattern.quote(SerializedDividers.ARRAY.getDivider()))));
 
         HashMap<String, ArrayList<String>> lines = new HashMap<>();
@@ -186,7 +187,7 @@ public class NodesSaver {
     }
 
 
-    private Node deserializeNode(String serNode, Context context) {
+    private Node deserializeNodeDep(String serNode, Context context) {
         String[] data = serNode.split(Pattern.quote(SerializedDividers.PARAM.getDivider()));
 
         String type = data[0];
@@ -233,7 +234,7 @@ public class NodesSaver {
         return node;
     }
 
-    public String serializeNode(@NonNull Node node) {
+    public String serializeNodeDep(@NonNull Node node) {
 
 
         String start = node.getType().type + SerializedDividers.PARAM.getDivider()

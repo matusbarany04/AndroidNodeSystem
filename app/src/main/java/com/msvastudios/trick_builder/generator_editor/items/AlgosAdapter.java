@@ -9,18 +9,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> {
 
     OnItemClickListener listener;
-    private List<AlgorithmItem> data;
+    private ArrayList<AlgorithmEntity> data;
 
-    public AlgosAdapter(List<AlgorithmItem> data, OnItemClickListener listener) {
+    public AlgosAdapter(ArrayList<AlgorithmEntity> data, OnItemClickListener listener) {
         this.data = data;
         this.listener = listener;
     }
+
 
     @NonNull
     @Override

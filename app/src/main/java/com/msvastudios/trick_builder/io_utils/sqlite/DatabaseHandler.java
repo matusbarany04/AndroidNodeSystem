@@ -14,13 +14,15 @@ import com.msvastudios.trick_builder.io_utils.sqlite.nodes.NodeDatabase;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
-import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
+import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
+import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.concurrent.Executor;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,8 +35,7 @@ public class DatabaseHandler {
     private NodeDatabase nodeDatabase;
     private LineDatabase lineDatabase;
 
-    private DatabaseHandler() {
-    }
+    private DatabaseHandler() {}
 
     public static DatabaseHandler build(Context context) {
         instance = new DatabaseHandler();
@@ -45,8 +46,38 @@ public class DatabaseHandler {
         return instance;
     }
 
-    public static DatabaseHandler getInstance() {
-        return instance;
+    public static DatabaseHandler getInstance(Context context) {
+        if (instance != null){
+            return instance;
+        }else{
+            instance = DatabaseHandler.build(context);
+            return instance;
+        }
+    }
+
+    public void getLines(DatabaseHandler.Lines callback) {
+        executor.execute(() -> {
+                callback.onLinesFetch(new ArrayList<>(lineDatabase.lineDao().getAll()));
+            }
+        );
+    }
+
+
+    public void getNodes(DatabaseHandler.Nodes callback) {
+        executor.execute(() -> {
+                    callback.onNodesFetch(new ArrayList<>(nodeDatabase.nodeDao().getAll()));
+                }
+        );
+    }
+
+    public void createNewAlgorithmEntity(String name, NewAlgorithm callback) {
+        executor.execute(() -> {
+            AlgorithmEntity[] entities = algorithmDatabase.algorithmDao().findByName(name);
+            if (entities.length == 0)
+                callback.onFinishedNewAlgorithm(0, new AlgorithmEntity(name, UUID.randomUUID().toString(), 0));
+            else
+                callback.onFinishedNewAlgorithm(1, entities[0]);
+        });
     }
 
     //TODO xxx make a method that will join insert and delete -> update
@@ -54,6 +85,16 @@ public class DatabaseHandler {
     public void updateAlgorithm(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes) {
         this.removeAlgorithm(algorithm);
         this.insertAlgorithm(algorithm, lines, nodes);
+    }
+
+    public void getAllAgorithms(AlgoFinish callback) {
+        executor.execute(() -> {
+            callback.onFetched(
+                    new ArrayList<AlgorithmEntity>(
+                            Arrays.asList(algorithmDatabase.algorithmDao().loadAllAlgorithms())
+                    )
+            );
+        });
     }
 
     /**
@@ -81,35 +122,41 @@ public class DatabaseHandler {
      */
     public void insertAlgorithm(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes) {
         executor.execute(() -> {
-                    algorithmDatabase.algorithmDao().insertAll(algorithm);
+                    algorithmDatabase.algorithmDao().addAlgorithm(algorithm);
                     for (Line line : lines) {
+                        if (lineDatabase.lineDao().getByLineId(line.getId()) != null){
+                            lineDatabase.lineDao().deleteByLineId(line.getId());
+                        }
                         lineDatabase.lineDao().insertAll(AlgorithmLoader.lineToLineEntity(line, algorithm.nodeNetworkUUID));
                     }
-
                     for (Node node : nodes) {
                         NodeEntity nodeEntity = new NodeEntity(
                                 algorithm.nodeNetworkUUID,
                                 node.getLeftMargin(),
                                 node.getTopMargin(),
                                 node.getId(),
-                                node.getType());
+                                node.getType(),
+                                node.getNodeOutputIds(),
+                                node.getNodeInputIds());
+
+                        if(nodeDatabase.nodeDao().getByNodeId(node.getId()) != null) {
+                            nodeDatabase.nodeDao().deleteByNodeId(node.getId());
+                        }
                         nodeDatabase.nodeDao().insertAll(nodeEntity);
+
                     }
                 }
         );
     }
 
-
-    public void getAlgorithm(String algoID, Context context, LinesView linesView, NodeCallbackListener callbackListener) {
+    public void getAlgorithm(String algoID, Context context, LinesView linesView, NodeCallbackListener callbackListener, DatabaseHandler.Data callback) {
         //return AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes
         executor.execute(() -> {
-
-
                     AlgorithmEntity algo = algorithmDatabase.algorithmDao().getByAlgorithmId(algoID);
 
-                    ArrayList<LineEntity> lineEntities = lineDatabase.lineDao().findByAlgorithmUUID(algoID);
+                    ArrayList<LineEntity> lineEntities = new ArrayList<>(Arrays.asList(lineDatabase.lineDao().findByAlgorithmUUID(algoID)));
 
-                    ArrayList<NodeEntity> nodeEntities = nodeDatabase.nodeDao().getByAlgorithmId(algoID);
+                    ArrayList<NodeEntity> nodeEntities = new ArrayList<>(Arrays.asList(nodeDatabase.nodeDao().getByAlgorithmId(algoID)));
 
 
                     ArrayList<Line> lines = new ArrayList<>();
@@ -117,34 +164,61 @@ public class DatabaseHandler {
                     HashMap<String, Node> nodeHashMap = new HashMap<>();
                     for (NodeEntity entitity : nodeEntities) {
                         Node node = entitity.type.createNode(context, entitity.cordinateX, entitity.cordinateY, linesView, callbackListener);
-                        nodeHashMap.put(entitity.algorithmUUID, node);
+                        for (String id : entitity.outputIds) {
+                            Log.d("outIds: " , id);
+                        }
+                        node.setNodeOutputIds(entitity.outputIds);
+                        node.setNodeInputIds(entitity.inputIds);
+                        node.setId(entitity.nodeUUID);
+                        Log.d("ENTITY ID", entitity.nodeUUID);
+                        nodeHashMap.put(entitity.nodeUUID, node);
                     }
 
                     for (LineEntity entity : lineEntities) {
 
-                        LinePoint startPoint = nodeHashMap.get(entity.endPointNodeId).getNodeOutput().get(0).getPoint();
+                        Node startNode = nodeHashMap.get(entity.startPointNodeId);
+                        if (startNode == null) {
+                            System.err.println("error searching for startnode");
+                            continue;
+                        }
+                        startNode.updatePositionVars();
 
-                        Line line = new Line()
+                        LinePoint startPoint = null;
+                        Log.d("searching id: " , entity.startPointId);
+                        for (NodeOutput output : startNode.getNodeOutput()) {
+                            Log.d("output id : " , output.getPoint().getId());
+                            if (output.getID().equals(entity.startPointNodeConnectorId)) {
+                                startPoint = output.getPoint();
+//                                output.getPoint().setId(entity.startPointId);
+                            }
+                        }
+
+                        Node endNode = nodeHashMap.get(entity.endPointNodeId);
+                        if (endNode == null) {
+                            System.err.println("error searching for end node");
+                            continue;
+                        }
+                        endNode.updatePositionVars();
+
+                        LinePoint endPoint = null;
+                        for (NodeInput input : endNode.getNodeInput()) {
+                            if (input.getID().equals(entity.endPointNodeConnectorId)) {
+                                endPoint = input.getPoint();
+                            }
+                        }
+
+                        //TODO points can be nullable add exceptions and stuff
+                        assert endPoint != null;
+                        assert startPoint != null;
+
+                        Line line = new Line(startPoint, endPoint);
+                        lines.add(line);
                     }
 
-//                    for (Line line : lines) {
-//                        LineEntity lineEntity = new LineEntity(line.getId(), algorithm.nodeNetworkUUID, line.getStartPoint().getId(), line.getEndPoint().getId());
-//                        lineDatabase.lineDao().insertAll(lineEntity);
-//                    }
-//
-//                    for (Node node : nodes) {
-//                        NodeEntity nodeEntity = new NodeEntity(
-//                                algorithm.nodeNetworkUUID,
-//                                node.getLeftMargin(),
-//                                node.getTopMargin(),
-//                                node.getId(),
-//                                node.getType());
-//                        nodeDatabase.nodeDao().insertAll(nodeEntity);
-//                    }
+                    callback.onAlgorithmBuilt(algo, lines, new ArrayList<Node>(nodeHashMap.values()));
                 }
         );
     }
-
 
     public void printAlgoData() {
         new Thread(() -> {
@@ -160,5 +234,27 @@ public class DatabaseHandler {
                 Log.d("algo", line.toString());
             }
         }).start();
+    }
+
+
+    public interface Data {
+        public void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes);
+    }
+
+    public interface NewAlgorithm {
+        public void onFinishedNewAlgorithm(Integer result, AlgorithmEntity entity);
+    }
+
+    public interface Lines {
+        public void onLinesFetch(ArrayList<LineEntity> result);
+    }
+
+
+    public interface Nodes {
+        public void onNodesFetch(ArrayList<NodeEntity> result);
+    }
+
+    public interface AlgoFinish {
+        void onFetched(ArrayList<AlgorithmEntity> entities);
     }
 }

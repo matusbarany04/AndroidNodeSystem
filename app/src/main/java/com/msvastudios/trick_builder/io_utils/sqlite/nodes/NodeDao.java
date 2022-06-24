@@ -1,9 +1,11 @@
 package com.msvastudios.trick_builder.io_utils.sqlite.nodes;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.msvastudios.trick_builder.io_utils.sqlite.lines.LineEntity;
 import com.msvastudios.trick_builder.node_editor.node.Node;
@@ -11,6 +13,9 @@ import com.msvastudios.trick_builder.node_editor.node.Node;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlinx.coroutines.DelicateCoroutinesApi;
+
+@Dao
 public interface NodeDao {
 
     @Query("SELECT * FROM NodeEntity")
@@ -26,17 +31,23 @@ public interface NodeDao {
     NodeEntity findByUUID(String uuid);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addNode(NodeEntity Node);
-
-    @Insert
     void insertAll(NodeEntity... node);
+
+    @Query("SELECT * FROM NodeEntity WHERE node_uuid == :nodeUUID")
+    NodeEntity[] getByNodeId(String nodeUUID);
 
     @Delete
     void delete(NodeEntity node);
 
-    @Query("DELETE FROM NodeEntity WHERE algorithm_uuid LIKE :algortihmId LIMIT 1")
+    @Query("DELETE FROM NodeEntity WHERE algorithm_uuid == :algortihmId")
     void deleteByAlgorithmId(String algortihmId);
 
-    @Query("SELECT * FROM NodeEntity WHERE algorithm_uuid LIKE :algortihmId LIMIT 1")
-    public ArrayList<NodeEntity> getByAlgorithmId(String algortihmId);
+
+    @Query("DELETE FROM NodeEntity WHERE node_uuid == :nodeUUID")
+    void deleteByNodeId(String nodeUUID);
+
+
+    @Query("SELECT * FROM NodeEntity WHERE algorithm_uuid == :algortihmId")
+    public NodeEntity[] getByAlgorithmId(String algortihmId);
+
 }

@@ -14,7 +14,7 @@ public class LinePoint {
         this.x = x;
         this.y = y;
         parent = node;
-        id = UUID.randomUUID().toString();
+        id = "LinePoint" + UUID.randomUUID().toString();
 
     }
 

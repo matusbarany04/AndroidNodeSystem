@@ -27,16 +27,17 @@ public class AlgorithmLoader {
                 line.getStartPoint().getId(),
                 line.getEndPoint().getId(),
                 line.getStartPoint().getParent().getId(),
-                line.getEndPoint().getParent().getId()
-        );
+                line.getEndPoint().getParent().getId(),
+                line.getStartPoint().getParent().getNodeOutputByPointId(line.getStartPoint().getId()).getID(),
+                line.getEndPoint().getParent().getNodeInputByPointId(line.getEndPoint().getId()).getID()
+                );
     }
 
-    public Pair<ArrayList<Line>, ArrayList<Node>> LineEntityToLine(
-            ArrayList<LineEntity> line, HashMap<String, Node> nodeList){
-        Node node = nodeList.get(line.get(0).);
-        node.updateNodeCordinates();
-        return new Line(new LinePoint( 0,0,node),new LinePoint( 0,0,node));
-    }
+//    public Pair<ArrayList<Line>, ArrayList<Node>> LineEntityToLine(ArrayList<LineEntity> line, HashMap<String, Node> nodeList){
+//        Node node = nodeList.get(line.get(0).);
+//        node.updateNodeCordinates();
+//        return new Line(new LinePoint( 0,0,node),new LinePoint( 0,0,node));
+//    }
 
     /**
      *

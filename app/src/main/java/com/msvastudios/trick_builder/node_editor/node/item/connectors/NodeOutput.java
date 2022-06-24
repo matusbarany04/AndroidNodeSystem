@@ -36,7 +36,7 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
 
     @Override
     public String getID() {
-        return "NodeOutput" + super.getID();
+        return super.getID();
     }
 
     @Override

@@ -1,11 +1,15 @@
 package com.msvastudios.trick_builder.node_editor.node;
 
 import android.content.Context;
-import android.util.Pair;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.msvastudios.trick_builder.generator_editor.GeneratorEditorActivity;
+import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.node_editor.io.NodesSaver;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
@@ -55,39 +59,42 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         this.linesView = linesView;
 
     }
-
+    AlgorithmEntity algorithmEntity;
     public void loadSavedNodeNetwork(String id) { // TODO make a lot faster
-        Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> out = nodesSaver.readNodes(id);
-        ArrayList<Node> nodes = out.first;
-        HashMap<String, ArrayList<String>> lines = out.second;
+//        Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> out = Node.readNodes(id);
+//        ArrayList<Node> nodes = out.first;
+//        HashMap<String, ArrayList<String>> lines = out.second;
 
-        for (Node node : nodes) {
-            node.setLinesView(linesView);
-            node.setListener(this);
-            nodeList.put(node.getId(), node);
-            dragArea.addView(node.getNode());
+        DatabaseHandler.getInstance(context).getAlgorithm(id, context, linesView, this, new DatabaseHandler.Data() {
+            @Override
+            public void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes) {
+                for (Node node: nodes) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        public void run() {
+                            dragArea.addView(node.getNode());
+                            nodeList.put(node.getId(), node);
 
-            ArrayList<String> endsPoints = lines.get(node.getNodeOutput().get(0).getPoint().getId());
-            if (endsPoints != null) {
-                for (String endPointId : endsPoints) {
-                    for (Node other : nodes) {
-                        for (NodeOutput nodeOutput : node.getNodeOutput()) {
-                            for (NodeInput otherInput : other.getNodeInput()) {
-                                if (endPointId.equals(otherInput.getPoint().getId())) {
-                                    linesView.addLine(new Line(nodeOutput.getPoint(), other.getNodeInput().get(0).getPoint()));
-                                }
-                            }
+                            // code goes here
                         }
-                    }
+                    });
+
                 }
+
+                linesView.setLines(lines);
+                algorithmEntity = algorithm;
             }
-        }
+        });
+
     }
 
     public void saveCurrentNodes(String id) {
-//        nodesSaver.getInternalStorageSaver().clear();
-        nodesSaver.saveNodes(new ArrayList<Node>(nodeList.values()), id, linesView.getLines());
+
+        DatabaseHandler.getInstance(context).insertAlgorithm(
+                new AlgorithmEntity(algorithmEntity.name, id, nodeList.values().size()),
+                linesView.getLines(),
+                new ArrayList<>(nodeList.values()));
     }
+
 
 
     public <T extends Node> void addNode(Class<T> sup, int leftMargin, int topMargin) {

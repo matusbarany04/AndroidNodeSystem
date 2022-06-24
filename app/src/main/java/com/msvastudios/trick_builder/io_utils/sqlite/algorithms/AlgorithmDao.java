@@ -24,7 +24,7 @@ public interface AlgorithmDao {
     public AlgorithmEntity getByAlgorithmId(String algoId);
 
     @Query("SELECT * FROM AlgorithmEntity WHERE algorithm_name LIKE :name LIMIT 1")
-    AlgorithmEntity findByName(String name);
+    public AlgorithmEntity[] findByName(String name);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addAlgorithm(AlgorithmEntity algorithm);

@@ -35,7 +35,8 @@ public class DatabaseHandler {
     private NodeDatabase nodeDatabase;
     private LineDatabase lineDatabase;
 
-    private DatabaseHandler() {}
+    private DatabaseHandler() {
+    }
 
     public static DatabaseHandler build(Context context) {
         instance = new DatabaseHandler();
@@ -47,18 +48,19 @@ public class DatabaseHandler {
     }
 
     public static DatabaseHandler getInstance(Context context) {
-        if (instance != null){
+        if (instance != null) {
             return instance;
-        }else{
+        } else {
             instance = DatabaseHandler.build(context);
             return instance;
         }
     }
 
+
     public void getLines(DatabaseHandler.Lines callback) {
         executor.execute(() -> {
-                callback.onLinesFetch(new ArrayList<>(lineDatabase.lineDao().getAll()));
-            }
+                    callback.onLinesFetch(new ArrayList<>(lineDatabase.lineDao().getAll()));
+                }
         );
     }
 
@@ -70,13 +72,31 @@ public class DatabaseHandler {
         );
     }
 
-    public void createNewAlgorithmEntity(String name, NewAlgorithm callback) {
+    public void updateAlgorithmEntity(AlgorithmUpdate callback, AlgorithmEntity updated) {
+        executor.execute(() -> {
+            algorithmDatabase.algorithmDao().delete(updated);
+            algorithmDatabase.algorithmDao().insertAll(updated);
+            callback.algorithmUpdated(0);
+        });
+    }
+
+    public void getAlgorithmEntity(String id, DatabaseHandler.Algorithm callback) {
+        executor.execute(() -> {
+            AlgorithmEntity entity = algorithmDatabase.algorithmDao().getByAlgorithmId(id);
+            if (entity != null)
+                callback.onAlgorithm(0, entity);
+            else
+                callback.onAlgorithm(1, null);
+        });
+    }
+
+    public void createNewAlgorithmEntity(String name, Algorithm callback) {
         executor.execute(() -> {
             AlgorithmEntity[] entities = algorithmDatabase.algorithmDao().findByName(name);
             if (entities.length == 0)
-                callback.onFinishedNewAlgorithm(0, new AlgorithmEntity(name, UUID.randomUUID().toString(), 0));
+                callback.onAlgorithm(0, new AlgorithmEntity(name, UUID.randomUUID().toString(), 0));
             else
-                callback.onFinishedNewAlgorithm(1, entities[0]);
+                callback.onAlgorithm(1, entities[0]);
         });
     }
 
@@ -124,7 +144,7 @@ public class DatabaseHandler {
         executor.execute(() -> {
                     algorithmDatabase.algorithmDao().addAlgorithm(algorithm);
                     for (Line line : lines) {
-                        if (lineDatabase.lineDao().getByLineId(line.getId()) != null){
+                        if (lineDatabase.lineDao().getByLineId(line.getId()) != null) {
                             lineDatabase.lineDao().deleteByLineId(line.getId());
                         }
                         lineDatabase.lineDao().insertAll(AlgorithmLoader.lineToLineEntity(line, algorithm.nodeNetworkUUID));
@@ -139,7 +159,7 @@ public class DatabaseHandler {
                                 node.getNodeOutputIds(),
                                 node.getNodeInputIds());
 
-                        if(nodeDatabase.nodeDao().getByNodeId(node.getId()) != null) {
+                        if (nodeDatabase.nodeDao().getByNodeId(node.getId()) != null) {
                             nodeDatabase.nodeDao().deleteByNodeId(node.getId());
                         }
                         nodeDatabase.nodeDao().insertAll(nodeEntity);
@@ -147,6 +167,13 @@ public class DatabaseHandler {
                     }
                 }
         );
+    }
+
+    public void getAlgorithmName(String algorithmUUID, DatabaseHandler.NameFetch callback) {
+        //TODO pridat inteface callback a that kind of stuff
+        executor.execute(() -> {
+            callback.onNameFetched(algorithmDatabase.algorithmDao().getByAlgorithmId(algorithmUUID).name);
+        });
     }
 
     public void getAlgorithm(String algoID, Context context, LinesView linesView, NodeCallbackListener callbackListener, DatabaseHandler.Data callback) {
@@ -165,7 +192,7 @@ public class DatabaseHandler {
                     for (NodeEntity entitity : nodeEntities) {
                         Node node = entitity.type.createNode(context, entitity.cordinateX, entitity.cordinateY, linesView, callbackListener);
                         for (String id : entitity.outputIds) {
-                            Log.d("outIds: " , id);
+                            Log.d("outIds: ", id);
                         }
                         node.setNodeOutputIds(entitity.outputIds);
                         node.setNodeInputIds(entitity.inputIds);
@@ -184,9 +211,9 @@ public class DatabaseHandler {
                         startNode.updatePositionVars();
 
                         LinePoint startPoint = null;
-                        Log.d("searching id: " , entity.startPointId);
+                        Log.d("searching id: ", entity.startPointId);
                         for (NodeOutput output : startNode.getNodeOutput()) {
-                            Log.d("output id : " , output.getPoint().getId());
+                            Log.d("output id : ", output.getPoint().getId());
                             if (output.getID().equals(entity.startPointNodeConnectorId)) {
                                 startPoint = output.getPoint();
 //                                output.getPoint().setId(entity.startPointId);
@@ -241,20 +268,28 @@ public class DatabaseHandler {
         public void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes);
     }
 
-    public interface NewAlgorithm {
-        public void onFinishedNewAlgorithm(Integer result, AlgorithmEntity entity);
+    public interface Algorithm {
+        public void onAlgorithm(Integer result, AlgorithmEntity entity);
     }
 
     public interface Lines {
         public void onLinesFetch(ArrayList<LineEntity> result);
     }
 
-
     public interface Nodes {
         public void onNodesFetch(ArrayList<NodeEntity> result);
     }
 
     public interface AlgoFinish {
-        void onFetched(ArrayList<AlgorithmEntity> entities);
+        public void onFetched(ArrayList<AlgorithmEntity> entities);
+    }
+
+    public interface NameFetch {
+        public void onNameFetched(String name);
+
+    }
+
+    public interface AlgorithmUpdate {
+        public void algorithmUpdated(int status);
     }
 }

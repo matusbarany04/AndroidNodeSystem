@@ -10,6 +10,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.JavaTransparent">
+
         <activity
             android:name=".debug.DatabaseRendererActivity"
             android:exported="false" />

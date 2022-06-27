@@ -2,10 +2,12 @@ package com.msvastudios.trick_builder.node_editor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -21,21 +23,20 @@ public class NodeActivity extends AppCompatActivity {
     DisplayMetrics displayMetrics;
 
     RelativeLayout dragArea;
-
+    NodeManager nodeManager;
     String sessionId = "myFirstProgram";
     String algoName;
-
+    Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_node);
 
 
-
         this.algoName = getIntent().getStringExtra(getString(R.string.NodeActivityExtraId));
         if (algoName == null) algoName = "smh";
 //        getSupportActionBar().hide();
-        Log.d("NODEACTIVITY" ,  algoName);
+        Log.d("NODEACTIVITY", algoName);
 
         dragArea = findViewById(R.id.dragArea);
 
@@ -53,14 +54,13 @@ public class NodeActivity extends AppCompatActivity {
 
 
         NodeDimensionsCalculator.getStatusBarHeight(this);
-        NodeManager nodeManager = new NodeManager(this, linesView, dragArea);
+        nodeManager = new NodeManager(this, linesView, dragArea);
         nodeManager.loadSavedNodeNetwork(algoName);
 
         FloatingActionButton floatingActionButton = findViewById(R.id.ping);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Button clicked!");
                 nodeManager.play();
             }
         });
@@ -70,26 +70,26 @@ public class NodeActivity extends AppCompatActivity {
         nodeBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                dialog.show();
 
-                overridePendingTransition(0,0);
             }
         });
         SettingsContainer container = new SettingsContainer(getApplicationContext());
 
-         LinearLayout nodeRoot = findViewById(R.id.node_root);
-         nodeRoot.addView(container.getSettingsView());
+        LinearLayout nodeRoot = findViewById(R.id.node_root);
+        nodeRoot.addView(container.getSettingsView());
 
 
         // retrackable menu buttons
         container.setClickListenerOnButton(0, view -> {
             //call add activity
             //with some callback
-            nodeManager.addNode(RepeaterNode.class, 200,200);
+            nodeManager.addNode(RepeaterNode.class, 200, 200);
         });
 
         container.setClickListenerOnButton(1, view -> {
             // TODO start deletion mode of nodes add deletion of nodes
+            nodeManager.toggleDeletionMode();
         });
 
         container.setClickListenerOnButton(2, view -> {
@@ -97,6 +97,31 @@ public class NodeActivity extends AppCompatActivity {
             nodeManager.saveCurrentNodes(algoName);
         });
 
+        buildDialog();
+    }
+
+    public void buildDialog(){
+        dialog = new Dialog(NodeActivity.this);
+        dialog.setContentView(R.layout.dialog_yes_no);
+        Button btn_yes = dialog.findViewById(R.id.btn_yes);
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nodeManager.saveCurrentNodes(algoName);
+                dialog.hide();
+                finish();
+                overridePendingTransition(0,0);
+            }
+        });
+        Button btn_no = dialog.findViewById(R.id.btn_no);
+        btn_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+                finish();
+                overridePendingTransition(0,0);
+            }
+        });
 
     }
 }

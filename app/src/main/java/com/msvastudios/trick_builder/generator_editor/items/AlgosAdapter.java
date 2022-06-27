@@ -26,6 +26,9 @@ public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> 
         this.listener = listener;
     }
 
+    public ArrayList<AlgorithmEntity> getData() {
+        return data;
+    }
 
     @NonNull
     @Override

@@ -17,10 +17,14 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
@@ -33,6 +37,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     int nodeWidth = 500;
     NodeOutput draggingOutput;
     NodesSaver nodesSaver;
+    boolean deleteEnabled = false;
 
     public NodeManager(Context context, LinesView linesView, RelativeLayout dragArea) {
         NodeDimensionsCalculator.init(context);
@@ -64,7 +69,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 //        Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> out = Node.readNodes(id);
 //        ArrayList<Node> nodes = out.first;
 //        HashMap<String, ArrayList<String>> lines = out.second;
-
         DatabaseHandler.getInstance(context).getAlgorithm(id, context, linesView, this, new DatabaseHandler.Data() {
             @Override
             public void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes) {
@@ -84,7 +88,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                 algorithmEntity = algorithm;
             }
         });
-
     }
 
     public void saveCurrentNodes(String id) {
@@ -117,6 +120,26 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
     @Override
     public int onMoved(Node node) {
+        if (deleteEnabled){
+            System.out.println("moving removing!!");
+            nodeList.remove(node.getId());
+
+            ArrayList<String> nodeOutputPoints = new ArrayList<>();
+            for (NodeOutput a : node.getNodeOutput()) {
+                String id = a.getPoint().getId();
+                nodeOutputPoints.add(id);
+            }
+
+            ArrayList<String> nodeInputPoints = new ArrayList<>();
+            for (NodeOutput a : node.getNodeOutput()) {
+                String id = a.getPoint().getId();
+                nodeInputPoints.add(id);
+            }
+
+            linesView.removeAllLinesWith(nodeOutputPoints );
+            linesView.removeAllLinesWith(nodeInputPoints);
+
+        }
         return 0;
     }
 
@@ -128,8 +151,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     @Override
     public int onOutputDragged(Node node, NodeOutput nodeOutput) {
         draggingOutput = nodeOutput;
-//        NodeOutput nodeOutput = node.nodeOutput.get(node.getId());
-//        Log.d("output dragged", "dragging!!!");
         helpLine = new Line(nodeOutput.getPoint(), new LinePoint(nodeOutput.getPoint(), node));
         linesView.addLine(helpLine);
         return 0;
@@ -177,5 +198,17 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                 node.sendData();
             }
         }
+    }
+
+    public void toggleDeletionMode(){
+        deleteEnabled = !deleteEnabled;
+    }
+
+    public void setDeleteEnabled(boolean deleteEnabled) {
+        this.deleteEnabled = deleteEnabled;
+    }
+
+    public boolean isDeleteEnabled() {
+        return deleteEnabled;
     }
 }

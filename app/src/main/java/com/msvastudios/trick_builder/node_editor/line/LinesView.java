@@ -148,4 +148,23 @@ public class LinesView extends View {
         invalidate();
     }
 
+    public void removeAllLinesWith(ArrayList<String> pointIds) { // TODO too slow refractor later!
+        ArrayList<Line> outputLines = new ArrayList<>();
+        for (String id : pointIds) {
+            System.out.println("id + "  + id);
+            for (Line line : lines) {
+                System.out.println("start " + line.getStartPoint().getId());
+                if (!line.getStartPoint().getId().equals(id) &&
+                        !line.getEndPoint().getId().equals(id) ){
+                    outputLines.add(line);
+                    System.out.println("found .. :)");
+                    continue;
+                }
+//                System.out.println("not found... :(");
+            }
+        }
+        lines = outputLines;
+        invalidate();
+    }
+
 }

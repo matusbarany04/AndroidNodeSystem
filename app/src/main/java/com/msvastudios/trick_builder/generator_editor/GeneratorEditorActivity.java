@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
@@ -27,8 +28,9 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
-public class GeneratorEditorActivity extends AppCompatActivity implements DiscreteScrollView.OnItemChangedListener<AlgosAdapter.ViewHolder>,View.OnClickListener {
+public class GeneratorEditorActivity extends AppCompatActivity implements DiscreteScrollView.OnItemChangedListener<AlgosAdapter.ViewHolder>, View.OnClickListener {
 
 
     @Override
@@ -41,6 +43,8 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
         initAlgorithmsAdapter();
 
         initBottomMenu();
+
+
     }
 
     private void initBottomMenu() {
@@ -49,24 +53,26 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
             Intent intent = new Intent(GeneratorEditorActivity.this, AlgorithmEditorActivity.class);
             intent.putExtra("buttonName", "add");
             startActivity(intent);
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
         });
 
         FloatingActionButton chooseAndGoBackButton = findViewById(R.id.generator_editor_chooseAlgorithmAndGoBack);
-        chooseAndGoBackButton .setOnClickListener(view -> {
+        chooseAndGoBackButton.setOnClickListener(view -> {
             finish();
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
         });
         FloatingActionButton customizeButton = findViewById(R.id.generator_editor_customizeAlgorithm);
         customizeButton.setOnClickListener(view -> {
-            //TODO uncomment
-//            Intent intent = new Intent(GeneratorEditorActivity.this, AlgorithmEditorActivity.class);
-//            startActivity(intent);
-//            intent.putExtra("buttonName", "save");
-//            overridePendingTransition(0,0);
 
-            Intent intent = new Intent(GeneratorEditorActivity.this, DatabaseRendererActivity.class);
+            Intent intent = new Intent(GeneratorEditorActivity.this, AlgorithmEditorActivity.class);
+
+            intent.putExtra("buttonName", "save");
+            DiscreteScrollView scrollView = findViewById(R.id.picker);
+            intent.putExtra("algorithmId",((AlgosAdapter) scrollView.getAdapter()).getData().get(scrollView.getCurrentItem()).nodeNetworkUUID);
+            overridePendingTransition(0,0);
             startActivity(intent);
+//            Intent intent = new Intent(GeneratorEditorActivity.this, DatabaseRendererActivity.class);
+//            startActivity(intent);
         });
     }
 
@@ -80,19 +86,21 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
                 intent.putExtra(getString(R.string.NodeActivityExtraId), item.nodeNetworkUUID);
                 startActivity(intent);
 
-                overridePendingTransition(0,0);
+                overridePendingTransition(0, 0);
             }
         };
 
-        scrollView.setAdapter(new AlgosAdapter(new ArrayList<AlgorithmEntity>(),listener));
+        scrollView.setAdapter(new AlgosAdapter(new ArrayList<AlgorithmEntity>(), listener));
 
-        assert  DatabaseHandler.getInstance(getApplicationContext()) != null;
+        assert DatabaseHandler.getInstance(getApplicationContext()) != null;
 
         DatabaseHandler.getInstance(getApplicationContext()).getAllAgorithms(new DatabaseHandler.AlgoFinish() {
             @Override
             public void onFetched(ArrayList<AlgorithmEntity> entities) {
+                runOnUiThread(()->{
+                    scrollView.setAdapter(new AlgosAdapter(entities, listener));
+                });
 
-                scrollView.setAdapter(new AlgosAdapter(entities, listener));
             }
         });
 
@@ -123,64 +131,36 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
         FloatingActionButton backButton = findViewById(R.id.generator_editor_goBack);
         backButton.setOnClickListener(view -> {
             finish();
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
         });
 
         FloatingActionButton groupButton = findViewById(R.id.generator_editor_groupsButton);
         groupButton.setOnClickListener(view -> {
             Intent intent = new Intent(GeneratorEditorActivity.this, GroupListActivity.class);
             startActivity(intent);
-            overridePendingTransition(0,0);
+            overridePendingTransition(0, 0);
         });
     }
 
     @Override
-    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.item_btn_rate:
-//                int realPosition = infiniteAdapter.getRealPosition(itemPicker.getCurrentItem());
-//                Item current = data.get(realPosition);
-//                shop.setRated(current.getId(), !shop.isRated(current.getId()));
-//                changeRateButtonState(current);
-//                break;
-//            case R.id.home:
-//                finish();
-//                break;
-//            case R.id.btn_transition_time:
-//                DiscreteScrollViewOptions.configureTransitionTime(itemPicker);
-//                break;
-//            case R.id.btn_smooth_scroll:
-//                DiscreteScrollViewOptions.smoothScrollToUserSelectedPosition(itemPicker, v);
-//                break;
-//            default:
-//                showUnsupportedSnackBar();
-//                break;
-//        }
-    }
-
-    private void onItemChanged(AlgorithmItem item) {
-//        currentItemName.setText(item.getName());
-//        currentItemPrice.setText(item.getPrice());
-        changeRateButtonState(item);
-    }
-
-    private void changeRateButtonState(AlgorithmItem item) {
-//        if (shop.isRated(item.getId())) {
-//            rateItemButton.setImageResource(R.drawable.ic_star_black_24dp);
-//            rateItemButton.setColorFilter(ContextCompat.getColor(this, R.color.shopRatedStar));
-//        } else {
-//            rateItemButton.setImageResource(R.drawable.ic_star_border_black_24dp);
-//            rateItemButton.setColorFilter(ContextCompat.getColor(this, R.color.shopSecondary));
-//        }
+    protected void onResume() {
+        super.onResume();
+        initAlgorithmsAdapter();
     }
 
     @Override
-    public void onCurrentItemChanged(@Nullable AlgosAdapter.ViewHolder viewHolder, int adapterPosition) {
-//        int positionInDataSet = infiniteAdapter.getRealPosition(adapterPosition);
-//        onItemChanged(data.get(positionInDataSet));
+    public void onClick(View v) {
+
     }
 
 
+    @Override
+    public void onCurrentItemChanged(@Nullable AlgosAdapter.ViewHolder viewHolder, int adapterPosition) {
+        TextView algorithmNameTextView = findViewById(R.id.editor_text);
+        DiscreteScrollView scrollView = findViewById(R.id.picker);
+        algorithmNameTextView.setText(((AlgosAdapter) Objects.requireNonNull(scrollView.getAdapter())).getData().get(adapterPosition).name);
+
+    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.io_utils.sqlite;
+package com.msvastudios.trick_builder.utils.sqlite;
 
 import androidx.room.TypeConverter;
 

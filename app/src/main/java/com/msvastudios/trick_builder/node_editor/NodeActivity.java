@@ -100,6 +100,7 @@ public class NodeActivity extends AppCompatActivity {
         buildDialog();
     }
 
+
     public void buildDialog(){
         dialog = new Dialog(NodeActivity.this);
         dialog.setContentView(R.layout.dialog_yes_no);
@@ -108,7 +109,7 @@ public class NodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 nodeManager.saveCurrentNodes(algoName);
-                dialog.hide();
+                dialog.dismiss();
                 finish();
                 overridePendingTransition(0,0);
             }
@@ -117,7 +118,7 @@ public class NodeActivity extends AppCompatActivity {
         btn_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.hide();
+                dialog.dismiss();
                 finish();
                 overridePendingTransition(0,0);
             }

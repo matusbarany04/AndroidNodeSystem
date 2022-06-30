@@ -1,22 +1,11 @@
-package com.msvastudios.trick_builder.io_utils.sqlite;
+package com.msvastudios.trick_builder.utils.sqlite;
 
 import android.content.Context;
-import android.util.Pair;
 
-import com.msvastudios.trick_builder.io_utils.sqlite.lines.LineEntity;
-import com.msvastudios.trick_builder.io_utils.sqlite.nodes.NodeEntity;
+import com.msvastudios.trick_builder.utils.sqlite.lines.LineEntity;
+import com.msvastudios.trick_builder.utils.sqlite.nodes.NodeEntity;
 import com.msvastudios.trick_builder.node_editor.line.Line;
-import com.msvastudios.trick_builder.node_editor.line.LinePoint;
-import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
-import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
-import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
-import com.msvastudios.trick_builder.node_editor.node.item.params_item.ParameterItem;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public class AlgorithmLoader {
 

@@ -1,7 +1,4 @@
-package com.msvastudios.trick_builder.io_utils.shared_prefs;
-
-import android.content.Context;
-import android.content.SharedPreferences;
+package com.msvastudios.trick_builder.utils.shared_prefs;
 
 public class SharedPreferencesAPI {
 

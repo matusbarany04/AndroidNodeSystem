@@ -1,11 +1,9 @@
-package com.msvastudios.trick_builder.io_utils.sqlite.lines;
+package com.msvastudios.trick_builder.utils.sqlite.lines;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import com.msvastudios.trick_builder.node_editor.line.Line;
 
 @Entity(indices = {@Index(value = {"line_uuid"}, unique = true)})
 public class LineEntity {

@@ -6,8 +6,8 @@ import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
-import com.msvastudios.trick_builder.io_utils.textfiles.InternalFiles;
-import com.msvastudios.trick_builder.io_utils.textfiles.InternalStorageSaver;
+import com.msvastudios.trick_builder.utils.textfiles.InternalFiles;
+import com.msvastudios.trick_builder.utils.textfiles.InternalStorageSaver;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;

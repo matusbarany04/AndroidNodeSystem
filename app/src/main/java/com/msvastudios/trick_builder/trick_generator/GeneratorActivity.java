@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.generator_editor.GeneratorEditorActivity;
-import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
 
 public class GeneratorActivity extends AppCompatActivity {
 

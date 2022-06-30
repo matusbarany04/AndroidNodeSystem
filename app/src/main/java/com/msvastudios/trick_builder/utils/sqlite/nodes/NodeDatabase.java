@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.io_utils.sqlite.nodes;
+package com.msvastudios.trick_builder.utils.sqlite.nodes;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -8,9 +8,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-import com.msvastudios.trick_builder.io_utils.sqlite.Converters;
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmDao;
-import com.msvastudios.trick_builder.node_editor.node.Node;
+import com.msvastudios.trick_builder.utils.sqlite.Converters;
 
 @Database(entities = {NodeEntity.class},version = 1)
 @TypeConverters({Converters.class})

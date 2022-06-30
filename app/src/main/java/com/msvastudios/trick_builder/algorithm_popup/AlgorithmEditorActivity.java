@@ -6,30 +6,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
-import com.msvastudios.trick_builder.generator_editor.items.AlgorithmItem;
-import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
+import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class AlgorithmEditorActivity extends AppCompatActivity implements OnItemClickListener, DiscreteScrollView.OnItemChangedListener {
     EditText text;

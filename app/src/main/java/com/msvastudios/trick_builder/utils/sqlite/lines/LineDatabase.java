@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.io_utils.sqlite.algorithms;
+package com.msvastudios.trick_builder.utils.sqlite.lines;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -7,10 +7,11 @@ import androidx.room.InvalidationTracker;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {AlgorithmEntity.class}, version = 1)
-public abstract class AlgorithmDatabase extends RoomDatabase {
-    public static String DATABASE_NAME = "algos";
-    public abstract AlgorithmDao algorithmDao();
+@Database(entities = {LineEntity.class},version = 1)
+public abstract class LineDatabase extends RoomDatabase {
+    public final static String DATABASE_NAME = "lines";
+
+    public abstract LineDao lineDao();
 
     @NonNull
     @Override
@@ -28,8 +29,4 @@ public abstract class AlgorithmDatabase extends RoomDatabase {
     public void clearAllTables() {
 
     }
-
-
 }
-
-

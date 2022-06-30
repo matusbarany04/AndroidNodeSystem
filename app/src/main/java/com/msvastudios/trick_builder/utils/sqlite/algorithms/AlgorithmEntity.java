@@ -1,11 +1,9 @@
-package com.msvastudios.trick_builder.io_utils.sqlite.algorithms;
+package com.msvastudios.trick_builder.utils.sqlite.algorithms;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import java.util.stream.Stream;
 
 @Entity(indices = {@Index(value = {"algorithm_name"}, unique = true)})
 public class AlgorithmEntity {

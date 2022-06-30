@@ -14,20 +14,16 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.algorithm_popup.AlgorithmEditorActivity;
-import com.msvastudios.trick_builder.debug.DatabaseRendererActivity;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
-import com.msvastudios.trick_builder.generator_editor.items.AlgorithmItem;
-import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
+import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.node_editor.NodeActivity;
 import com.msvastudios.trick_builder.trick_listing.groups.GroupListActivity;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class GeneratorEditorActivity extends AppCompatActivity implements DiscreteScrollView.OnItemChangedListener<AlgosAdapter.ViewHolder>, View.OnClickListener {

@@ -7,9 +7,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.msvastudios.trick_builder.generator_editor.GeneratorEditorActivity;
-import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
+import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.node_editor.io.NodesSaver;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
@@ -17,14 +16,10 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 public class NodeManager implements NodeCallbackListener, View.OnTouchListener {

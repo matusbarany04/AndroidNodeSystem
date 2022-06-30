@@ -1,17 +1,11 @@
-package com.msvastudios.trick_builder.io_utils.sqlite.nodes;
+package com.msvastudios.trick_builder.utils.sqlite.nodes;
 
-import androidx.annotation.ColorRes;
 import androidx.room.ColumnInfo;
-import androidx.room.Database;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
 
-import com.msvastudios.trick_builder.io_utils.sqlite.Converters;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
-import com.msvastudios.trick_builder.node_editor.node.Node;
-import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
 import java.util.ArrayList;
 

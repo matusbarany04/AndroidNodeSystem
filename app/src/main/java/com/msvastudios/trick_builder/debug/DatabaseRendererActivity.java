@@ -8,10 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.io_utils.sqlite.DatabaseHandler;
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
-import com.msvastudios.trick_builder.io_utils.sqlite.lines.LineEntity;
-import com.msvastudios.trick_builder.io_utils.sqlite.nodes.NodeEntity;
+import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
+import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
+import com.msvastudios.trick_builder.utils.sqlite.lines.LineEntity;
+import com.msvastudios.trick_builder.utils.sqlite.nodes.NodeEntity;
 
 import java.util.ArrayList;
 

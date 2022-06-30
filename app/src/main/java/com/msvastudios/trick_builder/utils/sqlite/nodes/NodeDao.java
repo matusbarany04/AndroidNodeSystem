@@ -1,19 +1,12 @@
-package com.msvastudios.trick_builder.io_utils.sqlite.nodes;
+package com.msvastudios.trick_builder.utils.sqlite.nodes;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import com.msvastudios.trick_builder.io_utils.sqlite.lines.LineEntity;
-import com.msvastudios.trick_builder.node_editor.node.Node;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import kotlinx.coroutines.DelicateCoroutinesApi;
 
 @Dao
 public interface NodeDao {

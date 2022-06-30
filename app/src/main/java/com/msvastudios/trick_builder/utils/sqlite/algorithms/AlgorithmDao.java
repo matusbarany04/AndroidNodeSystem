@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.io_utils.sqlite.algorithms;
+package com.msvastudios.trick_builder.utils.sqlite.algorithms;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

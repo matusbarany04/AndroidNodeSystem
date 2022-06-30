@@ -1,16 +1,16 @@
-package com.msvastudios.trick_builder.io_utils.sqlite;
+package com.msvastudios.trick_builder.utils.sqlite;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.room.Room;
 
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmEntity;
-import com.msvastudios.trick_builder.io_utils.sqlite.algorithms.AlgorithmDatabase;
-import com.msvastudios.trick_builder.io_utils.sqlite.lines.LineEntity;
-import com.msvastudios.trick_builder.io_utils.sqlite.lines.LineDatabase;
-import com.msvastudios.trick_builder.io_utils.sqlite.nodes.NodeEntity;
-import com.msvastudios.trick_builder.io_utils.sqlite.nodes.NodeDatabase;
+import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
+import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmDatabase;
+import com.msvastudios.trick_builder.utils.sqlite.lines.LineEntity;
+import com.msvastudios.trick_builder.utils.sqlite.lines.LineDatabase;
+import com.msvastudios.trick_builder.utils.sqlite.nodes.NodeEntity;
+import com.msvastudios.trick_builder.utils.sqlite.nodes.NodeDatabase;
 import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.line.LinePoint;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;

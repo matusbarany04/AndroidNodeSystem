@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.io_utils.textfiles;
+package com.msvastudios.trick_builder.utils.textfiles;
 
 import android.content.Context;
 

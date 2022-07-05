@@ -22,12 +22,6 @@ public class GeneratorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_generator);
 
 
-
-//        DatabaseHandler.getInstance(); //.saveAlgorithm(algo);
-        Log.d("hey", "sjdsaasd");
-//        DatabaseHandler.getInstance(). printAlgoData();
-
-
         Button circleButton = findViewById(R.id.generator_button);
         circleButton.setTransitionName("element");
         TextView textView = findViewById(R.id.generator_text);

@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.msvastudios.trick_builder.node_editor.io.NodeCreator;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.node_editor.io.NodesSaver;
@@ -111,6 +112,13 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public <T extends Node> void addNode(CustomNodes node, int leftMargin, int topMargin) {
+        T createdNode  = (T) node.createNode(context, leftMargin, topMargin, linesView, this);
+        nodeList.put(createdNode.getId(), createdNode);
+        dragArea.addView((createdNode).getNode());
     }
 
     @Override

@@ -13,11 +13,15 @@ import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.algorithm_popup.NewNodePopup;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;
 import com.msvastudios.trick_builder.node_editor.node.NodeManager;
 import com.msvastudios.trick_builder.node_editor.activity_components.SettingsContainer;
-import com.msvastudios.trick_builder.node_editor.node.custom_nodes.RepeaterNode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NodeActivity extends AppCompatActivity {
     DisplayMetrics displayMetrics;
@@ -27,6 +31,8 @@ public class NodeActivity extends AppCompatActivity {
     String sessionId = "myFirstProgram";
     String algoName;
     Dialog dialog;
+    NewNodePopup nodePopup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +90,8 @@ public class NodeActivity extends AppCompatActivity {
         container.setClickListenerOnButton(0, view -> {
             //call add activity
             //with some callback
-            nodeManager.addNode(RepeaterNode.class, 200, 200);
+//            nodeManager.addNode(RepeaterNode.class, 200, 200);
+            nodePopup.show();
         });
 
         container.setClickListenerOnButton(1, view -> {
@@ -97,11 +104,11 @@ public class NodeActivity extends AppCompatActivity {
             nodeManager.saveCurrentNodes(algoName);
         });
 
+        buildNewNodePopup();
         buildDialog();
     }
 
-
-    public void buildDialog(){
+    public void buildDialog() {
         dialog = new Dialog(NodeActivity.this);
         dialog.setContentView(R.layout.dialog_yes_no);
         Button btn_yes = dialog.findViewById(R.id.btn_yes);
@@ -111,7 +118,7 @@ public class NodeActivity extends AppCompatActivity {
                 nodeManager.saveCurrentNodes(algoName);
                 dialog.dismiss();
                 finish();
-                overridePendingTransition(0,0);
+                overridePendingTransition(0, 0);
             }
         });
         Button btn_no = dialog.findViewById(R.id.btn_no);
@@ -120,7 +127,21 @@ public class NodeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
                 finish();
-                overridePendingTransition(0,0);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+    }
+
+    private void buildNewNodePopup() {
+        nodePopup = new NewNodePopup(NodeActivity.this, new ArrayList<CustomNodes>(Arrays.asList(CustomNodes.values())));
+
+        nodePopup.setOnItemClickListener(new NewNodePopup.Popup() {
+            @Override
+            public void onNodeItemClickListener(int position, CustomNodes node) {
+                System.out.println("adding new node! called : " + node.getType());
+                nodeManager.addNode(node, 200, 200); // TODO change margin to be dynamic
+                nodePopup.hide();
             }
         });
 

@@ -130,6 +130,7 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
             overridePendingTransition(0, 0);
         });
 
+        //settings button
         FloatingActionButton groupButton = findViewById(R.id.generator_editor_groupsButton);
         groupButton.setOnClickListener(view -> {
             Intent intent = new Intent(GeneratorEditorActivity.this, GroupListActivity.class);

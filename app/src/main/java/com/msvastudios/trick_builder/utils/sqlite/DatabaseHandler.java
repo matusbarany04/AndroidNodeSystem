@@ -3,10 +3,14 @@ package com.msvastudios.trick_builder.utils.sqlite;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.room.Room;
 
+import com.msvastudios.trick_builder.trick_listing.tricks.Trick;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmDatabase;
+import com.msvastudios.trick_builder.utils.sqlite.groups.GroupDatabase;
+import com.msvastudios.trick_builder.utils.sqlite.groups.GroupEntity;
 import com.msvastudios.trick_builder.utils.sqlite.lines.LineEntity;
 import com.msvastudios.trick_builder.utils.sqlite.lines.LineDatabase;
 import com.msvastudios.trick_builder.utils.sqlite.nodes.NodeEntity;
@@ -18,6 +22,8 @@ import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
+import com.msvastudios.trick_builder.utils.sqlite.tricks.TrickDatabase;
+import com.msvastudios.trick_builder.utils.sqlite.tricks.TrickEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,10 +36,13 @@ import java.util.concurrent.Executors;
 public class DatabaseHandler {
 
     public static DatabaseHandler instance;
+    private static int failrate = 0;
     ExecutorService executor;
     private AlgorithmDatabase algorithmDatabase;
     private NodeDatabase nodeDatabase;
     private LineDatabase lineDatabase;
+    private TrickDatabase trickDatabase;
+    private GroupDatabase groupDatabase;
 
     private DatabaseHandler() {
     }
@@ -43,12 +52,15 @@ public class DatabaseHandler {
         instance.algorithmDatabase = Room.databaseBuilder(context, AlgorithmDatabase.class, AlgorithmDatabase.DATABASE_NAME).build();
         instance.nodeDatabase = Room.databaseBuilder(context, NodeDatabase.class, NodeDatabase.DATABASE_NAME).build();
         instance.lineDatabase = Room.databaseBuilder(context, LineDatabase.class, LineDatabase.DATABASE_NAME).build();
+        instance.trickDatabase = Room.databaseBuilder(context, TrickDatabase.class, TrickDatabase.DATABASE_NAME).build();
+        instance.groupDatabase = Room.databaseBuilder(context, GroupDatabase.class, GroupDatabase.DATABASE_NAME).build();
         instance.executor = Executors.newSingleThreadExecutor();
         return instance;
     }
 
     public static DatabaseHandler getInstance(Context context) {
         if (instance != null) {
+            failrate++;
             return instance;
         } else {
             instance = DatabaseHandler.build(context);
@@ -57,9 +69,50 @@ public class DatabaseHandler {
     }
 
 
+    public static int getFailrate() {
+        return failrate;
+    }
+
     public void getLines(DatabaseHandler.Lines callback) {
         executor.execute(() -> {
                     callback.onLinesFetch(new ArrayList<>(lineDatabase.lineDao().getAll()));
+                }
+        );
+    }
+
+
+    public void getGroups(DatabaseHandler.Groups callback) {
+        executor.execute(() -> {
+                    callback.onGroupsFetch(new ArrayList<GroupEntity>(groupDatabase.groupDao().getAll()));
+                }
+        );
+    }
+
+    public void insertGroup(GroupEntity entity, @Nullable DatabaseHandler.Finish state) {
+        executor.execute(() -> {
+            try {
+                groupDatabase.groupDao().insertAll(entity);
+                if (state != null) state.onActionFinished(0);
+            } catch (Exception e) {
+                if (state != null) state.onActionFinished(1);
+            }
+        });
+    }
+
+    public void insertTrick(TrickEntity entity, @Nullable DatabaseHandler.Finish state) {
+        executor.execute(() -> {
+            try {
+                trickDatabase.trickDao().insertAll(entity);
+                if (state != null) state.onActionFinished(0);
+            } catch (Exception e) {
+                if (state != null) state.onActionFinished(1);
+            }
+        });
+    }
+
+    public void getGroupByUUID(Group callback, String uuid) {
+        executor.execute(() -> {
+                    callback.onGroupFetch(groupDatabase.groupDao().getByGroupId(uuid));
                 }
         );
     }
@@ -134,7 +187,7 @@ public class DatabaseHandler {
     }
 
     /**
-     * Method does not remove old occurrences of deleted lines, points, nodes
+     * !!! Method does not remove old occurrences of deleted lines, points, nodes
      *
      * @param algorithm
      * @param lines
@@ -170,7 +223,7 @@ public class DatabaseHandler {
     }
 
     public void getAlgorithmName(String algorithmUUID, DatabaseHandler.NameFetch callback) {
-        //TODO pridat inteface callback a that kind of stuff
+
         executor.execute(() -> {
             callback.onNameFetched(algorithmDatabase.algorithmDao().getByAlgorithmId(algorithmUUID).name);
         });
@@ -291,5 +344,17 @@ public class DatabaseHandler {
 
     public interface AlgorithmUpdate {
         public void algorithmUpdated(int status);
+    }
+
+    public interface Groups {
+        void onGroupsFetch(ArrayList<GroupEntity> groupEntities);
+    }
+
+    public interface Group {
+        void onGroupFetch(GroupEntity byGroupId);
+    }
+
+    public interface Finish {
+        void onActionFinished(int status);
     }
 }

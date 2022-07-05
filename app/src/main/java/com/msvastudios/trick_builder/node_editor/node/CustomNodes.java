@@ -13,15 +13,23 @@ public enum CustomNodes {
     REPEATER_NODE(RepeaterNode::new, "repeater"),
     END_NODE(EndNode::new, "end");
 
-    NodeCreator< Context, Integer, Integer , LinesView, NodeCallbackListener, Node> s;
+    NodeCreator< Context, Integer, Integer , LinesView, NodeCallbackListener, Node> constructor;
     public String type;
-    CustomNodes(NodeCreator< Context, Integer, Integer , LinesView, NodeCallbackListener, Node> s, String type) {
-        this.s = s;
+    CustomNodes(NodeCreator< Context, Integer, Integer , LinesView, NodeCallbackListener, Node> constructor, String type) {
+        this.constructor = constructor;
         this.type = type;
     }
 
-   public Node createNode(Context context, Integer left, Integer top , LinesView linesView, NodeCallbackListener callbackListener) {
-        return s.apply(context, left, top, linesView, callbackListener);
+    public NodeCreator<Context, Integer, Integer, LinesView, NodeCallbackListener, Node> getConstructor() {
+        return constructor;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Node createNode(Context context, Integer left, Integer top , LinesView linesView, NodeCallbackListener callbackListener) {
+        return constructor.apply(context, left, top, linesView, callbackListener);
     }
 
     public static CustomNodes fromString(String type) {

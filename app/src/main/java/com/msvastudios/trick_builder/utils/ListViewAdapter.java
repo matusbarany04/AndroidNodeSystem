@@ -60,7 +60,7 @@ public class ListViewAdapter<T> extends BaseAdapter {
             v = convertView;
         }
 
-        v = function.inflateItem(v, i, getItem(i));
+        v = function.inflateItem(v,i, getItem(i));
 
         return v;
     }

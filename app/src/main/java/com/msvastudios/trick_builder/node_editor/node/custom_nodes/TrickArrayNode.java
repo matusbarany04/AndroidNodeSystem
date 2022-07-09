@@ -31,9 +31,7 @@ public class TrickArrayNode extends Node {
     }
 
     @Override
-    public void process() {
-
-    }
+    public void process() {}
 
     @Override
     public void sendData() {

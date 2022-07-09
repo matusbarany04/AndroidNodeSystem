@@ -42,7 +42,7 @@ public class AlgorithmEditorActivity extends AppCompatActivity implements OnItem
         text = findViewById(R.id.editor_text);
 
         id = getIntent().getStringExtra("algorithmId");
-
+        //goes on when creating new algorithm
         assert id != null;
 
         DatabaseHandler.getInstance(getApplicationContext()).getAlgorithmName(id, name -> {

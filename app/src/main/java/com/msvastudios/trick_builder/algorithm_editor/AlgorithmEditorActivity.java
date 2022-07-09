@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.algorithm_popup;
+package com.msvastudios.trick_builder.algorithm_editor;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

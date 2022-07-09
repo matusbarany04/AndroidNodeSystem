@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.algorithm_popup.NewNodePopup;
+import com.msvastudios.trick_builder.popups.NewNodePopup;
 import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;

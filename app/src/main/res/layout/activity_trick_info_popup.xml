@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#55DFDFDF"
-    tools:context=".trick_listing.popup.TrickInfoPopupActivity"
+    tools:context=".popups.TrickInfoPopupActivity"
     android:id="@+id/trickInfoBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout

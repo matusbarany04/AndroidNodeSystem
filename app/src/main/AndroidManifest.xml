@@ -15,10 +15,10 @@
             android:name=".debug.DatabaseRendererActivity"
             android:exported="false" />
         <activity
-            android:name=".algorithm_popup.AlgorithmEditorActivity"
+            android:name=".algorithm_editor.AlgorithmEditorActivity"
             android:exported="false" />
         <activity
-            android:name=".trick_listing.popup.TrickInfoPopupActivity"
+            android:name=".popups.TrickInfoPopupActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" />
         <activity

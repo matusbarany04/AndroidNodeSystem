@@ -61,11 +61,10 @@ public class DatabaseHandler {
     public static DatabaseHandler getInstance(Context context) {
         if (instance != null) {
             failrate++;
-            return instance;
         } else {
             instance = DatabaseHandler.build(context);
-            return instance;
         }
+        return instance;
     }
 
 
@@ -78,6 +77,11 @@ public class DatabaseHandler {
                     callback.onLinesFetch(new ArrayList<>(lineDatabase.lineDao().getAll()));
                 }
         );
+    }
+    public void deleteGroupById(String id){
+        executor.execute(()->{
+            groupDatabase.groupDao().deleteByGroupId(id);
+        });
     }
 
 

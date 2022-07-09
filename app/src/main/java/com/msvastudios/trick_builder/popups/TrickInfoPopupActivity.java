@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.trick_listing.popup;
+package com.msvastudios.trick_builder.popups;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;

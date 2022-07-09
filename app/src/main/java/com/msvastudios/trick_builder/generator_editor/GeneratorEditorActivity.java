@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.algorithm_popup.AlgorithmEditorActivity;
+import com.msvastudios.trick_builder.algorithm_editor.AlgorithmEditorActivity;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;

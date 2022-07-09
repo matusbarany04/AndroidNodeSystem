@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.trick_listing.popup.TrickInfoPopupActivity;
+import com.msvastudios.trick_builder.popups.TrickInfoPopupActivity;
 
 import java.util.ArrayList;
 

@@ -1,21 +1,16 @@
-package com.msvastudios.trick_builder.algorithm_popup;
+package com.msvastudios.trick_builder.popups;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.node_editor.NodeActivity;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.utils.ListViewAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class NewNodePopup {

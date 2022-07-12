@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.room.Room;
 
-import com.msvastudios.trick_builder.trick_listing.tricks.Trick;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmDatabase;
 import com.msvastudios.trick_builder.utils.sqlite.groups.GroupDatabase;
@@ -320,7 +319,49 @@ public class DatabaseHandler {
         }).start();
     }
 
+    public void getTricks(Trick callback ){
+        executor.execute(()->{
+            callback.onTricksFetched(new ArrayList<TrickEntity>(trickDatabase.trickDao().getAll()));
+        });
+    }
 
+    public void getTricksByGroupId(String groupId, Trick callback ){
+        executor.execute(()->{
+            ArrayList<TrickEntity> output = new ArrayList<>();
+            ArrayList<TrickEntity> all = new ArrayList<>(trickDatabase.trickDao().getAll());
+            for (TrickEntity entity: all) {
+                for (String entityGroupId: entity.groupIds) {
+                    if (entityGroupId.equals(groupId)) output.add(entity);
+                }
+            }
+            callback.onTricksFetched(output);
+        });
+    }
+
+    public void insertTrick(Finish callback,TrickEntity... tricks){
+        executor.execute(()->{
+            trickDatabase.trickDao().insertAll(tricks);
+            callback.onActionFinished(1);
+        });
+    }
+
+    public void deleteTrick(Finish callback,TrickEntity entity){
+        executor.execute(()->{
+            trickDatabase.trickDao().delete(entity);
+            callback.onActionFinished(1);
+        });
+    }
+
+    public void deleteTrickByUuid(Finish callback, String trickUuid){
+        executor.execute(()->{
+            trickDatabase.trickDao().deleteByTrickId(trickUuid);
+            callback.onActionFinished(1);
+        });
+    }
+
+    public interface Trick{
+        public void onTricksFetched(ArrayList<TrickEntity> tricks);
+    }
     public interface Data {
         public void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes);
     }

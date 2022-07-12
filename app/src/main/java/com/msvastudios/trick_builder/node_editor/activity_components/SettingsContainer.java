@@ -84,8 +84,8 @@ public class SettingsContainer {
         for (ImageButton button : buttonList) {
             button.animate()
                     .translationY(state * i * (buttonSize + buttonMargin))
-                    .setDuration((firstDuration * i))
-                    .setStartDelay(-1 * state * (lastDuration - (firstDuration * i))).start();
+                    .setDuration(((long) firstDuration * i))
+                    .setStartDelay(-1 * state * (lastDuration - ((long) firstDuration * i))).start();
             i++;
         }
 

@@ -5,9 +5,6 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @Entity(indices = {@Index(value = {"trick_uuid"}, unique = true)})
@@ -17,8 +14,8 @@ public class TrickEntity {
     }
 
     public TrickEntity(String trickName, String trickUUID, ArrayList<String> trickGroupIds){
-        this.trickGroupIds = trickGroupIds;
-        this.trickName = trickName;
+        this.groupIds = trickGroupIds;
+        this.name = trickName;
         this.trickUUID= trickUUID;
     }
 
@@ -26,11 +23,15 @@ public class TrickEntity {
     public int uid;
 
     @ColumnInfo(name = "name")
-    String trickName;
+    public String name;
+
+
+    @ColumnInfo(name = "desription")
+    public String description;
 
     @ColumnInfo(name = "trick_uuid")
-    String trickUUID;
+    public String trickUUID;
 
     @ColumnInfo(name = "trick_group_ids")
-    ArrayList<String> trickGroupIds;
+    public ArrayList<String> groupIds;
 }

@@ -25,14 +25,14 @@ public interface TrickDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(TrickEntity... node);
 
-    @Query("SELECT * FROM TrickEntity WHERE trick_uuid == :nodeUUID")
-    TrickEntity[] getByNodeId(String nodeUUID);
+    @Query("SELECT * FROM TrickEntity WHERE trick_uuid == :trickId")
+    TrickEntity[] getByTrickId(String trickId);
 
     @Delete
     void delete(TrickEntity node);
 
     @Query("DELETE FROM TrickEntity WHERE trick_uuid == :trickUUID")
-    void deleteByAlgorithmId(String trickUUID);
+    void deleteByTrickId(String trickUUID);
 
 }
 

@@ -8,37 +8,22 @@ import android.widget.ListView;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.popups.TrickInfoPopupActivity;
+import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 
 import java.util.ArrayList;
 
 public class TrickListActivity extends AppCompatActivity {
-
+    ArrayList<Trick> tricks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trick_list);
+        tricks = new ArrayList<>();
 
-
-        ArrayList<Trick> tricks = new ArrayList<>();
-
-        tricks.add(new Trick("smh"));
-        tricks.add(new Trick("sqmh"));
-        tricks.add(new Trick("ssmh"));
-        tricks.add(new Trick("samh"));
-        tricks.add(new Trick("sfmh"));
-        tricks.add(new Trick("smh"));
-        tricks.add(new Trick("sqmh"));
-        tricks.add(new Trick("ssmh"));
-        tricks.add(new Trick("samh"));
-        tricks.add(new Trick("sfmh"));
-        tricks.add(new Trick("smh"));
-        tricks.add(new Trick("sqmh"));
-        tricks.add(new Trick("ssmh"));
-        tricks.add(new Trick("samh"));
-        tricks.add(new Trick("sfmh"));
+        getIntent().getExtras().getString("group_id");
 
         ListView listView = findViewById(R.id.trickListView);
-
+        DatabaseHandler.getInstance(this);
         TricksAdapter adapter = new TricksAdapter(getApplicationContext(),tricks );
         listView.setAdapter(adapter);
 

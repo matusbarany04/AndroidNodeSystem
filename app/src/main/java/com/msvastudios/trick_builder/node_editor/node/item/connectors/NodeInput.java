@@ -11,6 +11,7 @@ import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;
+import com.msvastudios.trick_builder.node_editor.node.RunnerCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
 public class NodeInput extends NodeConnectorItem {
@@ -62,9 +63,9 @@ public class NodeInput extends NodeConnectorItem {
         return data;
     }
 
-    public void push(String data){
+    public void push(String data,RunnerCallback callback){
         this.data = data;
-        parent.dataInInputSent(data, this);
+        parent.dataInInputSent(data, this, callback);
     }
 
 

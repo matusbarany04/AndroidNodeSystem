@@ -5,23 +5,35 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesAPI {
 
-    SharedPreferencesAPI instance = new SharedPreferencesAPI();
+    public final static String CHOSEN_ALGORITHM = "chosen";
+    private static SharedPreferencesAPI instance;
+    Context context;
 
-    private SharedPreferencesAPI(){
-
+    private SharedPreferencesAPI(Context context){
+        this.context = context;
     }
 
-    public SharedPreferencesAPI getInstance()
+    public void build(Context context){
+        instance = new SharedPreferencesAPI(context);
+    }
+
+    public static SharedPreferencesAPI getInstance(Context context)
     {
         if (instance == null) {
-            instance = new SharedPreferencesAPI();
+            instance = new SharedPreferencesAPI(context);
         }
         return instance;
     }
 
-    public void save(Context context, String key){
-        SharedPreferences.Editor sh = context.getSharedPreferences(key, 0).edit();
-        sh.
+    public void save(String key, String data){
+        SharedPreferences.Editor sh = context.getSharedPreferences("com.msvastudios.trickbuilder", Context.MODE_PRIVATE).edit();
+        sh.putString(key, data);
+        sh.commit();
+    }
+
+    public String get(String key){
+        SharedPreferences sh = context.getSharedPreferences("com.msvastudios.trickbuilder", Context.MODE_PRIVATE);
+        return sh.getString(key, null);
     }
 
 }

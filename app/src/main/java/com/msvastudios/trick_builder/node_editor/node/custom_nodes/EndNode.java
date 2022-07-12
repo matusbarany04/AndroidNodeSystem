@@ -7,6 +7,7 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
+import com.msvastudios.trick_builder.node_editor.node.RunnerCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
@@ -33,8 +34,13 @@ public class EndNode extends Node {
     }
 
     @Override
-    public void sendData() {
-     //TODO poslať dáta naspäť node managerovi 
+    public RunnerCallback sendData(RunnerCallback callback){
+    //TODO poslať dáta naspäť node managerovi
+        if (callback != null){
+            callback.finished(reference.getData());
+        }
+        System.out.println("sending data !!");
+        return callback;
     }
 
 

@@ -7,6 +7,7 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
+import com.msvastudios.trick_builder.node_editor.node.RunnerCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
@@ -35,7 +36,9 @@ public class RepeaterNode extends Node {
     }
 
     @Override
-    public void sendData() {
-        output.sendData(input.getData());
+    public RunnerCallback sendData(RunnerCallback callback) {
+        output.sendData(input.getData(), callback);
+        System.out.println("was in repeater");
+        return callback;
     }
 }

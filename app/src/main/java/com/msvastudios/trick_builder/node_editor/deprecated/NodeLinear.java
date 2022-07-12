@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.msvastudios.trick_builder.R;
-
+@Deprecated
 public class NodeLinear extends ConstraintLayout {
 
     private int xDelta, yDelta;

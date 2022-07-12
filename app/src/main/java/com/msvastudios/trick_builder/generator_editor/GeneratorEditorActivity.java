@@ -16,6 +16,7 @@ import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.algorithm_editor.AlgorithmEditorActivity;
 import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
+import com.msvastudios.trick_builder.utils.shared_prefs.SharedPreferencesAPI;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.node_editor.NodeActivity;
@@ -54,9 +55,15 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 
         FloatingActionButton chooseAndGoBackButton = findViewById(R.id.generator_editor_chooseAlgorithmAndGoBack);
         chooseAndGoBackButton.setOnClickListener(view -> {
-            finish();
+            DiscreteScrollView scrollView = findViewById(R.id.picker);
+            String nodeNetworkUUID = ((AlgosAdapter) Objects.requireNonNull(scrollView.getAdapter())).getData().get(currentItemPos).nodeNetworkUUID;
+
+            SharedPreferencesAPI.getInstance(getApplicationContext()).save(SharedPreferencesAPI.CHOSEN_ALGORITHM, nodeNetworkUUID);
             overridePendingTransition(0, 0);
+            finish();
         });
+
+
         FloatingActionButton customizeButton = findViewById(R.id.generator_editor_customizeAlgorithm);
         customizeButton.setOnClickListener(view -> {
 
@@ -64,8 +71,8 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 
             intent.putExtra("buttonName", "save");
             DiscreteScrollView scrollView = findViewById(R.id.picker);
-            intent.putExtra("algorithmId",((AlgosAdapter) scrollView.getAdapter()).getData().get(scrollView.getCurrentItem()).nodeNetworkUUID);
-            overridePendingTransition(0,0);
+            intent.putExtra("algorithmId", ((AlgosAdapter) scrollView.getAdapter()).getData().get(scrollView.getCurrentItem()).nodeNetworkUUID);
+            overridePendingTransition(0, 0);
             startActivity(intent);
 //            Intent intent = new Intent(GeneratorEditorActivity.this, DatabaseRendererActivity.class);
 //            startActivity(intent);
@@ -93,7 +100,7 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
         DatabaseHandler.getInstance(getApplicationContext()).getAllAgorithms(new DatabaseHandler.AlgoFinish() {
             @Override
             public void onFetched(ArrayList<AlgorithmEntity> entities) {
-                runOnUiThread(()->{
+                runOnUiThread(() -> {
                     scrollView.setAdapter(new AlgosAdapter(entities, listener));
                 });
 
@@ -147,14 +154,15 @@ public class GeneratorEditorActivity extends AppCompatActivity implements Discre
 
     @Override
     public void onClick(View v) {
-
     }
 
+    int currentItemPos = 0;
 
     @Override
     public void onCurrentItemChanged(@Nullable AlgosAdapter.ViewHolder viewHolder, int adapterPosition) {
         TextView algorithmNameTextView = findViewById(R.id.editor_text);
         DiscreteScrollView scrollView = findViewById(R.id.picker);
+        currentItemPos = adapterPosition;
         algorithmNameTextView.setText(((AlgosAdapter) Objects.requireNonNull(scrollView.getAdapter())).getData().get(adapterPosition).name);
 
     }

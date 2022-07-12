@@ -73,9 +73,6 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         this.id = id;
     }
 
-    public void setLinesView(LinesView linesView) {
-        this.linesView = linesView;
-    }
 
     public void setListener(NodeCallbackListener listener) {
         this.listener = listener;
@@ -89,7 +86,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     }
 
 
-    //TODO xxx !!! get node output/inout by point id
+    //TODO xxx !!! get node output/input by point id
 
     public ArrayList<NodeOutput> getNodeOutput() {
         return nodeOutput;
@@ -355,11 +352,11 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     }
 
     @Override
-    public void dataInInputSent(String data, NodeInput input) {
+    public void dataInInputSent(String data, NodeInput input,RunnerCallback callback) {
         inputDataReceived++;
         if (inputDataReceived >= getNodeInput().size()) {
             process();
-            sendData();
+            sendData(callback);
             inputDataReceived = 0;
         }
 
@@ -372,7 +369,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
     public abstract void process();
 
-    public abstract void sendData();
+    public abstract RunnerCallback sendData(RunnerCallback callback);
 
 
     //TODO xxx

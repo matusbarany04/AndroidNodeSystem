@@ -40,17 +40,18 @@ public class AlgorithmEditorActivity extends AppCompatActivity implements OnItem
         assert buttonName != null;
 
         text = findViewById(R.id.editor_text);
+        if (buttonName.equals("save")){
+            id = getIntent().getStringExtra("algorithmId");
+            //goes on when creating new algorithm
+            assert id != null;
 
-        id = getIntent().getStringExtra("algorithmId");
-        //goes on when creating new algorithm
-        assert id != null;
-
-        DatabaseHandler.getInstance(getApplicationContext()).getAlgorithmName(id, name -> {
-                    runOnUiThread(() -> {
-                        text.setText(name);
-                    });
-                }
-        );
+            DatabaseHandler.getInstance(getApplicationContext()).getAlgorithmName(id, name -> {
+                        runOnUiThread(() -> {
+                            text.setText(name);
+                        });
+                    }
+            );
+        }
 
         initAlgorithmsAdapter();
 

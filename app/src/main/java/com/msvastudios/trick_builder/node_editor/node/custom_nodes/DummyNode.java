@@ -7,6 +7,7 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
+import com.msvastudios.trick_builder.node_editor.node.RunnerCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
@@ -38,9 +39,11 @@ public class DummyNode extends Node {
     }
 
     @Override
-    public void sendData() {
+    public RunnerCallback sendData(RunnerCallback callback){
         for (NodeOutput nodeOutput : getNodeOutput()) { // preloopujeme všetko svoje outputy // potom to tu bude pre každý jedinečné
-                nodeOutput.sendData("smh");
+                nodeOutput.sendData("smh",callback);
         }
+        System.out.println("was in dummy");
+        return callback;
     }
 }

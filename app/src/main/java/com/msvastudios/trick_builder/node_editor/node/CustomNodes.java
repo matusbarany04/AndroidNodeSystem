@@ -7,11 +7,14 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.DummyNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.EndNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.RepeaterNode;
+import com.msvastudios.trick_builder.node_editor.node.custom_nodes.TrickArrayNode;
 
 public enum CustomNodes {
     DUMMY_NODE(DummyNode::new, "dummy"),
     REPEATER_NODE(RepeaterNode::new, "repeater"),
+    TRICK_ARRAY_NODE(TrickArrayNode::new, "array"),
     END_NODE(EndNode::new, "end");
+
 
     NodeCreator< Context, Integer, Integer , LinesView, NodeCallbackListener, Node> constructor;
     public String type;

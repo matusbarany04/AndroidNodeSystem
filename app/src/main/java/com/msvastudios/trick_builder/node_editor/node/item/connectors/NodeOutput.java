@@ -13,6 +13,7 @@ import com.msvastudios.trick_builder.node_editor.line.Line;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;
+import com.msvastudios.trick_builder.node_editor.node.RunnerCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
 import java.util.ArrayList;
@@ -86,12 +87,12 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
      *
      * @param data any type of data that is expecting the other side
      */
-    public void sendData(String data){
+    public void sendData(String data, RunnerCallback callback){
         if (this.getPoint() != null) { // ak nodeOutput má point (point by mal mať ale stále)
             System.out.println("node dummy!");
             ArrayList<Line> connectedLines = parent.getLinesView().getLinesContaining(this.getPoint()); // zistime si všetky spoje
             for (Line line : connectedLines) {
-                line.getEndPoint().getParent().getNodeInputBy(line.getEndPoint()).push(data);
+                line.getEndPoint().getParent().getNodeInputBy(line.getEndPoint()).push(data, callback);
             }
         }
     }

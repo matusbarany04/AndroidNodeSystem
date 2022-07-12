@@ -30,7 +30,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     HashMap<String, Node> nodeList;
     Context context;
     RelativeLayout dragArea;
-    int nodeWidth = 500;
+
     NodeOutput draggingOutput;
     NodesSaver nodesSaver;
     boolean deleteEnabled = false;
@@ -43,43 +43,29 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         this.dragArea = dragArea;
         nodesSaver = new NodesSaver(context);
 
-        // TODO presunut to potom do main activity a pridávať dynamicky
-//        addNode(EndNode.class,10,0);
-//
-//        addNode(DummyNode.class,0,500);
-//
-//        addNode(RepeaterNode.class,100,300);
-//
-//        addNode(RepeaterNode.class,200,200);
-//
-//        addNode(TrickArrayNode.class,200,600);
-
         this.linesView.setOnTouchListener(this);
-        // dragArea.addView(node2.getNode());
+
 
         this.linesView = linesView;
 
     }
+
     AlgorithmEntity algorithmEntity;
+
     public void loadSavedNodeNetwork(String id) { // TODO make a lot faster
-//        Pair<ArrayList<Node>, HashMap<String, ArrayList<String>>> out = Node.readNodes(id);
-//        ArrayList<Node> nodes = out.first;
-//        HashMap<String, ArrayList<String>> lines = out.second;
+
         DatabaseHandler.getInstance(context).getAlgorithm(id, context, linesView, this, new DatabaseHandler.Data() {
             @Override
             public void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes) {
-                for (Node node: nodes) {
+                for (Node node : nodes) {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         public void run() {
                             dragArea.addView(node.getNode());
                             nodeList.put(node.getId(), node);
-
-                            // code goes here
                         }
                     });
 
                 }
-
                 linesView.setLines(lines);
                 algorithmEntity = algorithm;
             }
@@ -93,7 +79,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                 linesView.getLines(),
                 new ArrayList<>(nodeList.values()));
     }
-
 
 
     public <T extends Node> void addNode(Class<T> sup, int leftMargin, int topMargin) {
@@ -116,14 +101,14 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
 
     public <T extends Node> void addNode(CustomNodes node, int leftMargin, int topMargin) {
-        T createdNode  = (T) node.createNode(context, leftMargin, topMargin, linesView, this);
+        T createdNode = (T) node.createNode(context, leftMargin, topMargin, linesView, this);
         nodeList.put(createdNode.getId(), createdNode);
         dragArea.addView((createdNode).getNode());
     }
 
     @Override
     public int onMoved(Node node) {
-        if (deleteEnabled){
+        if (deleteEnabled) {
             System.out.println("moving removing!!");
             nodeList.remove(node.getId());
 
@@ -139,7 +124,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                 nodeInputPoints.add(id);
             }
 
-            linesView.removeAllLinesWith(nodeOutputPoints );
+            linesView.removeAllLinesWith(nodeOutputPoints);
             linesView.removeAllLinesWith(nodeInputPoints);
 
         }
@@ -193,17 +178,16 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         return true;
     }
 
-    public void play() {
+    public void play(RunnerCallback runnerCallback) {
         for (Node node : nodeList.values()) {
             if (node.isStartingNode()) {
-//                System.out.println("NodeEntity found ! " + node.getId());
                 node.process();
-                node.sendData();
+                node.sendData(runnerCallback);
             }
         }
     }
 
-    public void toggleDeletionMode(){
+    public void toggleDeletionMode() {
         deleteEnabled = !deleteEnabled;
     }
 

@@ -7,6 +7,7 @@ import com.msvastudios.trick_builder.node_editor.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
+import com.msvastudios.trick_builder.node_editor.node.RunnerCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.node_editor.node.item.params_item.ListItem;
@@ -27,14 +28,15 @@ public class TrickArrayNode extends Node {
 
     @Override
     public CustomNodes getType() {
-        return null;
+        return CustomNodes.TRICK_ARRAY_NODE;
     }
 
     @Override
     public void process() {}
 
     @Override
-    public void sendData() {
-        reference.sendData(listRef.getChosenData());
+    public RunnerCallback sendData(RunnerCallback callback) {
+        reference.sendData(listRef.getChosenData(),callback);
+        return callback;
     }
 }

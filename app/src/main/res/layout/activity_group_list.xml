@@ -51,7 +51,7 @@
                 android:layout_weight="1">
 
                 <RelativeLayout
-                    android:id="@+id/a_imageview_item"
+                    android:id="@+id/all_tricks_button"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
@@ -100,7 +100,7 @@
                 android:layout_weight="1">
 
                 <RelativeLayout
-                    android:id="@+id/b_imageview_item"
+                    android:id="@+id/learned_tricks_button"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="10dp"

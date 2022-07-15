@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,8 @@ public class GroupListActivity extends AppCompatActivity {
 
             if (!longHoldTriggered.get()){
                 Intent intent = new Intent(GroupListActivity.this, TrickListActivity.class);
+                intent.putExtra("group_id", groups.get(i).groupUUID);
+                //getIntent().getExtras().getString("group_id");
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }
@@ -93,6 +96,29 @@ public class GroupListActivity extends AppCompatActivity {
         FloatingActionButton addNewTrickButton = findViewById(R.id.groupAddButton);
         addNewTrickButton.setOnClickListener((view) -> {
             groupPopup.show();
+        });
+        //TODO outsource string ids to enum
+        RelativeLayout all_tricks_button = findViewById(R.id.all_tricks_button);
+        all_tricks_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupListActivity.this, TrickListActivity.class);
+                intent.putExtra("group_id", "all_tricks");
+                //getIntent().getExtras().getString("group_id");
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+        RelativeLayout learned_tricks_button = findViewById(R.id.learned_tricks_button);
+        learned_tricks_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupListActivity.this, TrickListActivity.class);
+                intent.putExtra("group_id", "learned_tricks");
+                //getIntent().getExtras().getString("group_id");
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
         });
     }
 

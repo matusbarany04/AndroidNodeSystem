@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.node_editor.line;
+package com.msvastudios.trick_builder.node_editor.node.item.line;
 
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeConnectorItem;

@@ -37,14 +37,9 @@ public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//            Glide.with(holder.itemView.getContext())
-//                    .load(data.get(position).getImage())
-//                    .into(holder.image);
         if (position == 1) {
             holder.button.setTransitionName("element");
         }
-
-//        holder.button.setText(data.get(position).getName());
         holder.button.setOnClickListener(view -> listener.onItemClicked(data.get(holder.getAdapterPosition())));
     }
 

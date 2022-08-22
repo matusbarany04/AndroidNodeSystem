@@ -2,9 +2,11 @@ package com.msvastudios.trick_builder.utils.sqlite;
 
 import android.content.Context;
 
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.utils.sqlite.lines.LineEntity;
 import com.msvastudios.trick_builder.utils.sqlite.nodes.NodeEntity;
-import com.msvastudios.trick_builder.node_editor.line.Line;
+import com.msvastudios.trick_builder.node_editor.node.item.line.Line;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 
 public class AlgorithmLoader {
@@ -34,13 +36,14 @@ public class AlgorithmLoader {
      * @param context
      * @return
      */
-    public Node NodeEntityToNode(NodeEntity nodeEntity, Context context) {
+    public static Node nodeEntityToNode(NodeEntity nodeEntity, Context context, LinesView linesView, NodeCallbackListener callbackListener) {
         return nodeEntity.type.createNode(
                 context,
                 nodeEntity.cordinateX,
                 nodeEntity.cordinateY,
-                null,
-                null);
+                nodeEntity.jsonData,
+                linesView,
+                callbackListener);
     }
 
 

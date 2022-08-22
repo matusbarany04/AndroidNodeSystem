@@ -3,7 +3,7 @@ package com.msvastudios.trick_builder.node_editor.node.custom_nodes;
 import android.content.Context;
 
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
@@ -15,8 +15,8 @@ import com.msvastudios.trick_builder.node_editor.node.item.Type;
 public class RepeaterNode extends Node {
     NodeOutput output;
     NodeInput  input;
-    public RepeaterNode(Context context, int leftMargin, int topMargin, LinesView linesView, NodeCallbackListener listener) {
-        super(context, leftMargin, topMargin, linesView, listener);
+    public RepeaterNode(Context context, int leftMargin, int topMargin, String jsonData, LinesView linesView, NodeCallbackListener listener) {
+        super(context, leftMargin, topMargin, jsonData, linesView, listener);
         output = (NodeOutput) addNodeOutput(Type.STRING).setText("output");
         input = (NodeInput) addNodeInput(Type.STRING).setText("input");
 

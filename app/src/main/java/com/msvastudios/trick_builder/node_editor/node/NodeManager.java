@@ -7,13 +7,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.msvastudios.trick_builder.node_editor.io.NodeCreator;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
-import com.msvastudios.trick_builder.node_editor.io.NodesSaver;
-import com.msvastudios.trick_builder.node_editor.line.Line;
-import com.msvastudios.trick_builder.node_editor.line.LinePoint;
-import com.msvastudios.trick_builder.node_editor.line.LinesView;
+
+import com.msvastudios.trick_builder.node_editor.node.item.line.Line;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinePoint;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 
@@ -32,7 +31,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     RelativeLayout dragArea;
 
     NodeOutput draggingOutput;
-    NodesSaver nodesSaver;
+
     boolean deleteEnabled = false;
 
     public NodeManager(Context context, LinesView linesView, RelativeLayout dragArea) {
@@ -41,8 +40,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         nodeList = new HashMap<>();
         this.linesView = Objects.requireNonNull(linesView);
         this.dragArea = dragArea;
-        nodesSaver = new NodesSaver(context);
-
         this.linesView.setOnTouchListener(this);
 
 
@@ -101,7 +98,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
 
     public <T extends Node> void addNode(CustomNodes node, int leftMargin, int topMargin) {
-        T createdNode = (T) node.createNode(context, leftMargin, topMargin, linesView, this);
+        T createdNode = (T) node.createNode(context, leftMargin, topMargin,"", linesView, this);
         nodeList.put(createdNode.getId(), createdNode);
         dragArea.addView((createdNode).getNode());
     }
@@ -144,7 +141,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         return 0;
     }
 
-    private void checkIfInNode(int x, int y) { // TODO
+    private void checkIfInNode(int x, int y) { // TODO make faster
         for (Node node : nodeList.values()) {
             if (x > node.getLeftMargin() && x < node.getLeftMargin() + node.getNodeWidth()) {
                 if (y > node.getTopMargin() && y < node.getTopMargin() + node.getNodeHeight()) {

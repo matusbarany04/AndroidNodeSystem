@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.node_editor.line.Line;
+import com.msvastudios.trick_builder.node_editor.node.item.line.Line;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;

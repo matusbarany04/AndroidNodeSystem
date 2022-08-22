@@ -1,21 +1,25 @@
 package com.msvastudios.trick_builder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.msvastudios.trick_builder.node_editor.node.NodeDimensionsCalculator;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.trick_generator.GeneratorActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private final static int SPLASH_SCREEN_TIME_OUT = 500;
+    private final static int SPLASH_SCREEN_TIME_OUT = 2000;
 
     static {
         System.loadLibrary("native-lib");
@@ -33,8 +37,12 @@ public class SplashActivity extends AppCompatActivity {
 
         ImageView imageView = findViewById(R.id.gif_player);
 
-        Glide.with(this).load(R.drawable.loading).into(imageView);
-
+        Glide
+                .with(this)
+                .load(R.drawable.scooters)
+                .apply(new RequestOptions().override(600, imageView.getHeight()))
+                .centerCrop()
+                .into(imageView);
         //building the sqlite database
         DatabaseHandler.build(getApplicationContext());
 

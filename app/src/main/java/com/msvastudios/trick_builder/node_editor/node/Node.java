@@ -10,8 +10,8 @@ import android.widget.RelativeLayout;
 import androidx.annotation.Nullable;
 
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.node_editor.line.LinePoint;
-import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinePoint;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.item.ConnectorCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeConnectorItem;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
@@ -25,7 +25,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
@@ -45,17 +44,16 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     private int nodeWidth, nodeHeight = 700;
     private int nodeItemOrder = 1;
     private int inputDataReceived = 0;
+    String jsonData;
 
-
-    public Node(Context context, Integer leftMargin, Integer topMargin, @Nullable LinesView linesView, @Nullable NodeCallbackListener listener) {
+    public Node(Context context, Integer leftMargin, Integer topMargin,String jsonData, @Nullable LinesView linesView, @Nullable NodeCallbackListener listener) {
         this.leftMargin = leftMargin;
         this.topMargin = topMargin;
         nodeWidth = NodeDimensionsCalculator.nodeWidth();
-
         this.listener = listener;
         this.linesView = linesView;
         this.context = Objects.requireNonNull(context);
-
+        this.jsonData = jsonData;
         nodeOutput = new ArrayList<>();
         nodeInput = new ArrayList<>();
         nodeParams = new ArrayList<>();
@@ -67,9 +65,10 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
     /**
      * Set's new id for node, only use if initializing new node
+     *
      * @param id
      */
-    public void setId(String id){
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -79,7 +78,12 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         addListener(nodeInput);
         addListener(nodeOutput);
     }
-    private <T extends NodeConnectorItem> void addListener(ArrayList<T> list){
+
+    public void setJsonData(String jsonData) {
+        this.jsonData = jsonData;
+    }
+
+    private <T extends NodeConnectorItem> void addListener(ArrayList<T> list) {
         for (T item : list) {
             item.setListener(listener);
         }
@@ -91,9 +95,10 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     public ArrayList<NodeOutput> getNodeOutput() {
         return nodeOutput;
     }
-    public ArrayList<String>  getNodeOutputIds() {
+
+    public ArrayList<String> getNodeOutputIds() {
         ArrayList<String> ids = new ArrayList<>();
-        for (NodeOutput out: nodeOutput)
+        for (NodeOutput out : nodeOutput)
             ids.add(out.getID());
         return ids;
     }
@@ -107,10 +112,11 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
     public ArrayList<String> getNodeInputIds() {
         ArrayList<String> ids = new ArrayList<>();
-        for (NodeInput out: nodeInput)
+        for (NodeInput out : nodeInput)
             ids.add(out.getID());
         return ids;
     }
+
     public NodeOutput addNodeOutput(Type type) {
         NodeOutput output = new NodeOutput(context, listener, this, nodeItemOrder, type);
         nodeOutput.add(output);
@@ -213,7 +219,6 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
 
     }
-
 
 
     public void build() {
@@ -352,7 +357,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     }
 
     @Override
-    public void dataInInputSent(String data, NodeInput input,RunnerCallback callback) {
+    public void dataInInputSent(String data, NodeInput input, RunnerCallback callback) {
         inputDataReceived++;
         if (inputDataReceived >= getNodeInput().size()) {
             process();
@@ -373,42 +378,48 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
 
     //TODO xxx
-    public void updateNodeCordinates(){
+    public void updateNodeCordinates() {
 
-    };
+    }
 
-    public NodeOutput getNodeOutputByPointId(String id){
-        for (NodeOutput output: nodeOutput) {
-            if(output.getPoint().getId().equals(id)){
+    public NodeOutput getNodeOutputByPointId(String id) {
+        for (NodeOutput output : nodeOutput) {
+            if (output.getPoint().getId().equals(id)) {
                 return output;
             }
         }
         return null;
     }
 
-    public NodeInput getNodeInputByPointId(String id){
-        for (NodeInput input: nodeInput) {
-            if(input.getPoint().getId().equals(id)){
+    public NodeInput getNodeInputByPointId(String id) {
+        for (NodeInput input : nodeInput) {
+            if (input.getPoint().getId().equals(id)) {
                 return input;
             }
         }
         return null;
     }
 
-    public void setNodeOutputIds(ArrayList<String> outputIds){
+    public void setNodeOutputIds(ArrayList<String> outputIds) {
         int i = 0;
-        for (NodeOutput nodeout: nodeOutput) {
+        for (NodeOutput nodeout : nodeOutput) {
             nodeout.id = outputIds.get(i);
             i++;
         }
     }
 
-    public void setNodeInputIds(ArrayList<String> inputIds){
+    public void setNodeInputIds(ArrayList<String> inputIds) {
         int i = 0;
-        for (NodeInput nodein: nodeInput) {
+        for (NodeInput nodein : nodeInput) {
             nodein.id = inputIds.get(i);
             i++;
         }
+    }
+
+
+
+    public String getJsonData() {
+        return jsonData;
     }
 }
 

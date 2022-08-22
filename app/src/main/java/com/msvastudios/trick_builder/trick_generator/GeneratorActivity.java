@@ -51,7 +51,7 @@ public class GeneratorActivity extends AppCompatActivity implements RunnerCallba
                 );
 
                 startActivity(intent, optionsCompat.toBundle());
-//                overridePendingTransition(0, 0);
+                overridePendingTransition(0, 0);
                 return true;
             }
         });

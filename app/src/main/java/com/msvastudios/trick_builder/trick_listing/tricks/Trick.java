@@ -5,23 +5,26 @@ import com.msvastudios.trick_builder.utils.sqlite.tricks.TrickEntity;
 import java.util.ArrayList;
 import java.util.UUID;
 public class Trick {
-    String text;
-    ArrayList<String> groupUuid;
+    String name;
+    String description;
     String uuid;
+    ArrayList<String> groupUuid;
 
-    public Trick(String text, ArrayList<String> groupUuid){
-        this.text = text;
+    public Trick(String name, String description, ArrayList<String> groupUuid){
+        this.name = name;
+        this.description = description;
         this.groupUuid = groupUuid;
         uuid = UUID.randomUUID().toString();
     }
 
     public Trick(TrickEntity entity){
-        this.text = entity.name;
+        this.name = entity.name;
         this.groupUuid = entity.groupIds;
+        this.description = entity.description;
         uuid = entity.trickUUID;
     }
 
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
     }
 }

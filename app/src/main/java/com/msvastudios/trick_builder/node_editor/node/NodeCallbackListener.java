@@ -8,5 +8,5 @@ public interface NodeCallbackListener {
 
     int onInputDropped(Node node);
 
-    public int onOutputDragged(Node node, NodeOutput nodeOutput);
+    int onOutputDragged(Node node, NodeOutput nodeOutput);
 }

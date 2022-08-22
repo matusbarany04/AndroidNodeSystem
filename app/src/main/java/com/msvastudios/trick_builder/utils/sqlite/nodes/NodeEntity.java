@@ -17,7 +17,7 @@ public class NodeEntity {
     }
 
     public NodeEntity(String algorithmUUID, int cordinateX, int cordinateY,
-                      String nodeUUID,CustomNodes type,  ArrayList<String> outputIds,  ArrayList<String> inputIds ) {
+                      String nodeUUID,CustomNodes type,  String jsonData, ArrayList<String> outputIds,  ArrayList<String> inputIds ) {
         this.algorithmUUID = algorithmUUID;
         this.cordinateX = cordinateX;
         this.cordinateY = cordinateY;
@@ -25,6 +25,7 @@ public class NodeEntity {
         this.type = type;
         this.outputIds = outputIds;
         this.inputIds = inputIds;
+        this.jsonData=  jsonData;
     }
 
     @PrimaryKey(autoGenerate = true)
@@ -50,6 +51,9 @@ public class NodeEntity {
 
     @ColumnInfo(name = "input_ids")
     public ArrayList<String> inputIds;
+
+    @ColumnInfo(name = "json_data")
+    public String jsonData;
 
 
 }

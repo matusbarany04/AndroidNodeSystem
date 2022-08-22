@@ -3,7 +3,7 @@ package com.msvastudios.trick_builder.node_editor.node.custom_nodes;
 import android.content.Context;
 
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
@@ -11,13 +11,11 @@ import com.msvastudios.trick_builder.node_editor.node.RunnerCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
-import java.util.function.Supplier;
-
 public class DummyNode extends Node {
 
 
-    public DummyNode(Context context, Integer leftMargin, Integer topMargin, LinesView linesView, NodeCallbackListener listener) {
-        super(context, leftMargin, topMargin, linesView, listener);
+    public DummyNode(Context context, Integer leftMargin, Integer topMargin, String jsonData, LinesView linesView, NodeCallbackListener listener) {
+        super(context, leftMargin, topMargin,jsonData, linesView, listener);
 
         NodeOutput reference = addNodeOutput(Type.STRING);
 

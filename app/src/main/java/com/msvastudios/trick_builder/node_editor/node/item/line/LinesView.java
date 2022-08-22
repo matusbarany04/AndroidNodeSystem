@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.node_editor.line;
+package com.msvastudios.trick_builder.node_editor.node.item.line;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -158,7 +158,6 @@ public class LinesView extends View {
                         !line.getEndPoint().getId().equals(id) ){
                     outputLines.add(line);
                     System.out.println("found .. :)");
-                    continue;
                 }
 //                System.out.println("not found... :(");
             }

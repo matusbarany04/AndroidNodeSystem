@@ -4,13 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.msvastudios.trick_builder.node_editor.line.Line;
-import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.item.line.Line;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.Node;
-import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
-import com.msvastudios.trick_builder.node_editor.node.NodeManager;
 import com.msvastudios.trick_builder.node_editor.node.RunnerCallback;
-import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 

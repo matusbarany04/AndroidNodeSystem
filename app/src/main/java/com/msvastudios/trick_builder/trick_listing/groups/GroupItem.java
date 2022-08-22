@@ -26,34 +26,20 @@ public class GroupItem extends RelativeLayout {
     {
         super(context);
         this.context = context;
-//        initYourStuff();
-
     }
 
     public GroupItem(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.context = context;
-//        initYourStuff();
     }
 
     public GroupItem(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         this.context = context;
-//        initYourStuff();
     }
 
-//    private View getView(ViewGroup ){
-//        LayoutInflater inflater = LayoutInflater.from(context);
-//        inflater.inflate(R.layout.grid_item,context,false);
-//        TextView text = findViewById(R.id.grid_item_text);
-//        text.setText(title);
-//        setBackgroundColor(Color.RED);
-////        setElevation(6 * context.getResources().getDisplayMetrics().density);
-////        setBackgroundResource(R.drawable.nav);
-//        return this;
-//    }
 
     public RelativeLayout getView(){
         return this;

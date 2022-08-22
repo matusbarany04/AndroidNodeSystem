@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.TextView;
 
 
 import com.msvastudios.trick_builder.R;
@@ -35,6 +36,12 @@ public class YesNoDialog {
                 }
             });
 
+
+            TextView titleView = dialog.findViewById(R.id.txttite);
+            titleView.setText(title);
+
+            TextView descriptionView = dialog.findViewById(R.id.txtDesc);
+            descriptionView.setText(description);
         }
 
         public void show(){

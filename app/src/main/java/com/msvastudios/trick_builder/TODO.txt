@@ -1,10 +1,10 @@
-delete
-save or not algorithmEditor popup
-add new node popup
+delete nodes
+Properly delete old deleted nodes
+vymysliet logo
 zoom in out
 move node area
 generator screen add wheel skin
-make trick group logic
-make tricks list logic
-Properly delete old deleted nodes
-vymysliet logo
+add new node popup |tick|
+save or not algorithmEditor popup |tick|
+make trick group logic |tick|
+make tricks list logic |tick|

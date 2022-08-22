@@ -2,7 +2,6 @@ package com.msvastudios.trick_builder.trick_listing.groups;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.popups.AddGroupPopup;
 import com.msvastudios.trick_builder.popups.YesNoDialog;
 import com.msvastudios.trick_builder.trick_listing.tricks.TrickListActivity;
 import com.msvastudios.trick_builder.utils.ListViewAdapter;
@@ -29,7 +29,8 @@ public class GroupListActivity extends AppCompatActivity {
     AddGroupPopup groupPopup;
     ArrayList<GroupEntity> groups;
     GridView gridView;
-    @Override
+    boolean longHoldTriggered;
+@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_list);
@@ -51,24 +52,24 @@ public class GroupListActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-        AtomicBoolean longHoldTriggered = new AtomicBoolean(false);
+         longHoldTriggered = false;
         gridView.setOnItemClickListener((adapterView, view, i, l) -> {
 
-            if (!longHoldTriggered.get()){
+            if (!longHoldTriggered){
                 Intent intent = new Intent(GroupListActivity.this, TrickListActivity.class);
                 intent.putExtra("group_id", groups.get(i).groupUUID);
                 //getIntent().getExtras().getString("group_id");
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }
-            longHoldTriggered.set(false);
+            longHoldTriggered = false;
 
         });
 
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                longHoldTriggered.set(true);
+                longHoldTriggered = true;
                 YesNoDialog dialog = new YesNoDialog(GroupListActivity.this, "Deleting...", "smh",R.drawable.delete);
                 dialog.setOnItemClickListener(new YesNoDialog.Popup() {
                     @Override
@@ -82,7 +83,7 @@ public class GroupListActivity extends AppCompatActivity {
                     }
                 });
                 dialog.show();
-                Toast.makeText(GroupListActivity.this, "Hold for too long", Toast.LENGTH_SHORT).show();
+                Toast.makeText(GroupListActivity.this, "Held for too long", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });

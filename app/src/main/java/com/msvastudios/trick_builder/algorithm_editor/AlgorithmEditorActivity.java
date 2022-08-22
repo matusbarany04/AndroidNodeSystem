@@ -18,8 +18,9 @@ import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
-import com.msvastudios.trick_builder.node_editor.line.Line;
+import com.msvastudios.trick_builder.node_editor.node.item.line.Line;
 import com.msvastudios.trick_builder.node_editor.node.Node;
+import com.msvastudios.trick_builder.utils.wheel.WheelParser;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
@@ -117,9 +118,9 @@ public class AlgorithmEditorActivity extends AppCompatActivity implements OnItem
     private void initAlgorithmsAdapter() {
         // TODO set images to choose from
         DiscreteScrollView scrollView = findViewById(R.id.picker);
+        scrollView.setAdapter(new WheelsAdapter(new WheelParser(AlgorithmEditorActivity.this).getWheelList()));
+
         //TODO xxx load algos
-        scrollView.setAdapter(new AlgosAdapter(new ArrayList<AlgorithmEntity>(), this)
-        );
         scrollView.addOnItemChangedListener(this);
         scrollView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override

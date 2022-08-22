@@ -1,4 +1,4 @@
-package com.msvastudios.trick_builder.node_editor.line;
+package com.msvastudios.trick_builder.node_editor.node.item.line;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

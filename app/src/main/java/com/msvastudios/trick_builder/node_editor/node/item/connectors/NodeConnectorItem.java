@@ -8,14 +8,12 @@ import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 
-import com.msvastudios.trick_builder.node_editor.line.LinePoint;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinePoint;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.item.ConnectorCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.NodeItem;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
-
-import java.util.UUID;
 
 public abstract class NodeConnectorItem extends NodeItem {
     NodeCallbackListener nodeCallbackListener;

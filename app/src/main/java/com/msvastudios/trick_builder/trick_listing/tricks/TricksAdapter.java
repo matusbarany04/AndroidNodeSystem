@@ -48,7 +48,7 @@ public class TricksAdapter extends BaseAdapter {
 //        icon.setImageResource(flags[i]);//set image of the item’s
 
             TextView textView = view.findViewById(R.id.grid_item_text);
-            textView.setText(text.get(i).text);
+            textView.setText(text.get(i).name);
 //        viewGroup.addView(text.get(i).getView());
             return view;
         }

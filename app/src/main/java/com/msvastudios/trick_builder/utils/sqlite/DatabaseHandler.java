@@ -14,9 +14,9 @@ import com.msvastudios.trick_builder.utils.sqlite.lines.LineEntity;
 import com.msvastudios.trick_builder.utils.sqlite.lines.LineDatabase;
 import com.msvastudios.trick_builder.utils.sqlite.nodes.NodeEntity;
 import com.msvastudios.trick_builder.utils.sqlite.nodes.NodeDatabase;
-import com.msvastudios.trick_builder.node_editor.line.Line;
-import com.msvastudios.trick_builder.node_editor.line.LinePoint;
-import com.msvastudios.trick_builder.node_editor.line.LinesView;
+import com.msvastudios.trick_builder.node_editor.node.item.line.Line;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinePoint;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.Node;
 import com.msvastudios.trick_builder.node_editor.node.NodeCallbackListener;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeInput;
@@ -77,8 +77,9 @@ public class DatabaseHandler {
                 }
         );
     }
-    public void deleteGroupById(String id){
-        executor.execute(()->{
+
+    public void deleteGroupById(String id) {
+        executor.execute(() -> {
             groupDatabase.groupDao().deleteByGroupId(id);
         });
     }
@@ -212,9 +213,9 @@ public class DatabaseHandler {
                                 node.getTopMargin(),
                                 node.getId(),
                                 node.getType(),
+                                node.getJsonData(),
                                 node.getNodeOutputIds(),
                                 node.getNodeInputIds());
-
                         if (nodeDatabase.nodeDao().getByNodeId(node.getId()) != null) {
                             nodeDatabase.nodeDao().deleteByNodeId(node.getId());
                         }
@@ -246,7 +247,7 @@ public class DatabaseHandler {
 
                     HashMap<String, Node> nodeHashMap = new HashMap<>();
                     for (NodeEntity entitity : nodeEntities) {
-                        Node node = entitity.type.createNode(context, entitity.cordinateX, entitity.cordinateY, linesView, callbackListener);
+                        Node node = AlgorithmLoader.nodeEntityToNode(entitity, context, linesView, callbackListener);
                         for (String id : entitity.outputIds) {
                             Log.d("outIds: ", id);
                         }
@@ -319,18 +320,22 @@ public class DatabaseHandler {
         }).start();
     }
 
-    public void getTricks(Trick callback ){
-        executor.execute(()->{
+    public void getTricks(Trick callback) {
+        executor.execute(() -> {
             callback.onTricksFetched(new ArrayList<TrickEntity>(trickDatabase.trickDao().getAll()));
         });
     }
 
-    public void getTricksByGroupId(String groupId, Trick callback ){
-        executor.execute(()->{
+    public void getTricksByGroupId(String groupId, Trick callback) {
+        executor.execute(() -> {
             ArrayList<TrickEntity> output = new ArrayList<>();
             ArrayList<TrickEntity> all = new ArrayList<>(trickDatabase.trickDao().getAll());
-            for (TrickEntity entity: all) {
-                for (String entityGroupId: entity.groupIds) {
+            for (TrickEntity entity : all) {
+                for (String id : entity.groupIds) {
+                    System.out.println("id" + id);
+
+                }
+                for (String entityGroupId : entity.groupIds) {
                     if (entityGroupId.equals(groupId)) output.add(entity);
                 }
             }
@@ -338,57 +343,58 @@ public class DatabaseHandler {
         });
     }
 
-    public void insertTrick(Finish callback,TrickEntity... tricks){
-        executor.execute(()->{
+    public void insertTrick(Finish callback, TrickEntity... tricks) {
+        executor.execute(() -> {
             trickDatabase.trickDao().insertAll(tricks);
             callback.onActionFinished(1);
         });
     }
 
-    public void deleteTrick(Finish callback,TrickEntity entity){
-        executor.execute(()->{
+    public void deleteTrick(Finish callback, TrickEntity entity) {
+        executor.execute(() -> {
             trickDatabase.trickDao().delete(entity);
             callback.onActionFinished(1);
         });
     }
 
-    public void deleteTrickByUuid(Finish callback, String trickUuid){
-        executor.execute(()->{
+    public void deleteTrickByUuid(Finish callback, String trickUuid) {
+        executor.execute(() -> {
             trickDatabase.trickDao().deleteByTrickId(trickUuid);
-            callback.onActionFinished(1);
+            if (callback != null) callback.onActionFinished(1);
         });
     }
 
-    public interface Trick{
-        public void onTricksFetched(ArrayList<TrickEntity> tricks);
+    public interface Trick {
+        void onTricksFetched(ArrayList<TrickEntity> tricks);
     }
+
     public interface Data {
-        public void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes);
+        void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes);
     }
 
     public interface Algorithm {
-        public void onAlgorithm(Integer result, AlgorithmEntity entity);
+        void onAlgorithm(Integer result, AlgorithmEntity entity);
     }
 
     public interface Lines {
-        public void onLinesFetch(ArrayList<LineEntity> result);
+        void onLinesFetch(ArrayList<LineEntity> result);
     }
 
     public interface Nodes {
-        public void onNodesFetch(ArrayList<NodeEntity> result);
+        void onNodesFetch(ArrayList<NodeEntity> result);
     }
 
     public interface AlgoFinish {
-        public void onFetched(ArrayList<AlgorithmEntity> entities);
+        void onFetched(ArrayList<AlgorithmEntity> entities);
     }
 
     public interface NameFetch {
-        public void onNameFetched(String name);
+        void onNameFetched(String name);
 
     }
 
     public interface AlgorithmUpdate {
-        public void algorithmUpdated(int status);
+        void algorithmUpdated(int status);
     }
 
     public interface Groups {

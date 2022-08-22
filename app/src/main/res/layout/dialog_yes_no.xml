@@ -22,7 +22,7 @@
             android:layout_height="24dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="2dp"
-            android:src="@drawable/koliesko_reduced"
+            android:src="@drawable/basic"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="2dp"
             android:layout_alignParentRight="true" />

@@ -59,11 +59,11 @@ public class NodeInput extends NodeConnectorItem {
         return this;
     }
 
-    public String getData() {
-        return data;
+    public Object getData() {
+        return getType().decode(data);
     }
 
-    public void push(String data,RunnerCallback callback){
+    public void push(String data, RunnerCallback callback) {
         this.data = data;
         parent.dataInInputSent(data, this, callback);
     }

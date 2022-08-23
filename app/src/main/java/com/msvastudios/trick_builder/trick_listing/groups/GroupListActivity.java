@@ -46,9 +46,7 @@ public class GroupListActivity extends AppCompatActivity {
             @Override
             public void onGroupsFetch(ArrayList<GroupEntity> groupEntities) {
                 groups.clear();
-                for (GroupEntity databaseEntity: groupEntities) {
-                    groups.add(databaseEntity);
-                }
+                groups.addAll(groupEntities);
                 adapter.notifyDataSetChanged();
             }
         });

@@ -147,11 +147,11 @@ public class DatabaseHandler {
         });
     }
 
-    public void createNewAlgorithmEntity(String name, Algorithm callback) {
+    public void createNewAlgorithmEntity(String name, String imageId, Algorithm callback) {
         executor.execute(() -> {
             AlgorithmEntity[] entities = algorithmDatabase.algorithmDao().findByName(name);
             if (entities.length == 0)
-                callback.onAlgorithm(0, new AlgorithmEntity(name, UUID.randomUUID().toString(), 0));
+                callback.onAlgorithm(0, new AlgorithmEntity(name, UUID.randomUUID().toString(), 0, imageId));
             else
                 callback.onAlgorithm(1, entities[0]);
         });

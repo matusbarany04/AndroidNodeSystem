@@ -29,6 +29,10 @@ public class WheelsAdapter extends RecyclerView.Adapter<WheelsAdapter.ViewHolder
         this.data = data;
     }
 
+    public Wheel getWheel(int position) {
+        return data.get(position);
+    }
+
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -59,14 +63,10 @@ public class WheelsAdapter extends RecyclerView.Adapter<WheelsAdapter.ViewHolder
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
-
         private ImageView image;
-
         public ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.item_button);
-
         }
 
     }

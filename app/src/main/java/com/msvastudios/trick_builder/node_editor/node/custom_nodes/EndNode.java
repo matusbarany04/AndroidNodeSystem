@@ -29,7 +29,7 @@ public class EndNode extends Node {
 
     @Override
     public void process() {
-        reference.setText(reference.getData());
+        reference.setText((String) reference.getData());
 //        System.out.println("fuck yeah " +  reference.getData());
     }
 
@@ -37,7 +37,7 @@ public class EndNode extends Node {
     public RunnerCallback sendData(RunnerCallback callback){
         //TODO poslať dáta naspäť node managerovi
         if (callback != null){
-            callback.finished(reference.getData());
+            callback.finished((String) reference.getData());
         }
         System.out.println("sending data !!");
         return callback;

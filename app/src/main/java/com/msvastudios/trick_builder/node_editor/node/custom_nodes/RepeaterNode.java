@@ -37,7 +37,7 @@ public class RepeaterNode extends Node {
 
     @Override
     public RunnerCallback sendData(RunnerCallback callback) {
-        output.sendData(input.getData(), callback);
+        output.sendData((String) input.getData(), callback);
         System.out.println("was in repeater");
         return callback;
     }

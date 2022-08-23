@@ -2,6 +2,8 @@ package com.msvastudios.trick_builder.node_editor.node;
 
 import android.content.Context;
 
+import com.msvastudios.trick_builder.node_editor.node.custom_nodes.GroupNode;
+import com.msvastudios.trick_builder.node_editor.node.custom_nodes.PickRandomNode;
 import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.DummyNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.EndNode;
@@ -12,8 +14,9 @@ public enum CustomNodes {
     DUMMY_NODE(DummyNode::new, "dummy"),
     REPEATER_NODE(RepeaterNode::new, "repeater"),
     TRICK_ARRAY_NODE(TrickArrayNode::new, "array"),
-    END_NODE(EndNode::new, "end");
-
+    END_NODE(EndNode::new, "end"),
+    GROUP_NODE(GroupNode::new, "group"),
+    PICK_RANDOM(PickRandomNode::new, "random");
 
     NodeCreator< Context, Integer, Integer ,String, LinesView, NodeCallbackListener, Node> constructor;
     public String type;

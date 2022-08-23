@@ -8,8 +8,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.algorithm_editor.WheelsAdapter;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
+import com.msvastudios.trick_builder.utils.wheel.WheelParser;
 
 import java.util.ArrayList;
 
@@ -38,9 +41,17 @@ public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (position == 1) {
-            holder.button.setTransitionName("element");
+            holder.image.setTransitionName("element");
         }
-        holder.button.setOnClickListener(view -> listener.onItemClicked(data.get(holder.getAdapterPosition())));
+        Glide.with(holder.itemView.getContext())
+                //WHEN BORED add wheel parser up
+                .load(
+                        new WheelParser(holder.itemView.getContext()).getWheelById(data.get(position).imageId).getImage()
+                )
+                .into(holder.image);
+
+
+        holder.image.setOnClickListener(view -> listener.onItemClicked(data.get(holder.getAdapterPosition())));
     }
 
     @Override
@@ -50,15 +61,15 @@ public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView button;
+
         private ImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
 //                image = itemView.findViewById(R.id.image);
-            button = itemView.findViewById(R.id.item_button);
-
+            image = itemView.findViewById(R.id.item_button);
         }
     }
+
 }
 

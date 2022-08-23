@@ -72,7 +72,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     public void saveCurrentNodes(String id) {
 
         DatabaseHandler.getInstance(context).insertAlgorithm(
-                new AlgorithmEntity(algorithmEntity.name, id, nodeList.values().size()),
+                new AlgorithmEntity(algorithmEntity.name, id, nodeList.values().size(), algorithmEntity.imageId),
                 linesView.getLines(),
                 new ArrayList<>(nodeList.values()));
     }

@@ -102,7 +102,10 @@ public class AlgorithmEditorActivity extends AppCompatActivity implements OnItem
     }
 
     public void addAlgorithm() {
-        DatabaseHandler.getInstance(getApplicationContext()).createNewAlgorithmEntity(text.getText().toString(), (Integer result, AlgorithmEntity entity) -> {
+        DiscreteScrollView scrollView = findViewById(R.id.picker);
+        String imageId = ((WheelsAdapter) scrollView.getAdapter()).getWheel(scrollView.getCurrentItem()).getId();
+
+        DatabaseHandler.getInstance(getApplicationContext()).createNewAlgorithmEntity(text.getText().toString(), imageId, (Integer result, AlgorithmEntity entity) -> {
             if (result == 0) {// OK
                 DatabaseHandler.getInstance(getApplicationContext()).insertAlgorithm(entity, new ArrayList<Line>(), new ArrayList<Node>());
                 finish();

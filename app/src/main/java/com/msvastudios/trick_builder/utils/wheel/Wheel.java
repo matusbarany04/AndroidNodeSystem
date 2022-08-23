@@ -21,6 +21,14 @@ public class Wheel {
         this.image = BitmapFactory.decodeResource(context.getResources(), image);
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
     public Bitmap getImage() {
         return image;
     }

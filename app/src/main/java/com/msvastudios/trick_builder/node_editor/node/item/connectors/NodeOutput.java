@@ -1,6 +1,7 @@
 package com.msvastudios.trick_builder.node_editor.node.item.connectors;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,8 +64,8 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         imagePoint = getView().findViewById(R.id.output_dragpoint);
         imagePoint.setLayoutParams(new LinearLayout.LayoutParams(height / 2, height));
 
+        imagePoint.setColorFilter(context.getResources().getColor(type.getColor()));
 
-        changeColorTint(imagePoint, context, type.getColor());
 
         getView().setOnTouchListener(this);
 

@@ -1,5 +1,6 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginLeft="-25px"
     >
 
@@ -15,7 +16,7 @@
         android:id="@+id/output_dragpoint"
         android:layout_width="50px"
         android:layout_height="50px"
-
-        android:src="@drawable/ic_baseline_circle_24" />
+        android:src="@drawable/ic_baseline_circle_24"
+        tools:ignore="UseAppTint" />
 
 </merge>

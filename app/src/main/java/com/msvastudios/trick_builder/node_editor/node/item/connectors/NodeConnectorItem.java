@@ -15,6 +15,8 @@ import com.msvastudios.trick_builder.node_editor.node.item.ConnectorCallback;
 import com.msvastudios.trick_builder.node_editor.node.item.NodeItem;
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
 
+import java.util.Objects;
+
 public abstract class NodeConnectorItem extends NodeItem {
     NodeCallbackListener nodeCallbackListener;
     LinePoint point;
@@ -24,7 +26,7 @@ public abstract class NodeConnectorItem extends NodeItem {
     NodeConnectorItem(Context context, Node parent, int order, Type type, NodeCallbackListener listener) {
         super(context, parent, order);
         point = new LinePoint(0, 0, parent);
-        this.type = type;
+        this.type = Objects.requireNonNull(type);
         this.nodeCallbackListener = listener;
 
 //        setNewLinePoint();

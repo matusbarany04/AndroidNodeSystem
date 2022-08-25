@@ -335,7 +335,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
                 break;
         }
 
-        //DEBUG
+        //TODO just for DEBUG
         nav.setTitle(getId());
 
         updatePositionVars();

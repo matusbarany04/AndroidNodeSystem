@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.msvastudios.trick_builder.node_editor.node.item.Type;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 
@@ -146,7 +147,8 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
             if (x > node.getLeftMargin() && x < node.getLeftMargin() + node.getNodeWidth()) {
                 if (y > node.getTopMargin() && y < node.getTopMargin() + node.getNodeHeight()) {
                     NodeInput input = node.hoveringOn(x - node.getLeftMargin(), y - node.getTopMargin());
-                    if (input != null && draggingOutput != null && input.getType().equals(draggingOutput.getType())) {
+                    if (input != null && draggingOutput != null &&
+                            (input.getType().equals(draggingOutput.getType())) || input.getType().equals(Type.ANY) ) {
                         linesView.addLine(new Line(draggingOutput.getPoint(), input.getPoint())); // TODO check for multiple lines between same points
                     }
                 }

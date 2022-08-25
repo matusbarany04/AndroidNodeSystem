@@ -63,6 +63,14 @@ public class NodeInput extends NodeConnectorItem {
         return getType().decode(data);
     }
 
+    /**\
+     * This function should not be used except logging!
+     * @return
+     */
+    public String getRawData() {
+        return data;
+    }
+
     public void push(String data, RunnerCallback callback) {
         this.data = data;
         parent.dataInInputSent(data, this, callback);

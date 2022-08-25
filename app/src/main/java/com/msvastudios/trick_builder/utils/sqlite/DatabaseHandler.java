@@ -331,10 +331,9 @@ public class DatabaseHandler {
             ArrayList<TrickEntity> output = new ArrayList<>();
             ArrayList<TrickEntity> all = new ArrayList<>(trickDatabase.trickDao().getAll());
             for (TrickEntity entity : all) {
-                for (String id : entity.groupIds) {
-                    System.out.println("id" + id);
-
-                }
+//                for (String id : entity.groupIds) {
+//                    System.out.println("id" + id);
+//                }
                 for (String entityGroupId : entity.groupIds) {
                     if (entityGroupId.equals(groupId)) output.add(entity);
                 }

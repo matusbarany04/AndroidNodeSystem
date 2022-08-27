@@ -34,8 +34,8 @@
 
         <RelativeLayout
             android:id="@+id/canvasRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="3000dp"
+            android:layout_height="3000dp"
             android:clipChildren="false">
 
         </RelativeLayout>
@@ -46,6 +46,21 @@
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/overlay_area"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="#3AFFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +90,8 @@
         android:layout_marginRight="50px"
         android:minHeight="400px"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
 
     </LinearLayout>
 

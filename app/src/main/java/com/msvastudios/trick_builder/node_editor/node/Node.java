@@ -202,7 +202,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         node.setLayoutParams(nodeParams);
         node.setBackgroundResource(R.drawable.back_node);
 //        node.setElevation(20f);
-        node.setOutlineProvider(ViewOutlineProvider.PADDED_BOUNDS);
+//        node.setOutlineProvider(ViewOutlineProvider.PADDED_BOUNDS);
 
         innerNode = new RelativeLayout(context);
 

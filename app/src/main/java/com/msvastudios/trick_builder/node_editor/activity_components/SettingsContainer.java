@@ -44,7 +44,7 @@ public class SettingsContainer {
         container.setLayoutParams(contParams);
         buttonList.add(addButton(1, R.drawable.plus));
         buttonList.add(addButton(2, R.drawable.delete));
-        buttonList.add(addButton(3, R.drawable.play));
+        buttonList.add(addButton(3, R.drawable.move));
 
         addButton(0, R.drawable.settings).setOnClickListener(new View.OnClickListener() {
             @Override

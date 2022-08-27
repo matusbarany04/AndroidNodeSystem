@@ -1,5 +1,6 @@
 package com.msvastudios.trick_builder.node_editor.node;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +36,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
     boolean deleteEnabled = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     public NodeManager(Context context, LinesView linesView, RelativeLayout dragArea) {
         NodeDimensionsCalculator.init(context);
         this.context = context;

@@ -8,3 +8,4 @@ add new node popup |tick|
 save or not algorithmEditor popup |tick|
 make trick group logic |tick|
 make tricks list logic |tick|
+resolve input point null pointer

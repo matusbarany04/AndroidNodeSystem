@@ -2,17 +2,21 @@ package com.msvastudios.trick_builder.node_editor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.node_editor.node.item.line.LinePoint;
 import com.msvastudios.trick_builder.popups.NewNodePopup;
 import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
@@ -22,6 +26,7 @@ import com.msvastudios.trick_builder.node_editor.activity_components.SettingsCon
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class NodeActivity extends AppCompatActivity {
     DisplayMetrics displayMetrics;
@@ -33,6 +38,7 @@ public class NodeActivity extends AppCompatActivity {
     Dialog dialog;
     NewNodePopup nodePopup;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +53,8 @@ public class NodeActivity extends AppCompatActivity {
         dragArea = findViewById(R.id.dragArea);
 
         RelativeLayout canvasLayout = findViewById(R.id.canvasRelativeLayout);
+//        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) canvasLayout.getLayoutParams();
+
         LinesView linesView = new LinesView(this);
         canvasLayout.addView(linesView);
 
@@ -57,6 +65,8 @@ public class NodeActivity extends AppCompatActivity {
         int screenWidth = displayMetrics.widthPixels;
 
         Log.d("Screen metrics", screenHeight + " " + screenWidth);
+
+
 
 
         NodeDimensionsCalculator.getStatusBarHeight(this);
@@ -100,8 +110,9 @@ public class NodeActivity extends AppCompatActivity {
         });
 
         container.setClickListenerOnButton(2, view -> {
+            //TODO start move mode
 //                nodeManager.play();
-            nodeManager.saveCurrentNodes(algoName);
+//            nodeManager.saveCurrentNodes(algoName);
         });
 
         buildNewNodePopup();

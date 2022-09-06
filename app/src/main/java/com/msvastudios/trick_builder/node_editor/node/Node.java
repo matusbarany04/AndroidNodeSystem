@@ -46,7 +46,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     private int inputDataReceived = 0;
     String jsonData;
 
-    public Node(Context context, Integer leftMargin, Integer topMargin,String jsonData, @Nullable LinesView linesView, @Nullable NodeCallbackListener listener) {
+    public Node(Context context, Integer leftMargin, Integer topMargin, String jsonData, @Nullable LinesView linesView, @Nullable NodeCallbackListener listener) {
         this.leftMargin = leftMargin;
         this.topMargin = topMargin;
         nodeWidth = NodeDimensionsCalculator.nodeWidth();
@@ -220,6 +220,10 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
     }
 
+    public void scale(float x, float y) {
+        node.setScaleX(x);
+        node.setScaleY(y);
+    }
 
     public void build() {
 
@@ -377,9 +381,19 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     public abstract RunnerCallback sendData(RunnerCallback callback);
 
 
-    //TODO xxx
-    public void updateNodeCordinates() {
+    public void updateNodeCordinatesRelatively(int xOffset, int yOffset) {
+        RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams) node.getLayoutParams();
+        layoutParams.leftMargin = layoutParams.leftMargin + xOffset;
+        layoutParams.topMargin = layoutParams.topMargin + yOffset;
 
+        node.setLayoutParams(layoutParams);
+
+        updatePositionVars();
+
+        callCallback();
+
+        linesView.invalidate();
     }
 
     public NodeOutput getNodeOutputByPointId(String id) {
@@ -415,7 +429,6 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
             i++;
         }
     }
-
 
 
     public String getJsonData() {

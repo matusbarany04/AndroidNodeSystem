@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clipChildren="false"
-    tools:context=".MainActivity"
-
-    >
+    tools:context=".MainActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/nodeBackButton"
@@ -32,24 +30,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/canvasRelativeLayout"
-            android:layout_width="3000dp"
-            android:layout_height="3000dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
             android:clipChildren="false">
 
-        </RelativeLayout>
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/dragArea"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_gravity="center"
+
+          >
 
 
         </RelativeLayout>
@@ -60,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:background="#3AFFFFFF"
+            android:background="#3AF16262"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

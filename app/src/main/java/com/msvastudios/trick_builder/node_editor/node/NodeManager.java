@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -33,18 +34,18 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     RelativeLayout dragArea;
 
     NodeOutput draggingOutput;
-
+    RelativeLayout relativePoint;
     boolean deleteEnabled = false;
 
     @SuppressLint("ClickableViewAccessibility")
-    public NodeManager(Context context, LinesView linesView, RelativeLayout dragArea) {
+    public NodeManager(Context context, LinesView linesView, RelativeLayout dragArea, RelativeLayout relativePoint) {
         NodeDimensionsCalculator.init(context);
         this.context = context;
         nodeList = new HashMap<>();
         this.linesView = Objects.requireNonNull(linesView);
         this.dragArea = dragArea;
         this.linesView.setOnTouchListener(this);
-
+        this.relativePoint = relativePoint;
 
         this.linesView = linesView;
 
@@ -62,6 +63,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                         public void run() {
                             dragArea.addView(node.getNode());
                             nodeList.put(node.getId(), node);
+                            if (!isScalerEmpty()) scale(scalers.first, scalers.second);
                         }
                     });
 
@@ -101,7 +103,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
 
     public <T extends Node> void addNode(CustomNodes node, int leftMargin, int topMargin) {
-        T createdNode = (T) node.createNode(context, leftMargin, topMargin,"", linesView, this);
+        T createdNode = (T) node.createNode(context, leftMargin, topMargin, "", linesView, this);
         nodeList.put(createdNode.getId(), createdNode);
         dragArea.addView((createdNode).getNode());
     }
@@ -111,6 +113,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         if (deleteEnabled) {
             System.out.println("moving removing!!");
             nodeList.remove(node.getId());
+            //TODO xxx remove view
 
             ArrayList<String> nodeOutputPoints = new ArrayList<>();
             for (NodeOutput a : node.getNodeOutput()) {
@@ -149,9 +152,11 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
             if (x > node.getLeftMargin() && x < node.getLeftMargin() + node.getNodeWidth()) {
                 if (y > node.getTopMargin() && y < node.getTopMargin() + node.getNodeHeight()) {
                     NodeInput input = node.hoveringOn(x - node.getLeftMargin(), y - node.getTopMargin());
-                    if (input != null && draggingOutput != null &&
-                            (input.getType().equals(draggingOutput.getType())) || input.getType().equals(Type.ANY) ) {
-                        linesView.addLine(new Line(draggingOutput.getPoint(), input.getPoint())); // TODO check for multiple lines between same points
+                    if (input != null && draggingOutput != null) {
+
+                        if (input.getType().equals(draggingOutput.getType()) || input.getType().equals(Type.ANY)) {
+                            linesView.addLine(new Line(draggingOutput.getPoint(), input.getPoint())); // TODO check for multiple lines between same points
+                        }
                     }
                 }
             }
@@ -179,6 +184,19 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         return true;
     }
 
+    Pair<Float, Float> scalers;
+
+    public void scale(float x, float y) {
+        for (Node node : nodeList.values()) {
+            node.scale(x, y);
+        }
+        scalers = new Pair<>(x, y);
+    }
+
+    private boolean isScalerEmpty() {
+        return scalers == null;
+    }
+
     public void play(RunnerCallback runnerCallback) {
         for (Node node : nodeList.values()) {
             if (node.isStartingNode()) {
@@ -198,5 +216,11 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
     public boolean isDeleteEnabled() {
         return deleteEnabled;
+    }
+
+    public void moveAll(int deltaX, int deltaY) {
+        for (Node node: nodeList.values()) {
+            node.updateNodeCordinatesRelatively(deltaX,deltaY);
+        }
     }
 }

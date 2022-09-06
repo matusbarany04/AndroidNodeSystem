@@ -158,7 +158,6 @@ public class DatabaseHandler {
     }
 
     //TODO xxx make a method that will join insert and delete -> update
-    //TODO make all thread async callbacks
     public void updateAlgorithm(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes) {
         this.removeAlgorithm(algorithm);
         this.insertAlgorithm(algorithm, lines, nodes);

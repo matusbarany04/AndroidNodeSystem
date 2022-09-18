@@ -29,6 +29,11 @@ public class LinePoint {
         this.y = y;
     }
 
+    public LinePoint scale(float scale){
+        int newX = (int) (x * scale);
+        int newY = (int) (y * scale);
+        return new LinePoint(newX,newY, parent);
+    }
     public int getX() {
         return x;
     }

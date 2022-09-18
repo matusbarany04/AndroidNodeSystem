@@ -8,7 +8,7 @@
 //import android.view.View;
 //import android.widget.ImageView;
 //
-//public class ZoomableImageView extends ImageView
+//public class ZombieView extends ImageView
 //{
 //    Matrix matrix = new Matrix();
 //

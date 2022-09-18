@@ -45,7 +45,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     private int nodeItemOrder = 1;
     private int inputDataReceived = 0;
     String jsonData;
-
+    float scale = 1f;
     public Node(Context context, Integer leftMargin, Integer topMargin, String jsonData, @Nullable LinesView linesView, @Nullable NodeCallbackListener listener) {
         this.leftMargin = leftMargin;
         this.topMargin = topMargin;
@@ -220,9 +220,8 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
     }
 
-    public void scale(float x, float y) {
-        node.setScaleX(x);
-        node.setScaleY(y);
+    public void setScale(float scale) {
+        this.scale = scale; //POSBUG scale is always uniform
     }
 
     public void build() {
@@ -324,15 +323,16 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
 
-                xDelta = rawX - params.leftMargin;
-                yDelta = rawY - params.topMargin;
+                xDelta = (int)  ( rawX / scale )  - params.leftMargin ;
+                yDelta = (int)  ( rawY / scale )  - params.topMargin;
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 RelativeLayout.LayoutParams layoutParams =
                         (RelativeLayout.LayoutParams) node.getLayoutParams();
-                layoutParams.leftMargin = rawX - xDelta;
-                layoutParams.topMargin = rawY - yDelta;
+                layoutParams.leftMargin = (int)  ( rawX / scale ) - xDelta;
+                layoutParams.topMargin = (int)  ( rawY / scale ) - yDelta;
+                System.out.println("scale: " + scale);
 
                 node.setLayoutParams(layoutParams);
 

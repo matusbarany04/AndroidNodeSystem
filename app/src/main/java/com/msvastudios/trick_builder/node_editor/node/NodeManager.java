@@ -1,12 +1,15 @@
 package com.msvastudios.trick_builder.node_editor.node;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.msvastudios.trick_builder.node_editor.node.item.Type;
@@ -63,7 +66,12 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                         public void run() {
                             dragArea.addView(node.getNode());
                             nodeList.put(node.getId(), node);
-                            if (!isScalerEmpty()) scale(scalers.first, scalers.second);
+                            if (!isScalerEmpty()){
+                                dragArea.setScaleX(scalers.first);
+                                dragArea.setScaleY(scalers.second);
+                                linesView.setScaleX(scalers.first);
+                                linesView.setScaleY(scalers.second);
+                            }
                         }
                     });
 
@@ -109,7 +117,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     }
 
     @Override
-    public int onMoved(Node node) {
+    public int onMoved(Node node) { // not quite working
         if (deleteEnabled) {
             System.out.println("moving removing!!");
             nodeList.remove(node.getId());
@@ -142,7 +150,12 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     @Override
     public int onOutputDragged(Node node, NodeOutput nodeOutput) {
         draggingOutput = nodeOutput;
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
         helpLine = new Line(nodeOutput.getPoint(), new LinePoint(nodeOutput.getPoint(), node));
+
+        System.out.println("nodeOutput.getPoint()" + nodeOutput.getPoint().getX() + " : " + +nodeOutput.getPoint().getY());
         linesView.addLine(helpLine);
         return 0;
     }
@@ -170,7 +183,19 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
         if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
             if (helpLine != null) {
-                helpLine.updateEndPoint(new LinePoint(x, y, null)); // null pointer exception checkifinnode funct
+
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int height = displayMetrics.heightPixels;
+                int width = displayMetrics.widthPixels;
+                FrameLayout.LayoutParams dragAreaLayoutParams = (FrameLayout.LayoutParams) dragArea.getLayoutParams();
+                int dragAreaX = dragAreaLayoutParams.width;
+                int dragAreaY = dragAreaLayoutParams.height;
+
+                helpLine.updateEndPoint(new LinePoint(
+                        (int) ((x / dragArea.getScaleX() + (dragAreaX  - width / dragArea.getScaleX() ) / 2)),
+                        (int) ((y / dragArea.getScaleY() + (dragAreaY  - height / dragArea.getScaleX() ) / 2)),
+                        null)); // null pointer exception checkifinnode function
             }
         }
 
@@ -186,11 +211,11 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
     Pair<Float, Float> scalers;
 
-    public void scale(float x, float y) {
+    public void scale(float x) {
         for (Node node : nodeList.values()) {
-            node.scale(x, y);
+            node.setScale(x);
         }
-        scalers = new Pair<>(x, y);
+        scalers = new Pair<>(x, x);
     }
 
     private boolean isScalerEmpty() {
@@ -219,8 +244,8 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     }
 
     public void moveAll(int deltaX, int deltaY) {
-        for (Node node: nodeList.values()) {
-            node.updateNodeCordinatesRelatively(deltaX,deltaY);
+        for (Node node : nodeList.values()) {
+            node.updateNodeCordinatesRelatively(deltaX, deltaY);
         }
     }
 }

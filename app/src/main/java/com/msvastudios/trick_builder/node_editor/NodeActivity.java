@@ -5,16 +5,19 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
@@ -43,6 +46,18 @@ public class NodeActivity extends AppCompatActivity {
     boolean screenMove = false;
     int dragDeltaX = 0, dragDeltaY = 0;
     LinesView linesView;
+
+    ScaleGestureDetector scaleGestureDetector;
+
+    PointF last = new PointF();
+    PointF start = new PointF();
+    public Mode mode;
+
+    private enum Mode{
+        MOVE,
+        ZOOM;
+
+    }
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +90,33 @@ public class NodeActivity extends AppCompatActivity {
         RelativeLayout overlay_area = findViewById(R.id.overlay_area);
         //TODO move listener elsewhere
 
+         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureDetector.OnScaleGestureListener() {
+            @Override
+            public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+                System.out.println("scaling");
+                x *= scaleGestureDetector.getScaleFactor();
+                y *= scaleGestureDetector.getScaleFactor();
+                TextView textView = findViewById(R.id.scale);
+                textView.setText(String.valueOf(x));
+                //          nodeManager.scale(x, y);
+                dragArea.setScaleX(x);
+                dragArea.setScaleY(y);
+                linesView.setScaleX(x);
+                linesView.setScaleY(y);
+                nodeManager.scale(x);
+                return true;
+            }
+
+            @Override
+            public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
+                return true;
+            }
+
+            @Override
+            public void onScaleEnd(ScaleGestureDetector scaleGestureDetector) {
+            }
+        });
+
         overlay_area.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -87,14 +129,26 @@ public class NodeActivity extends AppCompatActivity {
                         case MotionEvent.ACTION_DOWN:
                             dragDeltaX = rawX;
                             dragDeltaY = rawY;
+                            mode = Mode.MOVE;
                             break;
-
+                        case MotionEvent.ACTION_POINTER_DOWN:
+                            last.set(motionEvent.getX(), motionEvent.getY());
+                            start.set(last);
+                            mode = Mode.ZOOM;
+                            break;
                         case MotionEvent.ACTION_MOVE:
-                            nodeManager.moveAll(-(dragDeltaX - rawX), -(dragDeltaY - rawY));
-                            dragDeltaX = rawX;
-                            dragDeltaY = rawY;
-                            break;
+                            if (Mode.MOVE == mode){
+
+                                nodeManager.moveAll(-(dragDeltaX - rawX), -(dragDeltaY - rawY));
+                                dragDeltaX = rawX;
+                                dragDeltaY = rawY;
+                                break;
+                            }else if (Mode.ZOOM == mode){
+                                scaleGestureDetector.onTouchEvent(motionEvent);
+                                System.out.println("zoomer boomer !!!!");
+                            }
                     }
+
 
                 }
                 return screenMove;
@@ -134,14 +188,16 @@ public class NodeActivity extends AppCompatActivity {
             //call add activity
             //with some callback
 //            nodeManager.addNode(RepeaterNode.class, 200, 200);
-            x += 0.1f;
             y += 0.1f;
+            x += 0.1f;
+            TextView textView = findViewById(R.id.scale);
+            textView.setText(String.valueOf(x));
 //          nodeManager.scale(x, y);
             dragArea.setScaleX(x);
             dragArea.setScaleY(y);
             linesView.setScaleX(x);
             linesView.setScaleY(y);
-
+            nodeManager.scale(x);
 
 //            nodePopup.show();
         });
@@ -151,11 +207,14 @@ public class NodeActivity extends AppCompatActivity {
 //          nodeManager.toggleDeletionMode();
             x -= 0.1f;
             y -= 0.1f;
+            TextView textView = findViewById(R.id.scale);
+            textView.setText(String.valueOf(x));
 //          nodeManager.scale(x, y);
             dragArea.setScaleX(x);
             dragArea.setScaleY(y);
             linesView.setScaleX(x);
             linesView.setScaleY(y);
+            nodeManager.scale(x);
 
         });
 
@@ -180,7 +239,7 @@ public class NodeActivity extends AppCompatActivity {
 
 
 
-    private void initAlgorithmArea(float maxZoom){
+    private void initAlgorithmArea(float minZoom){
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;

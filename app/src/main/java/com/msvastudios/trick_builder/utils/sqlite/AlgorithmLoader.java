@@ -24,12 +24,6 @@ public class AlgorithmLoader {
                 );
     }
 
-//    public Pair<ArrayList<Line>, ArrayList<Node>> LineEntityToLine(ArrayList<LineEntity> line, HashMap<String, Node> nodeList){
-//        Node node = nodeList.get(line.get(0).);
-//        node.updateNodeCordinates();
-//        return new Line(new LinePoint( 0,0,node),new LinePoint( 0,0,node));
-//    }
-
     /**
      *
      * @param nodeEntity

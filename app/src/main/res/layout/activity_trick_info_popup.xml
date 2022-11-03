@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".popups.TrickInfoPopupActivity"
     android:id="@+id/trickInfoBackground">
 
@@ -14,9 +13,9 @@
         android:layout_height="match_parent"
         android:layout_marginStart="35dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginTop="205dp"
-        android:layout_marginBottom="195dp"
-        android:background="@drawable/node"
+        android:layout_marginTop="255dp"
+        android:layout_marginBottom="245dp"
+        android:background="@drawable/node_shadow"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,5:1"
@@ -29,9 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="200dp"
+        android:layout_marginVertical="250dp"
         android:padding="10dp"
-        android:background="@drawable/node_shadow">
+        android:id="@+id/trickInfoPopup"
+        android:background="@drawable/node"
+
+        >
 
         <TextView
             android:id="@+id/trickInfoName"
@@ -39,6 +41,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:padding="5dp"
+            android:textColor="@color/white"
             android:text="Tailwhip"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -48,15 +51,7 @@
 
         </TextView>
 
-        <TextView
-            android:id="@+id/trickInfoDescription"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:padding="5dp"
-            android:text="Lorem euismod phasellus nisi, commodo mollis viverra faucibus"
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/trickInfoName">
-        </TextView>
+
 
         <TextView
             android:id="@+id/trickInfoBelongs"
@@ -65,19 +60,20 @@
             android:text="Belongs to:"
             android:textSize="20sp"
             android:padding="5dp"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/trickInfoDescription">
+            app:layout_constraintTop_toBottomOf="@+id/trickInfoName">
         </TextView>
 
-        <TextView
-            android:id="@+id/trickInfoGroups"
+        <com.msvastudios.trick_builder.utils.FlowLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:padding="5dp"
-            android:text="Beginner, Intermediate, My favourite"
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/trickInfoBelongs">
-        </TextView>
+            android:layout_height="0dp"
+            android:id="@+id/trickInfoBelongsContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trickInfoBelongs"
+            tools:layout_editor_absoluteX="10dp">
+
+        </com.msvastudios.trick_builder.utils.FlowLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

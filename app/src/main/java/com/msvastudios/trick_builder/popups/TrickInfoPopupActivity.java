@@ -7,12 +7,18 @@ import androidx.room.Database;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.msvastudios.trick_builder.R;
+import com.msvastudios.trick_builder.utils.FlowLayout;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.groups.GroupEntity;
+
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 
@@ -35,24 +41,24 @@ public class TrickInfoPopupActivity extends AppCompatActivity {
         if (trickName != null)
             textViewName.setText(trickName);
 
-        TextView textViewDescription = findViewById(R.id.trickInfoDescription);
-        if (trickDescription != null)
-            textViewDescription.setText(trickDescription);
 
-        TextView textViewGroups = findViewById(R.id.trickInfoGroups);
-        textViewGroups.setText("");
+        //TextView textViewGroups = findViewById(R.id.trickInfoGroups);
+        //textViewGroups.setText("");
         DatabaseHandler.getInstance(this).getGroups(new DatabaseHandler.Groups() {
             @Override
             public void onGroupsFetch(ArrayList<GroupEntity> groupEntities) {
                 for (GroupEntity entity : groupEntities) {
                     for (String id : groupIds) {
                         if (id.equals(entity.groupUUID)){
-                            textViewGroups.setText(textViewGroups.getText() + entity.name + " ");
+
+                            addTrickListGroupItem(entity.name);
+                           // textViewGroups.setText(textViewGroups.getText() + entity.name + " ");
                         }
                     }
                 }
             }
         });
+
 
         ConstraintLayout background = findViewById(R.id.trickInfoBackground);
         background.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +69,21 @@ public class TrickInfoPopupActivity extends AppCompatActivity {
             }
         });
 
+        ConstraintLayout popup = findViewById(R.id.trickInfoPopup);
+        popup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
+
+
+    }
+    public void addTrickListGroupItem(String name) {
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.trick_info_groups_item, null);
+        ((TextView) view.findViewById(R.id.trickInfoGroups)).setText(name);
+        FlowLayout belongParent = findViewById(R.id.trickInfoBelongsContainer);
+        belongParent.addView(view);
     }
 }

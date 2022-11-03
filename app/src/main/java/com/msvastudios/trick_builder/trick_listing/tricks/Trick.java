@@ -8,13 +8,15 @@ public class Trick {
     String name;
     String description;
     String uuid;
+    boolean learned;
     ArrayList<String> groupUuid;
 
-    public Trick(String name, String description, ArrayList<String> groupUuid){
+    public Trick(String name, String description, ArrayList<String> groupUuid,boolean learned){
         this.name = name;
         this.description = description;
         this.groupUuid = groupUuid;
         uuid = UUID.randomUUID().toString();
+        this.learned = learned;
     }
 
     public Trick(TrickEntity entity){
@@ -22,6 +24,7 @@ public class Trick {
         this.groupUuid = entity.groupIds;
         this.description = entity.description;
         uuid = entity.trickUUID;
+        this.learned = entity.learned;
     }
 
     public String getName() {

@@ -14,4 +14,5 @@
 
     <color name="primary">#03A9F4</color>
     <color name="secondary">#332F2F</color>
+    <color name="delete">#D63A09</color>
 </resources>

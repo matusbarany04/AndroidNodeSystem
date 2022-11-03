@@ -90,7 +90,6 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
      */
     public void sendData(String data, RunnerCallback callback){
         if (this.getPoint() != null) { // ak nodeOutput má point (point by mal mať ale stále)
-            System.out.println("node dummy!");
             ArrayList<Line> connectedLines = parent.getLinesView().getLinesContaining(this.getPoint()); // zistime si všetky spoje
             for (Line line : connectedLines) {
                 line.getEndPoint().getParent().getNodeInputBy(line.getEndPoint()).push(data, callback);

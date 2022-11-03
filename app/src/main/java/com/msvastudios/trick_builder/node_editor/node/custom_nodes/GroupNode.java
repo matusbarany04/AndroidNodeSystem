@@ -17,6 +17,7 @@ import com.msvastudios.trick_builder.node_editor.node.item.Type;
 import com.msvastudios.trick_builder.node_editor.node.item.connectors.NodeOutput;
 import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.item.params_item.ListItem;
+import com.msvastudios.trick_builder.trick_listing.groups.StaticGroups;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.groups.GroupEntity;
 import com.msvastudios.trick_builder.utils.sqlite.tricks.TrickEntity;
@@ -31,6 +32,7 @@ public class GroupNode extends Node {
     ArrayList<GroupEntity> groups;
     String chosenGroupId;
     Context context;
+
     public GroupNode(Context context, int leftMargin, int topMargin, String jsonData, LinesView linesView, NodeCallbackListener listener) {
         super(context, leftMargin, topMargin, jsonData, linesView, listener);
         this.context = context;
@@ -39,17 +41,17 @@ public class GroupNode extends Node {
         Log.d("group json data", jsonData);
         listRef = (ListItem) addNodeParam(ListItem.class);
 
-        //try catch for json data
-
+        //TODO try catch for json data
         if (jsonData.length() != 0 && jsonData.contains("~")) {
             chosenGroupId = jsonData.split("~")[1];
 
-        }else {
-            chosenGroupId = "not known";
+        } else {
+            chosenGroupId = "not known"; //TODO catch exception
         }
         tricks = new ArrayList<>();
 
         updateTrickList();
+
         DatabaseHandler.getInstance(context).getGroups(new DatabaseHandler.Groups() {
             @Override
             public void onGroupsFetch(ArrayList<GroupEntity> groupEntities) {
@@ -58,8 +60,14 @@ public class GroupNode extends Node {
                 for (GroupEntity databaseEntity : groupEntities) {
                     groupList.add(databaseEntity.name);
                 }
+                //code changed since this comment was created but maybe it was something important
+                //TODO check name when creating new group for these two
+                for (StaticGroups group: StaticGroups.values()) {
+                    groupList.add(group.getTitle());
+                }
+
                 listRef.setList(groupList);
-                listRef.setSpinnerItem(jsonData);
+                listRef.setSpinnerItem(jsonData.split("~")[0]);
             }
         });
 
@@ -71,7 +79,23 @@ public class GroupNode extends Node {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 System.out.println("clicked and chose " + adapterView.getAdapter().getItem(i));
-                setJsonData(adapterView.getAdapter().getItem(i).toString() + "~" + groups.get(i).groupUUID);
+                StringBuilder jsonData = new StringBuilder(adapterView.getAdapter().getItem(i).toString());
+
+                jsonData.append("~");
+                boolean wasStatic = false;
+                for (StaticGroups group: StaticGroups.values()) {
+                    if(adapterView.getAdapter().getItem(i).toString().equals(group.getTitle())){
+                      wasStatic = true;
+                      jsonData.append(group.getTitle());
+                      chosenGroupId = group.getTitle();
+                      break;
+                    }
+                }
+                if(!wasStatic) {
+                    jsonData.append(groups.get(i).groupUUID);
+                    chosenGroupId = groups.get(i).groupUUID;
+                }
+                setJsonData(jsonData.toString());
             }
 
             @Override
@@ -79,23 +103,40 @@ public class GroupNode extends Node {
 
             }
         });
-        getNav().setColor(R.color.teal_200).setTitle("GROUP pciker");
-
+        getNav().setColor(R.color.teal_200).setTitle("GROUP picker");
         build();
     }
 
 
-    private void updateTrickList()
-    {
-        DatabaseHandler.getInstance(context).getTricksByGroupId(chosenGroupId, new DatabaseHandler.Trick() {
-            @Override
-            public void onTricksFetched(ArrayList<TrickEntity> trickEntities) {
-                for (TrickEntity entity : trickEntities) {
-                    tricks.add(entity.name);
-                }
+    private void updateTrickList() {
+        boolean wasStatic = false;
+        for (StaticGroups group: StaticGroups.values()) {
+            if (chosenGroupId.equals(group.getTitle())) {
+                wasStatic = true;
+                DatabaseHandler.getInstance(context).getTricksByGroupId(
+                        StaticGroups.getByTitle(chosenGroupId), new DatabaseHandler.Trick() {
+                    @Override
+                    public void onTricksFetched(ArrayList<TrickEntity> trickEntities) {
+                        for (TrickEntity entity : trickEntities) {
+                            tricks.add(entity.name);
+                        }
+                    }
+                });
+                break;
             }
-        });
+        }
+        if (!wasStatic) {
+            DatabaseHandler.getInstance(context).getTricksByGroupId(chosenGroupId, new DatabaseHandler.Trick() {
+                @Override
+                public void onTricksFetched(ArrayList<TrickEntity> trickEntities) {
+                    for (TrickEntity entity : trickEntities) {
+                        tricks.add(entity.name);
+                    }
+                }
+            });
+        }
     }
+
     @Override
     public CustomNodes getType() {
         return CustomNodes.GROUP_NODE;

@@ -90,7 +90,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     }
 
 
-    //TODO xxx !!! get node output/input by point id
+
 
     public ArrayList<NodeOutput> getNodeOutput() {
         return nodeOutput;
@@ -220,6 +220,10 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
     }
 
+    public int countParameters(){
+        return nodeInput.size() + nodeOutput.size() + nodeParams.size();
+    }
+
     public void setScale(float scale) {
         this.scale = scale; //POSBUG scale is always uniform
     }
@@ -339,9 +343,9 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
                 break;
         }
 
-        //TODO just for DEBUG
-        nav.setTitle(getId());
-
+        //TODO remove (just for DEBUG)
+//        nav.setTitle(getId());
+        nav.setTitle(getLeftMargin() + " "  + getTopMargin());
         updatePositionVars();
 
         callCallback();

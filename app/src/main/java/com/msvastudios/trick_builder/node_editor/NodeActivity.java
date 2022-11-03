@@ -1,7 +1,6 @@
 package com.msvastudios.trick_builder.node_editor;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.node_editor.node.item.line.LinePoint;
 import com.msvastudios.trick_builder.popups.NewNodePopup;
 import com.msvastudios.trick_builder.node_editor.node.item.line.LinesView;
 import com.msvastudios.trick_builder.node_editor.node.CustomNodes;
@@ -31,11 +29,10 @@ import com.msvastudios.trick_builder.node_editor.activity_components.SettingsCon
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class NodeActivity extends AppCompatActivity {
     DisplayMetrics displayMetrics;
-    float x = 1f, y = 1f;
+    float scale = 1f;
     RelativeLayout dragArea;
     NodeManager nodeManager;
     String sessionId = "myFirstProgram";
@@ -53,11 +50,12 @@ public class NodeActivity extends AppCompatActivity {
     PointF start = new PointF();
     public Mode mode;
 
-    private enum Mode{
+    private enum Mode {
         MOVE,
         ZOOM;
 
     }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +65,13 @@ public class NodeActivity extends AppCompatActivity {
 
         this.algoName = getIntent().getStringExtra(getString(R.string.NodeActivityExtraId));
         if (algoName == null) algoName = "smh";
-//        getSupportActionBar().hide();
-        Log.d("NODEACTIVITY", algoName);
+
 
         dragArea = findViewById(R.id.dragArea);
 
         FrameLayout canvasLayout = findViewById(R.id.canvasRelativeLayout);
-//        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) canvasLayout.getLayoutParams();
-
-         linesView = new LinesView(this);
+        linesView = new LinesView(this);
         canvasLayout.addView(linesView);
-
 
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -90,20 +84,23 @@ public class NodeActivity extends AppCompatActivity {
         RelativeLayout overlay_area = findViewById(R.id.overlay_area);
         //TODO move listener elsewhere
 
-         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureDetector.OnScaleGestureListener() {
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureDetector.OnScaleGestureListener() {
             @Override
             public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
                 System.out.println("scaling");
-                x *= scaleGestureDetector.getScaleFactor();
-                y *= scaleGestureDetector.getScaleFactor();
+                float newScale = scale * scaleGestureDetector.getScaleFactor();
                 TextView textView = findViewById(R.id.scale);
-                textView.setText(String.valueOf(x));
+                textView.setText(String.valueOf(newScale));
                 //          nodeManager.scale(x, y);
-                dragArea.setScaleX(x);
-                dragArea.setScaleY(y);
-                linesView.setScaleX(x);
-                linesView.setScaleY(y);
-                nodeManager.scale(x);
+                if (newScale > 0.25f) { //TODO change to constant, somwhere down is minScale(same num)
+
+                    dragArea.setScaleX(newScale);
+                    dragArea.setScaleY(newScale);
+                    linesView.setScaleX(newScale);
+                    linesView.setScaleY(newScale);
+                    nodeManager.scale(newScale);
+                    scale = newScale;
+                }
                 return true;
             }
 
@@ -137,15 +134,14 @@ public class NodeActivity extends AppCompatActivity {
                             mode = Mode.ZOOM;
                             break;
                         case MotionEvent.ACTION_MOVE:
-                            if (Mode.MOVE == mode){
+                            if (Mode.MOVE == mode) {
 
-                                nodeManager.moveAll(-(dragDeltaX - rawX), -(dragDeltaY - rawY));
+                                nodeManager.moveAll(-((int) ((dragDeltaX - rawX) / scale)), -((int) ((dragDeltaY - rawY) / scale)));
                                 dragDeltaX = rawX;
                                 dragDeltaY = rawY;
                                 break;
-                            }else if (Mode.ZOOM == mode){
+                            } else if (Mode.ZOOM == mode) {
                                 scaleGestureDetector.onTouchEvent(motionEvent);
-                                System.out.println("zoomer boomer !!!!");
                             }
                     }
 
@@ -174,7 +170,6 @@ public class NodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.show();
-
             }
         });
         SettingsContainer container = new SettingsContainer(getApplicationContext());
@@ -185,52 +180,28 @@ public class NodeActivity extends AppCompatActivity {
 
         // retrackable menu buttons
         container.setClickListenerOnButton(0, view -> {
-            //call add activity
-            //with some callback
-//            nodeManager.addNode(RepeaterNode.class, 200, 200);
-            y += 0.1f;
-            x += 0.1f;
-            TextView textView = findViewById(R.id.scale);
-            textView.setText(String.valueOf(x));
-//          nodeManager.scale(x, y);
-            dragArea.setScaleX(x);
-            dragArea.setScaleY(y);
-            linesView.setScaleX(x);
-            linesView.setScaleY(y);
-            nodeManager.scale(x);
-
-//            nodePopup.show();
+            nodePopup.show();
         });
 
         container.setClickListenerOnButton(1, view -> {
             // TODO start deletion mode of nodes add deletion of nodes
-//          nodeManager.toggleDeletionMode();
-            x -= 0.1f;
-            y -= 0.1f;
-            TextView textView = findViewById(R.id.scale);
-            textView.setText(String.valueOf(x));
-//          nodeManager.scale(x, y);
-            dragArea.setScaleX(x);
-            dragArea.setScaleY(y);
-            linesView.setScaleX(x);
-            linesView.setScaleY(y);
-            nodeManager.scale(x);
-
+            nodeManager.toggleDeletionMode();
+            if (nodeManager.isDeleteEnabled()) {
+                view.setBackgroundResource(R.drawable.settings_selected);
+            } else {
+                view.setBackgroundResource(R.drawable.settings_button);
+            }
         });
 
         container.setClickListenerOnButton(2, view -> {
             //TODO start move mode
             screenMove = !screenMove;
             if (screenMove) {
-                dragArea.setBackgroundResource(R.drawable.nav);
+                view.setBackgroundResource(R.drawable.settings_selected);
             } else {
-                dragArea.setBackground(getApplicationContext().getDrawable(R.drawable.back_node));
-
+                view.setBackgroundResource(R.drawable.settings_button);
             }
-//            nodeManager.saveCurrentNodes(algoName);
-//            x += 0.1f;
-//            y += 0.1f;
-//            nodeManager.scale(x, y);
+
         });
         initAlgorithmArea(0.25f);
         buildNewNodePopup();
@@ -238,29 +209,24 @@ public class NodeActivity extends AppCompatActivity {
     }
 
 
-
-    private void initAlgorithmArea(float minZoom){
+    private void initAlgorithmArea(float minZoom) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
         float scalar = 4;
         FrameLayout.LayoutParams dragAreaLayoutParams = (FrameLayout.LayoutParams) dragArea.getLayoutParams();
-        dragAreaLayoutParams.width = (int) (width * scalar );
-        dragAreaLayoutParams.height = (int) (height * scalar );
+        dragAreaLayoutParams.width = (int) (width * scalar);
+        dragAreaLayoutParams.height = (int) (height * scalar);
         dragArea.setLayoutParams(dragAreaLayoutParams);
 
 
         FrameLayout.LayoutParams linesViewParams = (FrameLayout.LayoutParams) linesView.getLayoutParams();
         linesViewParams.width = (int) (width * scalar);
         linesViewParams.height = (int) (height * scalar);
-        linesViewParams.gravity= Gravity.CENTER;
+        linesViewParams.gravity = Gravity.CENTER;
 //        linesView.setBackgroundResource(R.drawable.nav);
         linesView.setLayoutParams(linesViewParams);
-
-//        dragArea.setScaleX(x);
-//        dragArea.setScaleY(y);
-//        linesView.setScaleX(x);
     }
 
     public void buildDialog() {
@@ -294,8 +260,12 @@ public class NodeActivity extends AppCompatActivity {
         nodePopup.setOnItemClickListener(new NewNodePopup.Popup() {
             @Override
             public void onNodeItemClickListener(int position, CustomNodes node) {
-                System.out.println("adding new node! called : " + node.getType());
-                nodeManager.addNode(node, dragArea.getLeft(),  dragArea.getTop()); // TODO change margin to be dynamic
+
+                System.out.println("adding new node! called : " + node.getType() + "at :" + dragArea.getLeft() + " " + dragArea.getTop());
+                nodeManager.addNode(node,
+                        dragArea.getWidth() / 2 - NodeDimensionsCalculator.nodeWidth() / 2,
+                        dragArea.getHeight() / 2 - NodeDimensionsCalculator.nodeItemHeight() * 4
+                );
                 nodePopup.hide();
             }
         });

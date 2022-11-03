@@ -166,4 +166,16 @@ public class LinesView extends View {
         invalidate();
     }
 
+    public void removeAllLinesWith(String pointid) {
+        ArrayList<Line> outputLines = new ArrayList<>();
+        for (Line line : lines) {
+            if (!line.getStartPoint().getId().equals(pointid) &&
+                    !line.getEndPoint().getId().equals(pointid) ){
+                outputLines.add(line);
+            }
+        }
+        lines = outputLines;
+        invalidate();
+    }
+
 }

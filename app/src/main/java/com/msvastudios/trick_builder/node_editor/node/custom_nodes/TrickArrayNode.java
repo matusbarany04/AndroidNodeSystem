@@ -28,8 +28,8 @@ public class TrickArrayNode extends Node {
         reference = (NodeOutput) addNodeOutput(Type.STRING).setText("Trick list");
         //NodeOutput reference2 = addNodeOutput(Type.STRING);
         listRef = (ListItem) addNodeParam(ListItem.class);
-        listRef.setSpinnerItem(jsonData);
         listRef.setList(new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.planets_array))));
+        listRef.setSpinnerItem(jsonData);
         listRef.setListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

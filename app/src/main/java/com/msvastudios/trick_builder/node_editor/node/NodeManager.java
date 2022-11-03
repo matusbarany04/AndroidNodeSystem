@@ -57,7 +57,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     AlgorithmEntity algorithmEntity;
 
     public void loadSavedNodeNetwork(String id) { // TODO make a lot faster
-
         DatabaseHandler.getInstance(context).getAlgorithm(id, context, linesView, this, new DatabaseHandler.Data() {
             @Override
             public void onAlgorithmBuilt(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes) {
@@ -74,7 +73,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                             }
                         }
                     });
-
                 }
                 linesView.setLines(lines);
                 algorithmEntity = algorithm;
@@ -83,7 +81,6 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     }
 
     public void saveCurrentNodes(String id) {
-
         DatabaseHandler.getInstance(context).insertAlgorithm(
                 new AlgorithmEntity(algorithmEntity.name, id, nodeList.values().size(), algorithmEntity.imageId),
                 linesView.getLines(),
@@ -117,12 +114,12 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     }
 
     @Override
-    public int onMoved(Node node) { // not quite working
-        if (deleteEnabled) {
+    public int onMoved(Node node) { //TODO not quite working
+        if (isDeleteEnabled()) {
             System.out.println("moving removing!!");
             nodeList.remove(node.getId());
             //TODO xxx remove view
-
+            dragArea.removeView(node.getNode());
             ArrayList<String> nodeOutputPoints = new ArrayList<>();
             for (NodeOutput a : node.getNodeOutput()) {
                 String id = a.getPoint().getId();
@@ -130,7 +127,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
             }
 
             ArrayList<String> nodeInputPoints = new ArrayList<>();
-            for (NodeOutput a : node.getNodeOutput()) {
+            for (NodeInput a : node.getNodeInput()) {
                 String id = a.getPoint().getId();
                 nodeInputPoints.add(id);
             }
@@ -160,20 +157,21 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
         return 0;
     }
 
-    private void checkIfInNode(int x, int y) { // TODO make faster
+    private Line checkIfInNode(int x, int y) {
+        System.out.printf("Checking if in node %d, %d",x,y);
         for (Node node : nodeList.values()) {
             if (x > node.getLeftMargin() && x < node.getLeftMargin() + node.getNodeWidth()) {
                 if (y > node.getTopMargin() && y < node.getTopMargin() + node.getNodeHeight()) {
                     NodeInput input = node.hoveringOn(x - node.getLeftMargin(), y - node.getTopMargin());
                     if (input != null && draggingOutput != null) {
-
                         if (input.getType().equals(draggingOutput.getType()) || input.getType().equals(Type.ANY)) {
-                            linesView.addLine(new Line(draggingOutput.getPoint(), input.getPoint())); // TODO check for multiple lines between same points
+                            return  new Line(draggingOutput.getPoint(), input.getPoint());
                         }
                     }
                 }
             }
         }
+        return null;
     }
 
     @Override
@@ -193,16 +191,27 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                 int dragAreaY = dragAreaLayoutParams.height;
 
                 helpLine.updateEndPoint(new LinePoint(
-                        (int) ((x / dragArea.getScaleX() + (dragAreaX  - width / dragArea.getScaleX() ) / 2)),
-                        (int) ((y / dragArea.getScaleY() + (dragAreaY  - height / dragArea.getScaleX() ) / 2)),
-                        null)); // null pointer exception checkifinnode function
+                        (int) (x / dragArea.getScaleX() + (dragAreaX  - (width / dragArea.getScaleX()) ) / 2),
+                        (int) ((y / dragArea.getScaleY() + (dragAreaY  - (height / dragArea.getScaleY()) ) / 2)
+                               + (NodeDimensionsCalculator.getStatusBarHeight(view.getContext())/2)/dragArea.getScaleY())
+                        ,null)
+                ); // null pointer exception checkifinnode function
             }
         }
 
         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-            if (helpLine != null)
+
+            if (helpLine != null) {
+                Line line = checkIfInNode(helpLine.getEndPoint().getX(), helpLine.getEndPoint().getY());
                 linesView.removeLine(helpLine.getId());
-            checkIfInNode(x, y);
+                if(line != null){
+                    //remove All other occurrences
+                    linesView.removeAllLinesWith(line.getEndPoint().getId());
+                    linesView.addLine(line);
+
+                }
+            }
+
         }
 
         linesView.invalidate();

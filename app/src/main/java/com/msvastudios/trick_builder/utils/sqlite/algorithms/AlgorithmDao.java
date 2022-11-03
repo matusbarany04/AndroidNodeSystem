@@ -21,7 +21,7 @@ public interface AlgorithmDao {
     public AlgorithmEntity[] loadAllAlgorithms();
 
     @Query("SELECT * FROM AlgorithmEntity WHERE algorithm_id IN (:algoId)")
-    public AlgorithmEntity getByAlgorithmId(String algoId);
+    public AlgorithmEntity getByAlgorithmById(String algoId);
 
     @Query("SELECT * FROM AlgorithmEntity WHERE algorithm_name LIKE :name LIMIT 1")
     public AlgorithmEntity[] findByName(String name);

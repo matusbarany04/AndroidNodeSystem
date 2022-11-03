@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JavaTransparent</string>
+    <string name="app_name">TrickBuilder</string>
     <string-array name="planets_array">
         <item>Mercury</item>
         <item>Venus</item>

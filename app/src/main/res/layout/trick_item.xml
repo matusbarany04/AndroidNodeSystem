@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
     </RelativeLayout>
 
+
     <RelativeLayout
         android:id="@+id/imageview_item"
         android:layout_width="0dp"
@@ -34,8 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </RelativeLayout>
-
-
 
     <TextView
         android:id="@+id/grid_item_text"

@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.room.Room;
 
+import com.msvastudios.trick_builder.trick_listing.groups.StaticGroups;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmDatabase;
 import com.msvastudios.trick_builder.utils.sqlite.groups.GroupDatabase;
@@ -139,7 +140,7 @@ public class DatabaseHandler {
 
     public void getAlgorithmEntity(String id, DatabaseHandler.Algorithm callback) {
         executor.execute(() -> {
-            AlgorithmEntity entity = algorithmDatabase.algorithmDao().getByAlgorithmId(id);
+            AlgorithmEntity entity = algorithmDatabase.algorithmDao().getByAlgorithmById(id);
             if (entity != null)
                 callback.onAlgorithm(0, entity);
             else
@@ -189,22 +190,18 @@ public class DatabaseHandler {
         });
     }
 
-    /**
-     * !!! Method does not remove old occurrences of deleted lines, points, nodes
-     *
-     * @param algorithm
-     * @param lines
-     * @param nodes
-     */
     public void insertAlgorithm(AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes) {
         executor.execute(() -> {
                     algorithmDatabase.algorithmDao().addAlgorithm(algorithm);
+                    lineDatabase.lineDao().deleteByAlgorithmId(algorithm.nodeNetworkUUID);
                     for (Line line : lines) {
+                        //TODO not sure if this if is necessary, when I've added line above for loop
                         if (lineDatabase.lineDao().getByLineId(line.getId()) != null) {
                             lineDatabase.lineDao().deleteByLineId(line.getId());
                         }
                         lineDatabase.lineDao().insertAll(AlgorithmLoader.lineToLineEntity(line, algorithm.nodeNetworkUUID));
                     }
+                    nodeDatabase.nodeDao().deleteByAlgorithmId(algorithm.nodeNetworkUUID);
                     for (Node node : nodes) {
                         NodeEntity nodeEntity = new NodeEntity(
                                 algorithm.nodeNetworkUUID,
@@ -228,14 +225,20 @@ public class DatabaseHandler {
     public void getAlgorithmName(String algorithmUUID, DatabaseHandler.NameFetch callback) {
 
         executor.execute(() -> {
-            callback.onNameFetched(algorithmDatabase.algorithmDao().getByAlgorithmId(algorithmUUID).name);
+            callback.onNameFetched(algorithmDatabase.algorithmDao().getByAlgorithmById(algorithmUUID).name);
+        });
+    }
+
+    public void getAlgorithmImageId(String algorithmUUID, DatabaseHandler.NameFetch callback) {
+        executor.execute(() -> {
+            callback.onNameFetched(algorithmDatabase.algorithmDao().getByAlgorithmById(algorithmUUID).imageId);
         });
     }
 
     public void getAlgorithm(String algoID, Context context, LinesView linesView, NodeCallbackListener callbackListener, DatabaseHandler.Data callback) {
         //return AlgorithmEntity algorithm, ArrayList<Line> lines, ArrayList<Node> nodes
         executor.execute(() -> {
-                    AlgorithmEntity algo = algorithmDatabase.algorithmDao().getByAlgorithmId(algoID);
+                    AlgorithmEntity algo = algorithmDatabase.algorithmDao().getByAlgorithmById(algoID);
 
                     ArrayList<LineEntity> lineEntities = new ArrayList<>(Arrays.asList(lineDatabase.lineDao().findByAlgorithmUUID(algoID)));
 
@@ -340,6 +343,20 @@ public class DatabaseHandler {
             callback.onTricksFetched(output);
         });
     }
+    public void getTricksByGroupId(StaticGroups group, Trick callback) {
+        executor.execute(() -> {
+            ArrayList<TrickEntity> output = new ArrayList<>();
+            ArrayList<TrickEntity> all = new ArrayList<>(trickDatabase.trickDao().getAll());
+            for (TrickEntity entity : all) {
+                if(group.equals(StaticGroups.ALL_TRICKS)){
+                    output.add(entity);
+                }else if(StaticGroups.LEARNED_TRICKS.equals(group)){
+                    if(entity.learned) output.add(entity);
+                }
+            }
+            callback.onTricksFetched(output);
+        });
+    }
 
     public void insertTrick(Finish callback, TrickEntity... tricks) {
         executor.execute(() -> {
@@ -354,6 +371,28 @@ public class DatabaseHandler {
             callback.onActionFinished(1);
         });
     }
+
+    public void deleteLine(Finish callback, LineEntity entity) {
+        executor.execute(() -> {
+            lineDatabase.lineDao().delete(entity);
+            callback.onActionFinished(1);
+        });
+    }
+
+    public void deleteLineById(Finish callback, String id) {
+        executor.execute(() -> {
+            lineDatabase.lineDao().deleteByLineId(id);
+            callback.onActionFinished(1);
+        });
+    }
+
+    public void deleteLineByAlgorithmUUID(Finish callback, String id) {
+        executor.execute(() -> {
+            lineDatabase.lineDao().deleteByAlgorithmId(id);
+            callback.onActionFinished(1);
+        });
+    }
+
 
     public void deleteTrickByUuid(Finish callback, String trickUuid) {
         executor.execute(() -> {

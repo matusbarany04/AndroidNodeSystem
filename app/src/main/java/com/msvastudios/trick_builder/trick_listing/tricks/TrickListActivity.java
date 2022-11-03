@@ -1,13 +1,16 @@
 package com.msvastudios.trick_builder.trick_listing.tricks;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,12 +19,15 @@ import com.msvastudios.trick_builder.popups.AddTrickPopup;
 import com.msvastudios.trick_builder.popups.TrickInfoPopupActivity;
 import com.msvastudios.trick_builder.popups.YesNoDialog;
 import com.msvastudios.trick_builder.trick_listing.groups.GroupListActivity;
+import com.msvastudios.trick_builder.utils.FlowLayout;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.groups.GroupEntity;
 import com.msvastudios.trick_builder.utils.sqlite.tricks.TrickEntity;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
+import kotlinx.coroutines.flow.Flow;
 
 public class TrickListActivity extends AppCompatActivity {
     ArrayList<Trick> tricks;
@@ -34,14 +40,15 @@ public class TrickListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //TODO add search
+        //TODO add name of list on top and i want to be able to edit it
         setContentView(R.layout.activity_trick_list);
         listView = findViewById(R.id.trickListView);
         tricks = new ArrayList<>();
         buildListView(tricks);
         longHoldTriggered = false;
         groupId = getIntent().getExtras().getString("group_id");
-        if (groupId.equals("all_tricks")) {
+        if (groupId.equals("all_tricks")) { //TODO add learned tricks
             DatabaseHandler.getInstance(this).getTricks(new DatabaseHandler.Trick() {
                 @Override
                 public void onTricksFetched(ArrayList<TrickEntity> trick_entities) {
@@ -77,12 +84,13 @@ public class TrickListActivity extends AppCompatActivity {
                 intent.putExtra("trick_id", trick.uuid);
                 intent.putExtra("trick_group_id", trick.groupUuid);
                 intent.putExtra("trick_description", trick.description);
+                intent.putExtra("trick_learned", trick.learned);
                 intent.putExtra("trick_name", trick.name);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
             }
             longHoldTriggered = false;
-
+            Toast.makeText(TrickListActivity.this, "Clicked!", Toast.LENGTH_SHORT).show();
         });
 
 
@@ -90,7 +98,9 @@ public class TrickListActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 longHoldTriggered = true;
-                YesNoDialog dialog = new YesNoDialog(TrickListActivity.this, "Deleting...", "smh", R.drawable.delete);
+                YesNoDialog dialog = new YesNoDialog(TrickListActivity.this,
+                        "Deleting " + ((Trick) listView.getAdapter().getItem(position)).name,
+                        "You can't undo this action.", R.drawable.delete);
                 dialog.setOnItemClickListener(new YesNoDialog.Popup() {
                     @Override
                     public void onYesClicked() {
@@ -152,7 +162,7 @@ public class TrickListActivity extends AppCompatActivity {
             Log.d("tricklist activity", groupId + " ");
             if (groupId == null) System.out.println("yelling!");
             groupIds.add(groupId);
-            TrickEntity entity = new TrickEntity(name, UUID.randomUUID().toString(), groupIds);
+            TrickEntity entity = new TrickEntity(name, UUID.randomUUID().toString(), groupIds, false);
             DatabaseHandler.getInstance(this).insertTrick(entity, (int status) -> {
                 System.out.println("status " + status);
                 trickPopup.hide();
@@ -165,4 +175,6 @@ public class TrickListActivity extends AppCompatActivity {
 
         });
     }
+
+
 }

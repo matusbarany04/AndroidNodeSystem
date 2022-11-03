@@ -54,7 +54,7 @@ public class GroupItem extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        int size = width > height ? height : width;
+        int size = Math.min(width, height);
         setMeasuredDimension(size, size);
     }
 }

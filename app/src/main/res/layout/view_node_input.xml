@@ -20,6 +20,7 @@
         android:id="@+id/input_textview"
         android:layout_width="0dp"
         android:textSize="50px"
+        android:textColor="@color/text"
         android:layout_height="match_parent"
         android:layout_weight="10"
         android:text="hello"

@@ -16,7 +16,7 @@ public class YesNoDialog {
         Dialog dialog;
         YesNoDialog.Popup callback;
 
-        public YesNoDialog(Context context, String title, String description, int dialogImage) {
+        public YesNoDialog(Context context, String title, String description) {
             dialog = new Dialog(context);
             dialog.setContentView(R.layout.dialog_yes_no);
 

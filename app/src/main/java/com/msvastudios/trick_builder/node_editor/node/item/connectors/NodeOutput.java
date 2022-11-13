@@ -1,7 +1,6 @@
 package com.msvastudios.trick_builder.node_editor.node.item.connectors;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,7 +30,7 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         this.context = context;
         this.type = type;
 //        this.parent = parent;
-        init(null, 0);
+        init(0);
     }
 
 
@@ -49,7 +48,7 @@ public class NodeOutput extends NodeConnectorItem implements View.OnTouchListene
         );
     }
 
-    private void init(AttributeSet attrs, int defStyle) {
+    private void init(int Attr) {
         disableClipOnParents(getView());
         getView().setOrientation(LinearLayout.HORIZONTAL);
         getView().setGravity(1);

@@ -35,4 +35,6 @@ public interface AlgorithmDao {
     @Delete
     void delete(AlgorithmEntity algorithm);
 
+
+
 }

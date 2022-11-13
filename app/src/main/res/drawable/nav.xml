@@ -3,7 +3,7 @@
 
     <solid android:color="#61855B" />
 
-
     <corners android:topLeftRadius="@dimen/node_radius" android:topRightRadius="@dimen/node_radius" />
 
+    <stroke android:width="2dp" android:color="#181818"/>
 </shape>

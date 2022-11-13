@@ -173,6 +173,32 @@ public class DatabaseHandler {
             );
         });
     }
+    public void algorithmExists(String id, Finish callback){
+        executor.execute(() -> {
+            AlgorithmEntity entity = algorithmDatabase.algorithmDao().getByAlgorithmById(id);
+            if (entity != null)
+                callback.onActionFinished(0);
+            else
+                callback.onActionFinished(1);
+        });
+    }
+    
+    
+    public void deleteAlgorithm(String algoID, Finish finish){
+        executor.execute(() -> {
+            try{
+                AlgorithmEntity entity = algorithmDatabase.algorithmDao().getByAlgorithmById(algoID);
+                algorithmDatabase.algorithmDao().delete(entity);
+                lineDatabase.lineDao().deleteByAlgorithmId(algoID);
+                nodeDatabase.nodeDao().deleteByAlgorithmId(algoID);
+                finish.onActionFinished(0);
+
+            }catch (Exception e){
+                Log.e("DatabaseHAndler", e.getMessage());
+                finish.onActionFinished(1);
+            }
+        });
+    }
 
     /**
      * @param algorithm

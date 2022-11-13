@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDFDF"
+    android:background="@color/primary"
     tools:context=".trick_generator.GeneratorActivity"
 
     >
@@ -16,7 +16,7 @@
         android:textAlignment="center"
         android:text="Hello this will be the trick"
         android:textSize="24dp"
-        android:textColor="@color/secondary"
+        android:textColor="@color/text"
         app:layout_constraintBottom_toTopOf="@+id/generator_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -36,6 +36,9 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.79"/>
+        app:layout_constraintVertical_bias="0.79">
+
+    </ImageView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

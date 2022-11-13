@@ -12,6 +12,7 @@ public enum Type {
     NUMBER(new DataFlower<Integer>(R.color.purple_200)),
     STRING(new DataFlower<String>(R.color.light_blue_600)),
     ANY(new DataFlower<Object>(R.color.gray_400));
+    final String divider = "œ";
 
     DataFlower dataFlower;
     Type(DataFlower dataFlower) {
@@ -29,8 +30,7 @@ public enum Type {
     public Object decode(String data){
         switch (this) {
             case ARRAY_LIST:
-                // TODO xxx unique character replace by enum
-                return (Object) new ArrayList<String>(Arrays.asList(data.split("œ")));
+                return (Object) new ArrayList<String>(Arrays.asList(data.split(divider)));
             case NUMBER:
                 return (Object) Integer.valueOf(data);
             case STRING:
@@ -41,13 +41,10 @@ public enum Type {
         }
     }
 
-
-
     public String encode(Object data){
         switch (this) {
             case ARRAY_LIST:
-                // TODO xxx unique character replace by enum
-                return String.join("œ", (ArrayList<String>) data);
+                return String.join(divider, (ArrayList<String>) data);
             case NUMBER:
                 return String.valueOf(((Integer) data).intValue());
             case STRING:

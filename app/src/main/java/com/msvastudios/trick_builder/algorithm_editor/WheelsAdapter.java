@@ -1,21 +1,15 @@
 package com.msvastudios.trick_builder.algorithm_editor;
 
-import android.app.Activity;
-import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.WindowCallbackWrapper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.generator_editor.items.AlgosAdapter;
-import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
-import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.utils.wheel.Wheel;
 
 import java.util.ArrayList;
@@ -46,7 +40,7 @@ public class WheelsAdapter extends RecyclerView.Adapter<WheelsAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_shop_card, parent, false);
+        View v = inflater.inflate(R.layout.algos_item, parent, false);
         return new ViewHolder(v);
     }
 

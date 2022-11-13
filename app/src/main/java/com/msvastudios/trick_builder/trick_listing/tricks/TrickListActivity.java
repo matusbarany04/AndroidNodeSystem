@@ -100,7 +100,7 @@ public class TrickListActivity extends AppCompatActivity {
                 longHoldTriggered = true;
                 YesNoDialog dialog = new YesNoDialog(TrickListActivity.this,
                         "Deleting " + ((Trick) listView.getAdapter().getItem(position)).name,
-                        "You can't undo this action.", R.drawable.delete);
+                        "You can't undo this action.");
                 dialog.setOnItemClickListener(new YesNoDialog.Popup() {
                     @Override
                     public void onYesClicked() {

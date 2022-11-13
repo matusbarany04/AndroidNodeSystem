@@ -10,6 +10,7 @@
         android:layout_width="410px"
         android:layout_height="100px"
         android:text="hello"
+        android:textColor="@color/text"
         android:gravity="center"/>
 
     <ImageView

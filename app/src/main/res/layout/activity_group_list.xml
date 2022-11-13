@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDFDF"
+    android:background="@color/primary"
     android:fillViewport="true"
     tools:context=".trick_listing.groups.GroupListActivity">
 
@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/floating_button_margin"
             android:nestedScrollingEnabled="false"
+            app:borderWidth="0dp"
+            android:backgroundTint="@color/secondary"
             android:src="@drawable/back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,6 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/floating_button_margin"
             android:src="@drawable/plus"
+            app:borderWidth="0dp"
+            android:backgroundTint="@color/secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,19 +55,6 @@
                 android:layout_weight="1">
 
                 <RelativeLayout
-                    android:id="@+id/all_tricks_button"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/node"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="H,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <RelativeLayout
                     android:id="@+id/a_shadow"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -72,7 +63,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:alpha="0.6"
-                    android:background="@drawable/node"
+                    android:background="@drawable/node_shadow"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="H,1:1"
@@ -80,12 +71,28 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
+                <RelativeLayout
+                    android:id="@+id/all_tricks_button"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/item"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+
+
                 <TextView
                     android:id="@+id/a_grid_item_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="All Tricks"
+                    android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -100,19 +107,6 @@
                 android:layout_weight="1">
 
                 <RelativeLayout
-                    android:id="@+id/learned_tricks_button"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/node"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="H,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <RelativeLayout
                     android:id="@+id/b_shadow"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -121,7 +115,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:alpha="0.6"
-                    android:background="@drawable/node"
+                    android:background="@drawable/node_shadow"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="H,1:1"
@@ -129,12 +123,28 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <RelativeLayout
+                    android:id="@+id/learned_tricks_button"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/item"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
                 <TextView
                     android:id="@+id/b_grid_item_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Learned Tricks"
+                    android:textColor="@color/text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -153,6 +163,7 @@
             android:padding="10dp"
             android:text="CUSTOM GROUPS"
             android:textAlignment="center"
+            android:textColor="@color/text"
             app:layout_constraintBottom_toTopOf="@id/groupGridView"
             app:layout_constraintTop_toBottomOf="@id/customGridView">
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDFDF"
+    android:background="@color/primary"
     tools:context=".trick_generator.GeneratorActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -13,6 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/floating_button_margin"
         android:src="@drawable/back"
+        app:borderWidth="0dp"
+
+        app:backgroundTint="@color/secondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,7 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/floating_button_margin"
+        app:borderWidth="0dp"
+
         android:src="@drawable/settings"
+        app:backgroundTint="@color/secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -38,7 +44,7 @@
         android:gravity="center"
         android:text="Hello this will be the trick"
         android:textAlignment="center"
-        android:textColor="@color/secondary"
+        android:textColor="@color/text"
         android:textSize="24sp"
         android:transitionName="text"
 
@@ -98,6 +104,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="0dp"
                 android:src="@drawable/plus"
+                app:borderWidth="0dp"
+
+                app:backgroundTint="@color/add"
                 app:elevation="0dp">
 
             </com.google.android.material.floatingactionbutton.FloatingActionButton>
@@ -110,6 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/save"
+                app:borderWidth="0dp"
+                app:backgroundTint="@color/secondary"
                 app:elevation="0dp">
 
             </com.google.android.material.floatingactionbutton.FloatingActionButton>
@@ -122,6 +133,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="0dp"
                 android:src="@drawable/options"
+                app:borderWidth="0dp"
+                app:backgroundTint="@color/warning"
                 app:elevation="0dp">
 
             </com.google.android.material.floatingactionbutton.FloatingActionButton>

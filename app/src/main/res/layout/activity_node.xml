@@ -16,6 +16,8 @@
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/secondary"
+        app:borderWidth="0dp"
         app:srcCompat="@drawable/back" />
 
     <!--        android:background="#232323"-->
@@ -24,7 +26,7 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#887373"
+        android:background="#313437"
         android:clipChildren="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +61,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:background="#3AF16262"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +77,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/add"
         android:layout_marginBottom="16dp"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_dialog_email" />
@@ -88,6 +91,7 @@
         android:layout_marginTop="50px"
         android:layout_marginRight="50px"
         android:minHeight="400px"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="horizontal">

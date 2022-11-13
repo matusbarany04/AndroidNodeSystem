@@ -200,7 +200,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
         RelativeLayout.LayoutParams nodeParams = new RelativeLayout.LayoutParams(nodeWidth, nodeHeight);
 
         node.setLayoutParams(nodeParams);
-        node.setBackgroundResource(R.drawable.back_node);
+//        node.setBackgroundResource(R.drawable.node_outline);
 //        node.setElevation(20f);
 //        node.setOutlineProvider(ViewOutlineProvider.PADDED_BOUNDS);
 
@@ -343,9 +343,9 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
                 break;
         }
 
-        //TODO remove (just for DEBUG)
+
 //        nav.setTitle(getId());
-        nav.setTitle(getLeftMargin() + " "  + getTopMargin());
+        //nav.setTitle(getLeftMargin() + " "  + getTopMargin());
         updatePositionVars();
 
         callCallback();

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDFDF"
+    android:background="@color/primary"
     tools:context=".algorithm_editor.AlgorithmEditorActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,7 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/floating_button_margin"
+        app:borderWidth="0dp"
+
         android:src="@drawable/back"
+        android:backgroundTint="@color/secondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -41,7 +44,8 @@
         android:gravity="center"
         android:text="Hello this will be the trick"
         android:textAlignment="center"
-        android:textColor="@color/secondary"
+        android:textColor="@color/text"
+        android:backgroundTint="@color/secondary"
         android:textSize="24sp"
         android:transitionName="text"
         app:layout_constraintBottom_toTopOf="@+id/picker"
@@ -96,6 +100,7 @@
             android:id="@+id/newAlgorithmFloatingButtonContainer"
             android:clipToPadding="false"
             android:clipToOutline="false"
+            android:backgroundTint="@color/add"
             android:background="@drawable/generator_editor_setting_background">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -103,7 +108,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:alpha="0.5"
                 android:backgroundTint="#00FFFFFF"
                 android:src="@drawable/save"
                 app:borderWidth="0dp"

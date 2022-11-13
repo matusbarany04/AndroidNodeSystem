@@ -184,7 +184,7 @@ public class NodeActivity extends AppCompatActivity {
         });
 
         container.setClickListenerOnButton(1, view -> {
-            // TODO start deletion mode of nodes add deletion of nodes
+            // start deletion mode of nodes add deletion of nodes
             nodeManager.toggleDeletionMode();
             if (nodeManager.isDeleteEnabled()) {
                 view.setBackgroundResource(R.drawable.settings_selected);
@@ -194,7 +194,7 @@ public class NodeActivity extends AppCompatActivity {
         });
 
         container.setClickListenerOnButton(2, view -> {
-            //TODO start move mode
+            //start move mode
             screenMove = !screenMove;
             if (screenMove) {
                 view.setBackgroundResource(R.drawable.settings_selected);

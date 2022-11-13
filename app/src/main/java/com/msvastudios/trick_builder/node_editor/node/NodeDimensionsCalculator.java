@@ -2,6 +2,7 @@ package com.msvastudios.trick_builder.node_editor.node;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 
 public class NodeDimensionsCalculator {

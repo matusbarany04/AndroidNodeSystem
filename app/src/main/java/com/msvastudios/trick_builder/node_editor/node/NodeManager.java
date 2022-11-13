@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
@@ -193,7 +194,8 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
                 helpLine.updateEndPoint(new LinePoint(
                         (int) (x / dragArea.getScaleX() + (dragAreaX  - (width / dragArea.getScaleX()) ) / 2),
                         (int) ((y / dragArea.getScaleY() + (dragAreaY  - (height / dragArea.getScaleY()) ) / 2)
-                               + (NodeDimensionsCalculator.getStatusBarHeight(view.getContext())/2)/dragArea.getScaleY())
+                           + (NodeDimensionsCalculator.getStatusBarHeight(view.getContext())/2.f)/dragArea.getScaleY()
+                         )
                         ,null)
                 ); // null pointer exception checkifinnode function
             }
@@ -203,7 +205,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
             if (helpLine != null) {
                 Line line = checkIfInNode(helpLine.getEndPoint().getX(), helpLine.getEndPoint().getY());
-                linesView.removeLine(helpLine.getId());
+                linesView.removeLine(helpLine.getId());//TODO check if its really removed, too many lines in sqlite
                 if(line != null){
                     //remove All other occurrences
                     linesView.removeAllLinesWith(line.getEndPoint().getId());

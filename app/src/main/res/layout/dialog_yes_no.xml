@@ -4,43 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/primary"
     android:id="@+id/root_vg"
     >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-<!--        <View-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="60dp"-->
-<!--            android:background="@drawable/generator_editor_setting_background"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_alignParentRight="true" />-->
-<!--        <ImageView-->
-<!--            android:id="@+id/btn_close"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:layout_marginTop="2dp"-->
-<!--            android:layout_marginEnd="2dp"-->
-<!--            android:src="@drawable/basic"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_marginRight="2dp"-->
-<!--            android:layout_alignParentRight="true" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:gravity="center"
             android:orientation="vertical">
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img_icon"-->
-<!--                android:layout_width="80dp"-->
-<!--                android:layout_height="80dp"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:elevation="8dp"-->
-<!--                android:src="@drawable/melon_trans" />-->
 
             <TextView
                 android:id="@+id/txttite"
@@ -76,8 +48,8 @@
                     android:id="@+id/btn_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/primary"
                     android:text="No"
+                    android:backgroundTint="@color/tertiary"
                     android:textColor="@color/black" />
 
                 <Button
@@ -86,15 +58,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginLeft="24dp"
-                    android:backgroundTint="@color/primary"
+                    android:backgroundTint="@color/tertiary"
                     android:text="Yes"
                     android:textColor="@color/black" />
 
             </LinearLayout>
 
         </LinearLayout>
-    </RelativeLayout>
-
-
-
 </RelativeLayout>

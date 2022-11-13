@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.generator_editor.items.OnItemClickListener;
+import com.msvastudios.trick_builder.popups.YesNoDialog;
 import com.msvastudios.trick_builder.utils.sqlite.DatabaseHandler;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.node_editor.node.item.line.Line;
@@ -63,8 +64,9 @@ public class AlgorithmEditorActivity extends AppCompatActivity {
                             if(wheelList.get(i).getId().equals(imageId)){
                                 scrollView.scrollToPosition(i);
                                 success = true;
+                                break;
                             }
-                            break;
+
                         }
                         if (!success){
                             scrollView.scrollToPosition(0);
@@ -91,6 +93,29 @@ public class AlgorithmEditorActivity extends AppCompatActivity {
                 saveAlgorithm();
             }
         };
+
+        findViewById(R.id.algorithm_editor_delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                YesNoDialog dialog = new YesNoDialog(AlgorithmEditorActivity.this,
+                        getString(R.string.deleteWarningDialogTitle),
+                        getString(R.string.deleteWarningDialogDescription));
+                dialog.show();
+                dialog.setOnItemClickListener(new YesNoDialog.Popup() {
+                    @Override
+                    public void onYesClicked() {
+                        deleteAlgorithm(id);
+                        dialog.hide();
+                    }
+
+                    @Override
+                    public void onNoClicked() {
+                        dialog.hide();
+                    }
+                });
+
+            }
+        });
         container.setOnClickListener(listener);
         addButton.setOnClickListener(listener);
     }
@@ -99,7 +124,7 @@ public class AlgorithmEditorActivity extends AppCompatActivity {
         if (!oldName.equals(text.getText().toString())) {
             DatabaseHandler.getInstance(getApplicationContext()).getAlgorithmEntity(id, (result, entity) -> {
                 if (result == 0) { // OK
-                    if (imageId != null) //TODO Not checking if its valid but it should be fine
+                    if (imageId != null) //WARNING Not checking if its valid but it should be fine
                         entity.imageId = imageId;
 
                     entity.name = text.getText().toString();
@@ -107,17 +132,17 @@ public class AlgorithmEditorActivity extends AppCompatActivity {
                         if (status == 0) {
                             finish();
                             runOnUiThread(() -> {
-                                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.AlgrithmEditorSaveSuccess, Toast.LENGTH_SHORT).show();
                             });
                         } else {
                             runOnUiThread(() -> {
-                                Toast.makeText(getApplicationContext(), "Error happened", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.AlgrithmEditorSaveError, Toast.LENGTH_SHORT).show();
                             });
                         }
                     }, entity);
                 } else {
                     runOnUiThread(() -> {
-                        Toast.makeText(getApplicationContext(), "Couldn't find algorithm", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.AlgrithmEditorSaveNotFound, Toast.LENGTH_SHORT).show();
                     });
                 }
             });
@@ -134,11 +159,21 @@ public class AlgorithmEditorActivity extends AppCompatActivity {
                 finish();
             } else {
                 runOnUiThread(() -> {
-                    Toast.makeText(getApplicationContext(), "Algorithm already exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.AlgrithmEditorSaveAddSuccess, Toast.LENGTH_SHORT).show();
                 });
-                System.err.println("Algorithm entity exists");
+                System.err.println(getString(R.string.AlgrithmEditorAddExists));
             }
         });
+    }
+
+    private void deleteAlgorithm(String uuid){
+        DatabaseHandler.getInstance(getApplicationContext()).deleteAlgorithm(uuid, new DatabaseHandler.Finish() {
+            @Override
+            public void onActionFinished(int status) {
+                finish();
+            }
+        });
+
     }
 
     private void initAlgorithmsWheelsAdapter() {

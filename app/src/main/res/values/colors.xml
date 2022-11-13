@@ -12,7 +12,14 @@
     <color name="gray_400">#FFBDBDBD</color>
     <color name="gray_600">#FF757575</color>
 
-    <color name="primary">#03A9F4</color>
-    <color name="secondary">#332F2F</color>
+
+   <color name="primary">#323131</color>
+    <color name="secondary">#2F6997</color>
+    <color name="tertiary">#D4D4D4</color>
+
+    <color name="text">#E4E4E4</color>
+
     <color name="delete">#D63A09</color>
+    <color name="add">#307033</color>
+    <color name="warning">#295A7A</color>
 </resources>

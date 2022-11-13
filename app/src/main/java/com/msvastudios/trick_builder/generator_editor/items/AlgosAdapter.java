@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.msvastudios.trick_builder.R;
-import com.msvastudios.trick_builder.algorithm_editor.WheelsAdapter;
 import com.msvastudios.trick_builder.utils.sqlite.algorithms.AlgorithmEntity;
 import com.msvastudios.trick_builder.utils.wheel.WheelParser;
 
@@ -34,7 +33,7 @@ public class AlgosAdapter extends RecyclerView.Adapter<AlgosAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_shop_card, parent, false);
+        View v = inflater.inflate(R.layout.algos_item, parent, false);
         return new ViewHolder(v);
     }
 

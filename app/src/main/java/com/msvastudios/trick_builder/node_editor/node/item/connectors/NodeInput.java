@@ -1,7 +1,6 @@
 package com.msvastudios.trick_builder.node_editor.node.item.connectors;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,7 +34,7 @@ public class NodeInput extends NodeConnectorItem {
         this.parent = parent;
         this.order = order;
 
-        init(null, 0);
+        init(0);
     }
 
     @Override
@@ -77,11 +76,9 @@ public class NodeInput extends NodeConnectorItem {
     }
 
 
-    private void init(AttributeSet attrs, int defStyle) {
-//        getView() = new LinearLayout(context);
+    private void init(int defStyle) {
         getView().setOrientation(LinearLayout.HORIZONTAL);
         getView().setGravity(1);
-//        setBackgroundColor(Color.BLUE);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
         params.topMargin = height * order;
         params.leftMargin = -NodeDimensionsCalculator.innerNodeMargin() / 2;

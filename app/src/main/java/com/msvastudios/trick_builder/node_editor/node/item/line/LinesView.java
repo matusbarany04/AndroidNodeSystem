@@ -137,7 +137,7 @@ public class LinesView extends View {
         invalidate();
     }
 
-    public void removeLine(String id) { // TODO too slow refractor later!
+    public void removeLine(String id) { // TODO too slow refractor later!, (later comment) maybe I wanted to use hashmap?
         ArrayList<Line> outputLines = new ArrayList<>();
         for (Line line : lines) {
             if (!line.getId().equals(id)) outputLines.add(line);

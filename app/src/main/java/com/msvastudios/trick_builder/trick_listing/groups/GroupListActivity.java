@@ -68,7 +68,7 @@ public class GroupListActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 longHoldTriggered = true;
-                YesNoDialog dialog = new YesNoDialog(GroupListActivity.this, "Deleting...", "smh",R.drawable.delete);
+                YesNoDialog dialog = new YesNoDialog(GroupListActivity.this, "Deleting...", "smh");
                 dialog.setOnItemClickListener(new YesNoDialog.Popup() {
                     @Override
                     public void onYesClicked() {

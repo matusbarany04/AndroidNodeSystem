@@ -12,7 +12,7 @@ public abstract class ParameterItem extends NodeItem {
 
 
     ArrayList<String> data;
-
+    Data listener;
     public ParameterItem(Context context, Node parent, int order) {
         super(context, parent, order);
         init(context);
@@ -34,4 +34,13 @@ public abstract class ParameterItem extends NodeItem {
     }
 
     public abstract String getChosenData();
+
+
+    public void setOnDataChanged(Data listener){
+        this.listener = listener;
+    }
+
+    public interface Data{
+        void changed(String data);
+    }
 }

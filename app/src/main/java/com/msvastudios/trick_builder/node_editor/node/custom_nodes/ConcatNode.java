@@ -21,7 +21,7 @@ public class ConcatNode extends Node {
         firstString = addNodeInput(Type.STRING);
         firstString.setText("first String");
         secondString = addNodeInput(Type.STRING);
-        secondString.setText("first String");
+        secondString.setText("second String");
         output = addNodeOutput(Type.STRING);
         output.setText("output");
 

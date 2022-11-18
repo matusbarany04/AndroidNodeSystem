@@ -28,7 +28,6 @@ public abstract class NodeConnectorItem extends NodeItem {
         point = new LinePoint(0, 0, parent);
         this.type = Objects.requireNonNull(type);
         this.nodeCallbackListener = listener;
-
 //        setNewLinePoint();
     }
 

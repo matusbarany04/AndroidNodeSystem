@@ -23,8 +23,9 @@
     <string name="generatorActivityDefaultText">Long press to choose an algorithm</string>
     <string name="choseFrickingAlorithm">Please choose an algorithm</string>
     <string name="GeneratorActiviyError">Error happened when loading algorithm</string>
-    <string name="deleteWarningDialogDescription">Are you sure you want to delete this algorithm? This action is not revertible!</string>
-    <string name="deleteWarningDialogTitle">Deleting...</string>
+    <string name="deleteWarningDialogDescription">Are you sure you want to delete this item? This action is not revertible!</string>
+
+    <string name="deleteWarningDialogTitle">Deleting…</string>
     <string name="AlgrithmEditorSaveSuccess">Saved</string>
     <string name="AlgrithmEditorSaveError">Error happened</string>
     <string name="AlgrithmEditorSaveNotFound">Couldn\'t find algorithm</string>

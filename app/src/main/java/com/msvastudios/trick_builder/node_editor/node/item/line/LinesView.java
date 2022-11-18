@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.msvastudios.trick_builder.R;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class LinesView extends View {
     public int iterator = 0;
@@ -140,7 +140,9 @@ public class LinesView extends View {
     public void removeLine(String id) { // TODO too slow refractor later!, (later comment) maybe I wanted to use hashmap?
         ArrayList<Line> outputLines = new ArrayList<>();
         for (Line line : lines) {
-            if (!line.getId().equals(id)) outputLines.add(line);
+            if (!line.getId().equals(id)){
+                outputLines.add(line);
+            }
         }
 
         lines = outputLines;
@@ -149,20 +151,22 @@ public class LinesView extends View {
     }
 
     public void removeAllLinesWith(ArrayList<String> pointIds) { // TODO too slow refractor later!
-        ArrayList<Line> outputLines = new ArrayList<>();
-        for (String id : pointIds) {
-            System.out.println("id + "  + id);
-            for (Line line : lines) {
-                System.out.println("start " + line.getStartPoint().getId());
-                if (!line.getStartPoint().getId().equals(id) &&
-                        !line.getEndPoint().getId().equals(id) ){
-                    outputLines.add(line);
-                    System.out.println("found .. :)");
-                }
+        HashSet<Line> outputLines = new HashSet<Line>(lines);
+
+        if(pointIds.size() > 0){
+            for (String id : pointIds) {
+                System.out.println("id + "  + id);
+                for (Line line : lines) {
+                    System.out.println("start " + line.getStartPoint().getId());
+                    if (line.getStartPoint().getId().equals(id) || line.getEndPoint().getId().equals(id) ){
+                        outputLines.remove(line);
+                        System.out.println("found .. :)");
+                    }
 //                System.out.println("not found... :(");
+                }
             }
+            lines = new ArrayList<Line>(outputLines);
         }
-        lines = outputLines;
         invalidate();
     }
 

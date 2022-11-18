@@ -9,13 +9,26 @@
         android:id="@+id/trickInfoGroups"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Beginner"
+        android:text="add "
         android:textColor="#D8D4D4"
         android:textSize="17sp"
+        android:padding="5dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/plus_button"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:src="@drawable/plus_white"
+        app:layout_constraintBottom_toBottomOf="@+id/trickInfoGroups"
+        app:layout_constraintEnd_toEndOf="@+id/trickInfoGroups"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>

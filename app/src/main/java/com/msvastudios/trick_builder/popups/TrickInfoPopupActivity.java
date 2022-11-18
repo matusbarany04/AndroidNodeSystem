@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.msvastudios.trick_builder.R;
 import com.msvastudios.trick_builder.utils.FlowLayout;
@@ -56,17 +57,24 @@ public class TrickInfoPopupActivity extends AppCompatActivity {
                         }
                     }
                 }
+                FlowLayout belongParent = findViewById(R.id.trickInfoBelongsContainer);
+                belongParent.addView(getLayoutInflater().inflate(R.layout.trick_info_group_add, null));
+
+                findViewById(R.id.plus_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //TODO add to another group
+                        //TODO change deletion of group so that it will delete the trick only if it has only its group
+                    }
+                });
             }
         });
 
 
         ConstraintLayout background = findViewById(R.id.trickInfoBackground);
-        background.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(0,0);
-            }
+        background.setOnClickListener(view -> {
+            finish();
+            overridePendingTransition(0,0);
         });
 
         ConstraintLayout popup = findViewById(R.id.trickInfoPopup);
@@ -76,8 +84,6 @@ public class TrickInfoPopupActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
     public void addTrickListGroupItem(String name) {
         LayoutInflater layoutInflater = getLayoutInflater();

@@ -3,6 +3,7 @@ package com.msvastudios.trick_builder.node_editor.node;
 import android.content.Context;
 
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.ConcatNode;
+import com.msvastudios.trick_builder.node_editor.node.custom_nodes.CustomStringNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.GroupNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.LoggingNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.PickRandomNode;
@@ -20,7 +21,8 @@ public enum CustomNodes {
     GROUP_NODE(GroupNode::new, "group"),
     PICK_RANDOM(PickRandomNode::new, "random"),
     LOGGING_NODE(LoggingNode::new, "logger"),
-    CONCAT_NODE(ConcatNode::new,"concat");
+    CONCAT_NODE(ConcatNode::new,"concat"),
+    CUSTOM_STRING(CustomStringNode::new, "custom_string");
 
     NodeCreator< Context, Integer, Integer ,String, LinesView, NodeCallbackListener, Node> constructor;
     public String type;

@@ -12,7 +12,7 @@ public enum Type {
     NUMBER(new DataFlower<Integer>(R.color.purple_200)),
     STRING(new DataFlower<String>(R.color.light_blue_600)),
     ANY(new DataFlower<Object>(R.color.gray_400));
-    final String divider = "œ";
+    public final String divider = "œ";
 
     DataFlower dataFlower;
     Type(DataFlower dataFlower) {

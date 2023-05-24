@@ -32,6 +32,10 @@ public class EditTextItem extends ParameterItem{
     }
 
 
+    public void setText(String text) {
+        this.text.setText(text);
+    }
+
     @Override
     public void init(Context context) {
         super.init(context);

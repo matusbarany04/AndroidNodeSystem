@@ -221,7 +221,7 @@ public class DatabaseHandler {
                     algorithmDatabase.algorithmDao().addAlgorithm(algorithm);
                     lineDatabase.lineDao().deleteByAlgorithmId(algorithm.nodeNetworkUUID);
                     for (Line line : lines) {
-                        //TODO not sure if this if is necessary, when I've added line above for loop
+                        //WARNING  not sure if this if is necessary, when I've added line above for loop
                         if (lineDatabase.lineDao().getByLineId(line.getId()) != null) {
                             lineDatabase.lineDao().deleteByLineId(line.getId());
                         }

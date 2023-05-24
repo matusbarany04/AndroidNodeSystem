@@ -7,6 +7,29 @@
     tools:context=".trick_listing.tricks.TrickListActivity"
     android:background="@color/primary">
 
+    <ListView
+        android:id="@+id/trickListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="100dp"
+        android:layout_marginHorizontal="50dp"
+        android:clipChildren="false"
+        android:clipToOutline="false"
+        android:clipToPadding="false"
+        >
+
+    </ListView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/gradient">
+
+    </ImageView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/trickBackButton"
@@ -31,18 +54,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/search_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/floating_button_margin"
+        android:layout_marginHorizontal="@dimen/floating_button_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/trickBackButton"
+        app:layout_constraintRight_toLeftOf="@id/trickAddButton"
+        app:layout_constraintBottom_toBottomOf="@id/trickAddButton"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/edit_query"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/trickListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="100dp"
-        android:layout_marginHorizontal="50dp"
-        android:clipChildren="false"
-        android:clipToOutline="false"
-        android:clipToPadding="false"
-      >
+        </EditText>
 
-    </ListView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search"
+            android:backgroundTint="@color/secondary"
+            app:borderWidth="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -120,7 +120,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     public NodeOutput addNodeOutput(Type type) {
         NodeOutput output = new NodeOutput(context, listener, this, nodeItemOrder, type);
         nodeOutput.add(output);
-        nodeItemOrder++;
+        nodeItemOrder += output.getHeight();
         return output;
     }
 
@@ -149,7 +149,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
 
             nodeParams.add(object);
 
-            nodeItemOrder++;
+            nodeItemOrder += object.getHeight(); //TODO change to dynamic based on param height
             return object;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
@@ -161,7 +161,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
     public NodeInput addNodeInput(Type type) {
         NodeInput input = new NodeInput(context, listener, this, nodeItemOrder, type);
         nodeInput.add(input);
-        nodeItemOrder++;
+        nodeItemOrder += input.getHeight();
         return input;
     }
 

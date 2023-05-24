@@ -21,6 +21,10 @@ public class LoggingNode extends Node {
 
         getNav().setColor(R.color.purple_200).setTitle("Logger");
 
+        //TODO add spacers
+        //TODO add filtering of custom divider string
+
+
         build();
     }
 
@@ -31,7 +35,7 @@ public class LoggingNode extends Node {
 
     @Override
     public void process() {
-        reference.setText(reference.getRawData());
+        reference.setText(reference.getRawData().replaceAll(Type.ANY.divider, " "));
     }
 
     @Override

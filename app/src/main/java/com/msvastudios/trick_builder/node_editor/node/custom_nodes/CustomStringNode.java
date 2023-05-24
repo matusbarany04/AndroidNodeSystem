@@ -26,6 +26,10 @@ public class CustomStringNode extends Node {
                     setJsonData(data);
                 }
             });
+
+            if (jsonData != null)
+                editTextItem.setText(jsonData);
+
             NodeOutput reference = addNodeOutput(Type.STRING);
 
             getNav().setColor(R.color.gray_600).setTitle("Custom Text");

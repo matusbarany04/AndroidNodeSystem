@@ -70,4 +70,8 @@ public abstract class NodeItem {
     }
 
 
+    public int getHeight(){
+        return 1;
+    }
+
 }

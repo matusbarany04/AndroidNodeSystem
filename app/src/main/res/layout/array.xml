@@ -3,6 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:text="something with database"
     android:textAlignment="center"
-    android:textColor="@color/black">
+    android:textColor="@color/text">
 </TextView>
 

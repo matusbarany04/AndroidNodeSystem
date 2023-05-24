@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -120,6 +121,8 @@ public class TrickListActivity extends AppCompatActivity {
         });
 
 
+
+
         FloatingActionButton backButton = findViewById(R.id.trickBackButton);
         backButton.setOnClickListener((view) -> {
             finish();
@@ -130,6 +133,58 @@ public class TrickListActivity extends AppCompatActivity {
         addNewTrickButton.setOnClickListener((view) -> {
             trickPopup.show();
         });
+
+        EditText query = findViewById(R.id.edit_query);
+        FloatingActionButton searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener((view) -> {
+            //skontroluj ci nie je prazdny
+            if(query.getText().toString().length() == 0){
+                //TODO export to strings.xml
+                Toast.makeText(this, "Search cannot be empty!",Toast.LENGTH_SHORT).show();
+            }else{
+                //najdi v list spravne zhody
+                DatabaseHandler.getInstance(this).getTricksByGroupId(groupId, new DatabaseHandler.Trick() {
+                    @Override
+                    public void onTricksFetched(ArrayList<TrickEntity> tricks) {
+                        //prejdi na dane elementy
+                        String found = null;
+                        int index = 0;
+                        for (TrickEntity trick : tricks) {
+                            if(trick.name.startsWith(query.getText().toString())){
+                                found = trick.name;
+                                index++;
+                                break;
+                            }
+                        }
+                        if(found == null) {
+                            index = 0;
+                            for (TrickEntity trick : tricks) {
+                                if (trick.name.contains(query.getText().toString())) {
+                                    found = trick.name;
+                                    break;
+                                }
+                            }
+                        }
+                        if(found != null) {
+                            int finalIndex = index;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    listView
+                                            .smoothScrollToPositionFromTop(finalIndex, 2, 500);
+                                }
+                            });
+                        }else
+                        {
+                            Toast.makeText(getApplicationContext(), "Not found!",Toast.LENGTH_SHORT).show();
+                        //ak sa nechadza vypis toast? maybe oranzovo zablikaj
+                        }
+                    }
+
+                });
+            }
+        });
+
 
         buildPopup();
     }

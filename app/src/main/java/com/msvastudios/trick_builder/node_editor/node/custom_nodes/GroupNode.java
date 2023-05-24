@@ -37,11 +37,12 @@ public class GroupNode extends Node {
         super(context, leftMargin, topMargin, jsonData, linesView, listener);
         this.context = context;
         reference = (NodeOutput) addNodeOutput(Type.ARRAY_LIST).setText("Group list");
-//        NodeOutput reference2 = addNodeOutput(Type.STRING);
+
         Log.d("group json data", jsonData);
         listRef = (ListItem) addNodeParam(ListItem.class);
 
-        //TODO try catch for json data
+        // try catch for json data (future me, if is enough)
+        // maybe make warning red colored node
         if (jsonData.length() != 0 && jsonData.contains("~")) {
             chosenGroupId = jsonData.split("~")[1];
 

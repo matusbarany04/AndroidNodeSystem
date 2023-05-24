@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1388888888888889" />
+        <entry key="../../../../../layout/custom_preview.xml" value="0.543233082706767" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/drawable/animation_full_screen.xml" value="0.1945" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/drawable/back_node.xml" value="0.2875" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/drawable/circle.xml" value="0.24" />
@@ -46,17 +47,73 @@
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/view_node_number.xml" value="0.3625" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/view_node_output.xml" value="0.8125960061443932" />
         <entry key="..\:/Users/MatusBarany/AndroidStudioProjects/TrickBuilder/app/src/main/res/layout/view_nodenav.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/back.xml" value="0.258" />
+        <entry key="app/src/main/res/drawable/back_node.xml" value="0.254" />
+        <entry key="app/src/main/res/drawable/blur.xml" value="0.258" />
+        <entry key="app/src/main/res/drawable/circle.xml" value="0.254" />
+        <entry key="app/src/main/res/drawable/finger.xml" value="0.254" />
+        <entry key="app/src/main/res/drawable/ic_baseline_circle_24.xml" value="0.2285" />
+        <entry key="app/src/main/res/drawable/ic_finger.xml" value="0.254" />
+        <entry key="app/src/main/res/drawable/item.xml" value="0.188" />
+        <entry key="app/src/main/res/drawable/nav.xml" value="0.347" />
+        <entry key="app/src/main/res/drawable/node.xml" value="0.258" />
+        <entry key="app/src/main/res/drawable/node_outline.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/node_shadow.xml" value="0.258" />
+        <entry key="app/src/main/res/drawable/options.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/play.xml" value="0.2405" />
+        <entry key="app/src/main/res/drawable/plus.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/plus_white.xml" value="0.2675" />
+        <entry key="app/src/main/res/drawable/save.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/settings.xml" value="0.2875" />
+        <entry key="app/src/main/res/drawable/settings_background.xml" value="0.2165" />
+        <entry key="app/src/main/res/drawable/settings_selected.xml" value="0.2165" />
+        <entry key="app/src/main/res/layout/activity_generator.xml" value="0.30480072463768115" />
+        <entry key="app/src/main/res/layout/activity_generator_editor.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_group_list.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.109375" />
+        <entry key="app/src/main/res/layout/activity_new_algorithm_popup.xml" value="0.30520833333333336" />
+        <entry key="app/src/main/res/layout/activity_node.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2489909182643794" />
+        <entry key="app/src/main/res/layout/activity_trick_info_popup.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_trick_list.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/add_group.xml" value="0.2489909182643794" />
+        <entry key="app/src/main/res/layout/add_node.xml" value="0.4266304347826087" />
+        <entry key="app/src/main/res/layout/add_node_item.xml" value="0.4266304347826087" />
+        <entry key="app/src/main/res/layout/array.xml" value="0.4266304347826087" />
+        <entry key="app/src/main/res/layout/array_list_item.xml" value="0.4673913043478261" />
+        <entry key="app/src/main/res/layout/button_item.xml" value="0.4125905797101449" />
+        <entry key="app/src/main/res/layout/delete_popup.xml" value="0.3958333333333333" />
+        <entry key="app/src/main/res/layout/dialog_yes_no.xml" value="0.371875" />
+        <entry key="app/src/main/res/layout/floating_settings.xml" value="0.4266304347826087" />
+        <entry key="app/src/main/res/layout/grid_item.xml" value="0.4266304347826087" />
+        <entry key="app/src/main/res/layout/item_shop_card.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/sample_node.xml" value="0.4266304347826087" />
+        <entry key="app/src/main/res/layout/sample_node_nav.xml" value="0.4266304347826087" />
+        <entry key="app/src/main/res/layout/trick_info_group_add.xml" value="1.0" />
+        <entry key="app/src/main/res/layout/trick_info_groups_item.xml" value="0.30520833333333336" />
+        <entry key="app/src/main/res/layout/trick_item.xml" value="0.5259179265658748" />
+        <entry key="app/src/main/res/layout/view_node_edit_text.xml" value="0.9" />
         <entry key="app/src/main/res/layout/view_node_input.xml" value="0.12047101449275362" />
-        <entry key="app/src/main/res/layout/view_node_output.xml" value="0.12047101449275362" />
-        <entry key="app/src/main/res/layout/view_nodenav.xml" value="0.12047101449275362" />
+        <entry key="app/src/main/res/layout/view_node_list.xml" value="0.4266304347826087" />
+        <entry key="app/src/main/res/layout/view_node_output.xml" value="0.6252032520325204" />
+        <entry key="app/src/main/res/layout/view_nodenav.xml" value="0.25" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>

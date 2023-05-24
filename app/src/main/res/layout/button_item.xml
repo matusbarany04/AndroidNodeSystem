@@ -1,0 +1,14 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <Button
+        android:id="@+id/buttonItem"
+        android:layout_height="200px"
+        android:layout_width="300px"
+        android:backgroundTint="@color/add"
+        android:textSize="@dimen/fab_margin"
+        android:text="Click Me"
+        ></Button>
+
+</merge>

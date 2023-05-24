@@ -2,7 +2,9 @@ package com.msvastudios.trick_builder.node_editor.node;
 
 import android.content.Context;
 
+import com.msvastudios.trick_builder.node_editor.node.custom_nodes.AddToListNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.ConcatNode;
+import com.msvastudios.trick_builder.node_editor.node.custom_nodes.CustomArrayNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.CustomStringNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.GroupNode;
 import com.msvastudios.trick_builder.node_editor.node.custom_nodes.LoggingNode;
@@ -22,7 +24,9 @@ public enum CustomNodes {
     PICK_RANDOM(PickRandomNode::new, "random"),
     LOGGING_NODE(LoggingNode::new, "logger"),
     CONCAT_NODE(ConcatNode::new,"concat"),
-    CUSTOM_STRING(CustomStringNode::new, "custom_string");
+    CUSTOM_STRING(CustomStringNode::new, "custom_string"),
+    ADD_TO_LIST(AddToListNode::new, "add_to_list"),
+    CUSTOM_ARRAY(CustomArrayNode::new,"custom array");
 
     NodeCreator< Context, Integer, Integer ,String, LinesView, NodeCallbackListener, Node> constructor;
     public String type;

@@ -32,7 +32,7 @@ public class AddTrickPopup {
             @Override
             public void onClick(View view) {
                 if (!groupName.getText().toString().replaceAll(" ", "").isEmpty()) {
-                    System.out.println("calling back" + groupName.getText().toString());
+
                     callback.newGroupShouldBeAdded(groupName.getText().toString());
                 }
             }

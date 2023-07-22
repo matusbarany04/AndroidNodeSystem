@@ -1,15 +1,12 @@
 package com.msvastudios.trick_builder.trick_generator;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +44,7 @@ public class GeneratorActivity extends AppCompatActivity implements RunnerCallba
                 if (canGenerate) {
                     nodeRunner.play(GeneratorActivity.this);
                 } else {
-                    textView.setText(R.string.choseFrickingAlorithm);
+                    textView.setText(R.string.choseAlorithm);
                 }
             }
         });

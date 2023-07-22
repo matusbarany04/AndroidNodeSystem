@@ -276,13 +276,11 @@ public class DatabaseHandler {
                     HashMap<String, Node> nodeHashMap = new HashMap<>();
                     for (NodeEntity entitity : nodeEntities) {
                         Node node = AlgorithmLoader.nodeEntityToNode(entitity, context, linesView, callbackListener);
-                        for (String id : entitity.outputIds) {
-                            Log.d("outIds: ", id);
-                        }
+
                         node.setNodeOutputIds(entitity.outputIds);
                         node.setNodeInputIds(entitity.inputIds);
                         node.setId(entitity.nodeUUID);
-                        Log.d("ENTITY ID", entitity.nodeUUID);
+
                         nodeHashMap.put(entitity.nodeUUID, node);
                     }
 
@@ -296,9 +294,9 @@ public class DatabaseHandler {
                         startNode.updatePositionVars();
 
                         LinePoint startPoint = null;
-                        Log.d("searching id: ", entity.startPointId);
+
                         for (NodeOutput output : startNode.getNodeOutput()) {
-                            Log.d("output id : ", output.getPoint().getId());
+
                             if (output.getID().equals(entity.startPointNodeConnectorId)) {
                                 startPoint = output.getPoint();
 //                                output.getPoint().setId(entity.startPointId);
@@ -334,17 +332,17 @@ public class DatabaseHandler {
 
     public void printAlgoData() {
         new Thread(() -> {
-            for (AlgorithmEntity algo : algorithmDatabase.algorithmDao().getAll()) {
-                Log.d("algo", algo.name);
-            }
-            System.out.println("-------------------------------");
-            for (NodeEntity node : nodeDatabase.nodeDao().getAll()) {
-                Log.d("algo", node.toString());
-            }
-            System.out.println("-------------------------------");
-            for (LineEntity line : lineDatabase.lineDao().getAll()) {
-                Log.d("algo", line.toString());
-            }
+//            for (AlgorithmEntity algo : algorithmDatabase.algorithmDao().getAll()) {
+//                Log.d("algo", algo.name);
+//            }
+//
+//            for (NodeEntity node : nodeDatabase.nodeDao().getAll()) {
+//                Log.d("algo", node.toString());
+//            }
+//
+//            for (LineEntity line : lineDatabase.lineDao().getAll()) {
+//                Log.d("algo", line.toString());
+//            }
         }).start();
     }
 
@@ -359,9 +357,6 @@ public class DatabaseHandler {
             ArrayList<TrickEntity> output = new ArrayList<>();
             ArrayList<TrickEntity> all = new ArrayList<>(trickDatabase.trickDao().getAll());
             for (TrickEntity entity : all) {
-//                for (String id : entity.groupIds) {
-//                    System.out.println("id" + id);
-//                }
                 for (String entityGroupId : entity.groupIds) {
                     if (entityGroupId.equals(groupId)) output.add(entity);
                 }

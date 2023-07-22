@@ -30,7 +30,7 @@ public class EndNode extends Node {
     @Override
     public void process() {
         reference.setText((String) reference.getData());
-//        System.out.println("fuck yeah " +  reference.getData());
+
     }
 
     @Override
@@ -39,7 +39,7 @@ public class EndNode extends Node {
         if (callback != null){
             callback.finished((String) reference.getData());
         }
-        System.out.println("sending data !!");
+
         return callback;
     }
 

@@ -155,14 +155,14 @@ public class LinesView extends View {
 
         if(pointIds.size() > 0){
             for (String id : pointIds) {
-                System.out.println("id + "  + id);
+
                 for (Line line : lines) {
-                    System.out.println("start " + line.getStartPoint().getId());
+
                     if (line.getStartPoint().getId().equals(id) || line.getEndPoint().getId().equals(id) ){
                         outputLines.remove(line);
-                        System.out.println("found .. :)");
+
                     }
-//                System.out.println("not found... :(");
+
                 }
             }
             lines = new ArrayList<Line>(outputLines);

@@ -214,12 +214,11 @@ public class TrickListActivity extends AppCompatActivity {
         trickPopup.setOnNewGroupShouldBeAdded((name) -> {
             // TODO check for duplicates
             ArrayList<String> groupIds = new ArrayList<>();
-            Log.d("tricklist activity", groupId + " ");
-            if (groupId == null) System.out.println("yelling!");
+
             groupIds.add(groupId);
             TrickEntity entity = new TrickEntity(name, UUID.randomUUID().toString(), groupIds, false);
             DatabaseHandler.getInstance(this).insertTrick(entity, (int status) -> {
-                System.out.println("status " + status);
+
                 trickPopup.hide();
                 tricks.add(new Trick(entity));
                 runOnUiThread(() -> {

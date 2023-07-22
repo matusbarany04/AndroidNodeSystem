@@ -135,21 +135,16 @@ public class GroupListActivity extends AppCompatActivity {
     private void buildPopup() {
         groupPopup = new AddGroupPopup(GroupListActivity.this);
         groupPopup.setOnNewGroupShouldBeAdded((name) -> {
-            System.out.println("in callback" + name);
+
             GroupEntity entity = new GroupEntity(name, UUID.randomUUID().toString());
             DatabaseHandler.getInstance(GroupListActivity.this).insertGroup(entity, new DatabaseHandler.Finish() {
                 @Override
                 public void onActionFinished(int status) {
                     groupPopup.hide();
-                    System.out.println(groups.size());
+
                     groups.add(entity);
-                    System.out.println(groups.size());
 
-                    System.out.println("fuck hell imm go here");
-                    for (GroupEntity item: groups) {
-                        System.out.println(item.name+ "");
 
-                    };
                 }
             });
 

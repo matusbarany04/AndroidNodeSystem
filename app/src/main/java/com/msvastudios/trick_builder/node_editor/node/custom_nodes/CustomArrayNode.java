@@ -51,7 +51,7 @@ public class CustomArrayNode extends Node {
     @Override
     public RunnerCallback sendData(RunnerCallback callback){
 //        reference.sendData();
-        System.out.println("was in dummy");
+
         return callback;
     }
 }

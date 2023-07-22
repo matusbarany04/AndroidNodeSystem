@@ -21,7 +21,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="NodeActivityExtraId">algorithmName</string>
     <string name="generatorActivityDefaultText">Long press to choose an algorithm</string>
-    <string name="choseFrickingAlorithm">Please choose an algorithm</string>
+    <string name="choseAlorithm">Please choose an algorithm</string>
     <string name="GeneratorActiviyError">Error happened when loading algorithm</string>
     <string name="deleteWarningDialogDescription">Are you sure you want to delete this item? This action is not revertible!</string>
 

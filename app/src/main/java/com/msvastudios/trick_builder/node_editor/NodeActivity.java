@@ -78,7 +78,7 @@ public class NodeActivity extends AppCompatActivity {
         int screenHeight = displayMetrics.heightPixels;
         int screenWidth = displayMetrics.widthPixels;
 
-        Log.d("Screen metrics", screenHeight + " " + screenWidth);
+
 
 
         RelativeLayout overlay_area = findViewById(R.id.overlay_area);
@@ -87,7 +87,7 @@ public class NodeActivity extends AppCompatActivity {
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureDetector.OnScaleGestureListener() {
             @Override
             public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-                System.out.println("scaling");
+
                 float newScale = scale * scaleGestureDetector.getScaleFactor();
                 TextView textView = findViewById(R.id.scale);
                 textView.setText(String.valueOf(newScale));
@@ -261,8 +261,7 @@ public class NodeActivity extends AppCompatActivity {
             @Override
             public void onNodeItemClickListener(int position, CustomNodes node) {
 
-                System.out.println("adding new node! called : " + node.getType() + "at :" + dragArea.getLeft() + " " + dragArea.getTop());
-                nodeManager.addNode(node,
+               nodeManager.addNode(node,
                         dragArea.getWidth() / 2 - NodeDimensionsCalculator.nodeWidth() / 2,
                         dragArea.getHeight() / 2 - NodeDimensionsCalculator.nodeItemHeight() * 4
                 );

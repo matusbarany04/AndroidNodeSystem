@@ -30,7 +30,7 @@ public class DatabaseRendererActivity extends AppCompatActivity {
         DatabaseHandler.getInstance(getApplicationContext()).getAllAgorithms(new DatabaseHandler.AlgoFinish() {
             @Override
             public void onFetched(ArrayList<AlgorithmEntity> entities) {
-                Log.d(TAG,  " algos " + entities.size() );
+
                 ArrayAdapter<String> algoAdapter = new ArrayAdapter<String>(DatabaseRendererActivity.this, R.layout.array);
                 for (AlgorithmEntity entity : entities) {
 
@@ -45,7 +45,7 @@ public class DatabaseRendererActivity extends AppCompatActivity {
 
         DatabaseHandler.getInstance(getApplicationContext()).getLines(new DatabaseHandler.Lines() {
             public void onLinesFetch(ArrayList<LineEntity>entities) {
-                Log.d(TAG,  " lines " + entities.size() );
+
                 ArrayAdapter<String> lineAdapter = new ArrayAdapter<String>(DatabaseRendererActivity.this, R.layout.array);
                 for (LineEntity entity : entities) {
 
@@ -59,7 +59,7 @@ public class DatabaseRendererActivity extends AppCompatActivity {
 
         DatabaseHandler.getInstance(getApplicationContext()).getNodes(new DatabaseHandler.Nodes() {
             public void onNodesFetch(ArrayList<NodeEntity> entities) {
-                Log.d(TAG,  " nodes " + entities.size() );
+
 
                 ArrayAdapter<String> nodeAdapter = new ArrayAdapter<String>(DatabaseRendererActivity.this, R.layout.array);
                 for (NodeEntity entity : entities) {

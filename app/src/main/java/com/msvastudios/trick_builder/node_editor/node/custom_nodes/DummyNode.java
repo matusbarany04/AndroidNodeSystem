@@ -41,7 +41,7 @@ public class DummyNode extends Node {
         for (NodeOutput nodeOutput : getNodeOutput()) { // preloopujeme všetko svoje outputy // potom to tu bude pre každý jedinečné
                 nodeOutput.sendData("smh",callback);
         }
-        System.out.println("was in dummy");
+
         return callback;
     }
 }

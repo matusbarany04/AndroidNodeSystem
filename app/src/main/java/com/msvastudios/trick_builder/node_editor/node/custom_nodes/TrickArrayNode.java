@@ -33,7 +33,7 @@ public class TrickArrayNode extends Node {
         listRef.setListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                System.out.println("clicked and chose " + adapterView.getAdapter().getItem(i));
+
                 setJsonData(adapterView.getAdapter().getItem(i).toString());
             }
 

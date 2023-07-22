@@ -336,7 +336,7 @@ public abstract class Node implements View.OnTouchListener, ConnectorCallback {
                         (RelativeLayout.LayoutParams) node.getLayoutParams();
                 layoutParams.leftMargin = (int)  ( rawX / scale ) - xDelta;
                 layoutParams.topMargin = (int)  ( rawY / scale ) - yDelta;
-                System.out.println("scale: " + scale);
+
 
                 node.setLayoutParams(layoutParams);
 

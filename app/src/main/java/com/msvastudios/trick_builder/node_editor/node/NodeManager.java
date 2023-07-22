@@ -117,7 +117,7 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
     @Override
     public int onMoved(Node node) { //TODO not quite working
         if (isDeleteEnabled()) {
-            System.out.println("moving removing!!");
+
             nodeList.remove(node.getId());
             //TODO xxx remove view
             dragArea.removeView(node.getNode());
@@ -153,13 +153,13 @@ public class NodeManager implements NodeCallbackListener, View.OnTouchListener {
 
         helpLine = new Line(nodeOutput.getPoint(), new LinePoint(nodeOutput.getPoint(), node));
 
-        System.out.println("nodeOutput.getPoint()" + nodeOutput.getPoint().getX() + " : " + +nodeOutput.getPoint().getY());
+
         linesView.addLine(helpLine);
         return 0;
     }
 
     private Line checkIfInNode(int x, int y) {
-        System.out.printf("Checking if in node %d, %d",x,y);
+
         for (Node node : nodeList.values()) {
             if (x > node.getLeftMargin() && x < node.getLeftMargin() + node.getNodeWidth()) {
                 if (y > node.getTopMargin() && y < node.getTopMargin() + node.getNodeHeight()) {

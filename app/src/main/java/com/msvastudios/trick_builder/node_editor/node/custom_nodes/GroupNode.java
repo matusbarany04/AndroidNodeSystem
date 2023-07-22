@@ -38,7 +38,7 @@ public class GroupNode extends Node {
         this.context = context;
         reference = (NodeOutput) addNodeOutput(Type.ARRAY_LIST).setText("Group list");
 
-        Log.d("group json data", jsonData);
+
         listRef = (ListItem) addNodeParam(ListItem.class);
 
         // try catch for json data (future me, if is enough)
@@ -79,7 +79,7 @@ public class GroupNode extends Node {
         listRef.setListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                System.out.println("clicked and chose " + adapterView.getAdapter().getItem(i));
+
                 StringBuilder jsonData = new StringBuilder(adapterView.getAdapter().getItem(i).toString());
 
                 jsonData.append("~");

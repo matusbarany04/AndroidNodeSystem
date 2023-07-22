@@ -1,6 +1,4 @@
-//
-// Created by MatusBarany on 20. 9. 2021.
-//
+
 #include <jni.h>
 #include <string>
 #include <iostream>
